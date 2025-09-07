@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="shortcut icon" href="./assets/img/favicon.ico">
+		<title>Home Page</title>
+		<script type="module" crossorigin="" src="./js/app.min.js?v=1757244119240"></script>
+		<link rel="stylesheet" crossorigin="" href="./css/app.min.css?v=1757244119240">
+	</head>
+	<body>
+		<div class="wrapper">
+			<div class="bg-page">
+				<img src="./assets/img/bg.jpg" alt="Image">
+			</div>
+			<header data-fls-header="" class="header">
+				<div class="header__container">
+					<button data-fls-menu="" class="header__burger">
+						<img src="./assets/img/burger-open.svg" alt="icon">
+					</button>
+					<div class="header__actions">
+						<div class="header__search-block search-block">
+							<button class="search-block__btn"></button>
+							<div class="search-block__body">
+								<div class="search-block__body-wrapper">
+									<form action="#">
+										<input autocomplete="off" type="text" name="search" placeholder="Type...">
+										<button type="submit"></button>
+									</form>
+									<div class="search-block__content-wrapper">
+										<div class="search-block__content">
+											<div class="search-block__items">
+												<a href="#" class="search-block__link">
+													<div class="search-block__left-side">
+														<h3>Mantle ladder</h3>
+														<ul class="search-block__breadcrumbs">
+															<li>Legend Tech</li>
+															<li>Wraith</li>
+															<li>Portal</li>
+														</ul>
+													</div>
+													<div class="search-block__right-side">
+														<div class="search-block__usefulness">
+															<span>Usefulness:</span>
+															<img src="./assets/img/usefulness/signal-four.svg" alt="icon">
+														</div>
+														<div class="search-block__difficulty">
+															<span>Difficulty:</span>
+															<div class="hard">hard</div>
+														</div>
+													</div>
+												</a>
+												<a href="#" class="search-block__link">
+													<div class="search-block__left-side">
+														<h3>Punch boost</h3>
+														<ul class="search-block__breadcrumbs">
+															<li>General Tech</li>
+															<li>Wall Tech</li>
+															<li>Additional Wall Tech</li>
+														</ul>
+													</div>
+													<div class="search-block__right-side">
+														<div class="search-block__usefulness">
+															<span>Usefulness:</span>
+															<img src="./assets/img/usefulness/signal-two.svg" alt="icon">
+														</div>
+														<div class="search-block__difficulty">
+															<span>Difficulty:</span>
+															<div class="easy">easy</div>
+														</div>
+													</div>
+												</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="header__filter filter-header">
+							<button type="button" class="filter-header__btn"></button>
+							<div class="filter-header__wrapper">
+								<div class="filter-header__content">
+									<div class="filter-header__switch-row switch-row">
+										<div class="switch-row__content">
+											<h3>Dark Mode</h3>
+										</div>
+										<label class="switch">
+											<input class="switch__checkbox" type="checkbox" name="switch">
+											<div class="switch__slider"></div>
+										</label>
+									</div>
+									<div class="filter-header__box">
+										<h3 class="filter-header__title">Layout Settings</h3>
+										<div class="filter-header__switch-row switch-row">
+											<div class="switch-row__content">
+												<h3>Collapsed sidbar</h3>
+												<p>
+													Hides the tech dropdown menu from 
+									the Sidebar. Also fixes it in place on Desktop
+												</p>
+											</div>
+											<label class="switch">
+												<input class="switch__checkbox" type="checkbox" name="switch">
+												<div class="switch__slider"></div>
+											</label>
+										</div>
+										<div class="filter-header__switch-row switch-row">
+											<div class="switch-row__content">
+												<h3>Full width text</h3>
+												<p>Allow body text to take up the full width 
+										of the
+										screen.</p>
+											</div>
+											<label class="switch">
+												<input class="switch__checkbox" type="checkbox" name="switch">
+												<div class="switch__slider"></div>
+											</label>
+										</div>
+									</div>
+									<div class="filter-header__box">
+										<h3 class="filter-header__title">Media Settings</h3>
+										<div class="filter-header__switch-row switch-row">
+											<div class="switch-row__content">
+												<h3>Videos autoplay</h3>
+												<p>Videos autoplay in Tech and Article pages.</p>
+											</div>
+											<label class="switch">
+												<input class="switch__checkbox" type="checkbox" name="switch">
+												<div class="switch__slider"></div>
+											</label>
+										</div>
+										<div class="filter-header__switch-row switch-row">
+											<div class="switch-row__content">
+												<h3>Catalog video previews</h3>
+												<p>Hovering over tech in the the Catalog 
+									shows a video preview.</p>
+											</div>
+											<label class="switch">
+												<input class="switch__checkbox" type="checkbox" name="switch">
+												<div class="switch__slider"></div>
+											</label>
+										</div>
+										<div class="filter-header__switch-row switch-row">
+											<div class="switch-row__content">
+												<h3>Dynamic media loading</h3>
+												<p>
+													Only load media when it is visible 
+									on screen, can improve performance.
+												</p>
+											</div>
+											<label class="switch">
+												<input class="switch__checkbox" type="checkbox" name="switch">
+												<div class="switch__slider"></div>
+											</label>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="header__languages">
+							<a href="#" class="active">EN</a>
+							<a href="#" class="">RU</a>
+						</div>
+					</div>
+				</div>
+			</header>
+			<main class="home">
+				<section class="main-gamepad">
+					<div class="main-gamepad__inner">
+						<aside>
+							<div class="aside-wrapper">
+								<button type="button" data-fls-menu="" class="aside-close"></button>
+								<a class="aside-logo" href="#">
+									<img src="./assets/img/logo.svg" alt="logo">
+									<span>GAMEPAD</span>
+								</a>
+								<nav>
+									<ul class="menu-pages">
+										<li>
+											<a href="#">Home</a>
+										</li>
+										<li>
+											<a href="#">Techs</a>
+										</li>
+										<li>
+											<a href="#">Perk Tier list</a>
+										</li>
+										<li>
+											<a href="#">Tiles</a>
+										</li>
+										<li>
+											<a href="#">Totem/Gen spawn</a>
+										</li>
+										<li>
+											<a href="#">Clocks</a>
+										</li>
+										<li>
+											<a href="#">Settings</a>
+										</li>
+									</ul>
+									<ul class="menu-info">
+										<li>
+											<a href="#">FAQ & Help</a>
+										</li>
+										<li>
+											<a href="#">About us</a>
+										</li>
+										<li>
+											<a href="#">Media resources</a>
+										</li>
+									</ul>
+								</nav>
+							</div>
+						</aside>
+						<div class="main-gamepad__container">
+							<div class="main-gamepad__header">
+								<a href="#" class="main-gamepad__logo">
+									<img src="./assets/img/logo.svg" alt="logo">
+									<span>GAMEPAD</span>
+								</a>
+								<a href="#" class="main-gamepad__link">
+									<span>Website Tutorial</span>
+								</a>
+							</div>
+							<div class="main-gamepad__items">
+								<a href="#" class="main-gamepad__article">
+									<div class="main-gamepad__decore">
+										<svg>
+											<mask id="icon-mask">
+												<use xlink:href="./assets/img/spritemap.svg#sprite-decore" fill="white"></use>
+											</mask>
+											<!-- Выводи цвет в теге <use> в свойство: fill -->
+											<use xlink:href="./assets/img/spritemap.svg#sprite-decore" fill="#FF7337"></use>
+											<!-- Выводи цвет в теге <use> в свойство: fill -->
+											<image href="./assets/img/bg-decore.png" width="100%" height="100%" style="object-fit: cover;" mask="url(#icon-mask)"></image>
+										</svg>
+										<img class="main-gamepad__icon" src="./assets/img/main-items/icons/01.svg" alt="Image">
+									</div>
+									<div class="main-gamepad__image">
+										<img src="./assets/img/main-items/image.jpg" alt="Image">
+									</div>
+									<span>Tap strafe</span>
+								</a>
+								<a href="#" class="main-gamepad__article">
+									<div class="main-gamepad__decore">
+										<svg>
+											<mask id="icon-mask">
+												<use xlink:href="./assets/img/spritemap.svg#sprite-decore" fill="white"></use>
+											</mask>
+											<!-- Выводи цвет в теге <use> в свойство: fill -->
+											<use xlink:href="./assets/img/spritemap.svg#sprite-decore" fill="#029C9A"></use>
+											<!-- Выводи цвет в теге <use> в свойство: fill -->
+											<image href="./assets/img/bg-decore.png" width="100%" height="100%" style="object-fit: cover;" mask="url(#icon-mask)"></image>
+										</svg>
+										<img class="main-gamepad__icon" src="./assets/img/main-items/icons/02.svg" alt="Image">
+									</div>
+									<div class="main-gamepad__image">
+										<img src="./assets/img/main-items/image.jpg" alt="Image">
+									</div>
+									<span>Mantle jump</span>
+								</a>
+								<a href="#" class="main-gamepad__article">
+									<div class="main-gamepad__decore">
+										<svg>
+											<mask id="icon-mask">
+												<use xlink:href="./assets/img/spritemap.svg#sprite-decore" fill="white"></use>
+											</mask>
+											<!-- Выводи цвет в теге <use> в свойство: fill -->
+											<use xlink:href="./assets/img/spritemap.svg#sprite-decore" fill="#FC0"></use>
+											<!-- Выводи цвет в теге <use> в свойство: fill -->
+											<image href="./assets/img/bg-decore.png" width="100%" height="100%" style="object-fit: cover;" mask="url(#icon-mask)"></image>
+										</svg>
+										<img class="main-gamepad__icon" src="./assets/img/main-items/icons/03.svg" alt="Image">
+									</div>
+									<div class="main-gamepad__image">
+										<img src="./assets/img/main-items/image.jpg" alt="Image">
+									</div>
+									<span>Superglide</span>
+								</a>
+								<a href="#" class="main-gamepad__article">
+									<div class="main-gamepad__decore">
+										<svg>
+											<mask id="icon-mask">
+												<use xlink:href="./assets/img/spritemap.svg#sprite-decore" fill="white"></use>
+											</mask>
+											<!-- Выводи цвет в теге <use> в свойство: fill -->
+											<use xlink:href="./assets/img/spritemap.svg#sprite-decore" fill="#91E2AD"></use>
+											<!-- Выводи цвет в теге <use> в свойство: fill -->
+											<image href="./assets/img/bg-decore.png" width="100%" height="100%" style="object-fit: cover;" mask="url(#icon-mask)"></image>
+										</svg>
+										<img class="main-gamepad__icon" src="./assets/img/main-items/icons/04.svg" alt="Image">
+									</div>
+									<div class="main-gamepad__image">
+										<img src="./assets/img/main-items/image.jpg" alt="Image">
+									</div>
+									<span>Wallbounce</span>
+								</a>
+								<a href="#" class="main-gamepad__article">
+									<div class="main-gamepad__decore">
+										<svg>
+											<mask id="icon-mask">
+												<use xlink:href="./assets/img/spritemap.svg#sprite-decore" fill="white"></use>
+											</mask>
+											<!-- Выводи цвет в теге <use> в свойство: fill -->
+											<use xlink:href="./assets/img/spritemap.svg#sprite-decore" fill="#F7929A"></use>
+											<!-- Выводи цвет в теге <use> в свойство: fill -->
+											<image href="./assets/img/bg-decore.png" width="100%" height="100%" style="object-fit: cover;" mask="url(#icon-mask)"></image>
+										</svg>
+										<img class="main-gamepad__icon" src="./assets/img/main-items/icons/05.svg" alt="Image">
+									</div>
+									<div class="main-gamepad__image">
+										<img src="./assets/img/main-items/image.jpg" alt="Image">
+									</div>
+									<span>Strafe</span>
+								</a>
+								<a href="#" class="main-gamepad__main-article">
+									<span>About us</span>
+									<p>Catalog with every document movement tech in Apex Legends.</p>
+								</a>
+								<a href="#" class="main-gamepad__article">
+									<div class="main-gamepad__decore">
+										<svg>
+											<mask id="icon-mask">
+												<use xlink:href="./assets/img/spritemap.svg#sprite-decore" fill="white"></use>
+											</mask>
+											<!-- Выводи цвет в теге <use> в свойство: fill -->
+											<use xlink:href="./assets/img/spritemap.svg#sprite-decore" fill="#FF1B06"></use>
+											<!-- Выводи цвет в теге <use> в свойство: fill -->
+											<image href="./assets/img/bg-decore.png" width="100%" height="100%" style="object-fit: cover;" mask="url(#icon-mask)"></image>
+										</svg>
+										<img class="main-gamepad__icon" src="./assets/img/main-items/icons/06.svg" alt="Image">
+									</div>
+									<div class="main-gamepad__image">
+										<img src="./assets/img/main-items/image.jpg" alt="Image">
+									</div>
+									<span>Gravity Cannons</span>
+								</a>
+								<a href="#" class="main-gamepad__article">
+									<div class="main-gamepad__decore">
+										<svg>
+											<mask id="icon-mask">
+												<use xlink:href="./assets/img/spritemap.svg#sprite-decore" fill="white"></use>
+											</mask>
+											<!-- Выводи цвет в теге <use> в свойство: fill -->
+											<use xlink:href="./assets/img/spritemap.svg#sprite-decore" fill="#63DCFF"></use>
+											<!-- Выводи цвет в теге <use> в свойство: fill -->
+											<image href="./assets/img/bg-decore.png" width="100%" height="100%" style="object-fit: cover;" mask="url(#icon-mask)"></image>
+										</svg>
+										<img class="main-gamepad__icon" src="./assets/img/main-items/icons/07.svg" alt="Image">
+									</div>
+									<div class="main-gamepad__image">
+										<img src="./assets/img/main-items/image.jpg" alt="Image">
+									</div>
+									<span>Octane</span>
+								</a>
+								<a href="#" class="main-gamepad__article">
+									<div class="main-gamepad__decore">
+										<svg>
+											<mask id="icon-mask">
+												<use xlink:href="./assets/img/spritemap.svg#sprite-decore" fill="white"></use>
+											</mask>
+											<!-- Выводи цвет в теге <use> в свойство: fill -->
+											<use xlink:href="./assets/img/spritemap.svg#sprite-decore" fill="#858CF5"></use>
+											<!-- Выводи цвет в теге <use> в свойство: fill -->
+											<image href="./assets/img/bg-decore.png" width="100%" height="100%" style="object-fit: cover;" mask="url(#icon-mask)"></image>
+										</svg>
+										<img class="main-gamepad__icon" src="./assets/img/main-items/icons/08.svg" alt="Image">
+									</div>
+									<div class="main-gamepad__image">
+										<img src="./assets/img/main-items/image.jpg" alt="Image">
+									</div>
+									<span>Revenant</span>
+								</a>
+								<a href="#" class="main-gamepad__article">
+									<div class="main-gamepad__decore">
+										<svg>
+											<mask id="icon-mask">
+												<use xlink:href="./assets/img/spritemap.svg#sprite-decore" fill="white"></use>
+											</mask>
+											<!-- Выводи цвет в теге <use> в свойство: fill -->
+											<use xlink:href="./assets/img/spritemap.svg#sprite-decore" fill="#1FB3FB"></use>
+											<!-- Выводи цвет в теге <use> в свойство: fill -->
+											<image href="./assets/img/bg-decore.png" width="100%" height="100%" style="object-fit: cover;" mask="url(#icon-mask)"></image>
+										</svg>
+										<img class="main-gamepad__icon" src="./assets/img/main-items/icons/09.svg" alt="Image">
+									</div>
+									<div class="main-gamepad__image">
+										<img src="./assets/img/main-items/image.jpg" alt="Image">
+									</div>
+									<span>Lifeline</span>
+								</a>
+								<a href="#" class="main-gamepad__article">
+									<div class="main-gamepad__decore">
+										<svg>
+											<mask id="icon-mask">
+												<use xlink:href="./assets/img/spritemap.svg#sprite-decore" fill="white"></use>
+											</mask>
+											<!-- Выводи цвет в теге <use> в свойство: fill -->
+											<use xlink:href="./assets/img/spritemap.svg#sprite-decore" fill="#CC5EFF"></use>
+											<!-- Выводи цвет в теге <use> в свойство: fill -->
+											<image href="./assets/img/bg-decore.png" width="100%" height="100%" style="object-fit: cover;" mask="url(#icon-mask)"></image>
+										</svg>
+										<img class="main-gamepad__icon" src="./assets/img/main-items/icons/10.svg" alt="Image">
+									</div>
+									<div class="main-gamepad__image">
+										<img src="./assets/img/main-items/image.jpg" alt="Image">
+									</div>
+									<span>Ash</span>
+								</a>
+							</div>
+						</div>
+					</div>
+				</section>
+			</main>
+			<footer data-fls-footer="" class="footer">
+				<div class="footer__container">
+					<div class="footer__rights">© 2025 No Name All Rights Reserved</div>
+					<a href="#" class="footer__logo">
+						<img src="./assets/img/logo.svg" alt="logo">
+					</a>
+					<nav class="footer__menu">
+						<ul>
+							<li>
+								<a href="#">About</a>
+							</li>
+							<li>
+								<a href="#">Terms of Use & License</a>
+							</li>
+							<li>
+								<a href="#">Privacy Policy</a>
+							</li>
+							<li>
+								<a href="#">Contributors</a>
+							</li>
+							<li>
+								<a href="#">Changelog</a>
+							</li>
+							<li>
+								<a href="#">Discord</a>
+							</li>
+						</ul>
+					</nav>
+				</div>
+			</footer>
+		</div>
+		<ul id="fls-dev-panel">
+			<li>
+				<a href="single.html">single</a>
+			</li>
+			<li>
+				<a href="range.html">range</a>
+			</li>
+			<li>
+				<a href="posts.html">posts</a>
+			</li>
+			<li>
+				<a href="index.html">index</a>
+			</li>
+			<li>
+				<a href="404.html">404</a>
+			</li>
+		</ul>
+		<style>
+			#fls-dev-panel{
+				position: fixed;
+				left: 10px;
+				padding: 15px 25px 15px 15px;
+				border-radius: 0 10px 10px 0;
+				top: 10%;
+				color: #ffffff;
+				background-color: rgba(51, 51, 51, 0.5);
+				transform: translate(-100%, 0px);
+				max-height: 80svh;
+				overflow: auto;
+				transition: all 300ms;
+				z-index: 9999;
+				font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+			}
+			#fls-dev-panel li{
+				list-style:none;
+			}
+			#fls-dev-panel hr{
+				border-bottom: 1px solid;
+			}
+			#fls-dev-panel:hover{
+				left: 0px;
+				transform: translate(0, 0);
+			}
+			#fls-dev-panel a{
+				text-decoration: none;
+				color: inherit;
+			}
+			#fls-dev-panel a:hover {
+				text-decoration: underline;
+			}
+			#fls-dev-panel li:not(:last-child) {
+				margin-bottom: 10px;
+			}
+		</style>
+	</body>
+</html>
