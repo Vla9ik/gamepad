@@ -1239,7 +1239,6 @@ main::before {
 }
 
 [data-fls-menu-open] main::before {
-  content: "";
   opacity: 1;
 }
 
@@ -1440,9 +1439,6 @@ main::before {
   align-items: flex-start;
   justify-content: space-between;
   gap: 1.25rem;
-}
-.main-gamepad__inner aside {
-  margin-top: 9.75rem;
 }
 .main-gamepad__container {
   flex-grow: 1;
@@ -2263,6 +2259,7 @@ main::before {
     position: relative;
     z-index: 3;
     height: 100svh;
+    overflow: auto;
   }
   [data-fls-menu-open] aside {
     left: 0;
@@ -2459,6 +2456,9 @@ main::before {
 @media (min-width: 61.99875em){
   aside .aside-close {
     display: none;
+  }
+  .main-gamepad__inner aside {
+    margin-top: 9.75rem;
   }
 }
 @media (min-width: 62em){
