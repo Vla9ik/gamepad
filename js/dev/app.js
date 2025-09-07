@@ -108,12 +108,12 @@ let slideToggle = (target, duration = 500) => {
 let bodyLockStatus = true;
 let bodyLockToggle = (delay = 500) => {
   if (document.documentElement.hasAttribute("data-fls-scrolllock")) {
-    bodyUnlock(delay);
+    bodyUnlock$1(delay);
   } else {
     bodyLock(delay);
   }
 };
-let bodyUnlock = (delay = 500) => {
+let bodyUnlock$1 = (delay = 500) => {
   if (bodyLockStatus) {
     const lockPaddingElements = document.querySelectorAll("[data-fls-lp]");
     setTimeout(() => {
@@ -183,7 +183,7 @@ const gotoBlock = (targetBlock, noHeader = false, speed = 500, offsetTop = 0) =>
       }
     }
     if (document.documentElement.hasAttribute("data-fls-menu-open")) {
-      bodyUnlock();
+      bodyUnlock$1();
       document.documentElement.removeAttribute("data-fls-menu-open");
     }
     let targetBlockElementPosition = targetBlockElement.getBoundingClientRect().top + scrollY;
@@ -200,12 +200,15 @@ function menuInit() {
     if (bodyLockStatus && e.target.closest("[data-fls-menu]")) {
       bodyLockToggle();
       document.documentElement.toggleAttribute("data-fls-menu-open");
+      return;
     }
     if (document.documentElement.hasAttribute("data-fls-menu-open")) {
       const aside = document.querySelector("aside");
-      if (aside && !e.target.closest("aside") && !e.target.closest("[data-fls-menu]") && !e.target.closest("[data-fls-scrolllock]")) {
+      const clickInsideAside = aside && e.target.closest("aside");
+      const clickOnToggle = e.target.closest("[data-fls-menu]");
+      if (!clickInsideAside && !clickOnToggle) {
+        bodyUnlock();
         document.documentElement.removeAttribute("data-fls-menu-open");
-        document.documentElement.removeAttribute("data-fls-scrolllock");
       }
     }
   });
@@ -2891,7 +2894,7 @@ function pageNavigation() {
           if (fullpageSectionId !== null) {
             window.fullpage.switchingSection(fullpageSectionId);
             if (document.documentElement.hasAttribute("data-fls-menu-open")) {
-              bodyUnlock();
+              bodyUnlock$1();
               document.documentElement.removeAttribute("data-fls-menu-open");
             }
           }
