@@ -203,8 +203,9 @@ function menuInit() {
     }
     if (document.documentElement.hasAttribute("data-fls-menu-open")) {
       const aside = document.querySelector("aside");
-      if (aside && !e.target.closest("aside") && !e.target.closest("[data-fls-menu]")) {
+      if (aside && !e.target.closest("aside") && !e.target.closest("[data-fls-menu]") && !e.target.closest("[data-fls-scrolllock]")) {
         document.documentElement.removeAttribute("data-fls-menu-open");
+        document.documentElement.removeAttribute("data-fls-scrolllock");
       }
     }
   });
