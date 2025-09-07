@@ -1892,6 +1892,16 @@ main::before {
 .spoller-block__link-item:first-child {
   margin-top: 1.25rem;
 }
+.map-tech .spoller-block__link-item {
+  border: none;
+  padding: 0rem;
+}
+.map-tech .spoller-block__link-item:not(:last-child) {
+  margin-bottom: 0.5rem;
+}
+.map-tech .spoller-block__link-item:first-child {
+  margin-top: 0.625rem;
+}
 .spoller-block__link {
   border-radius: 0.5rem;
   width: 100%;

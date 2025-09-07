@@ -360,8 +360,8 @@ var beforeWrite = "beforeWrite";
 var write = "write";
 var afterWrite = "afterWrite";
 var modifierPhases = [beforeRead, read, afterRead, beforeMain, main, afterMain, beforeWrite, write, afterWrite];
-function getNodeName(element) {
-  return element ? (element.nodeName || "").toLowerCase() : null;
+function getNodeName(element2) {
+  return element2 ? (element2.nodeName || "").toLowerCase() : null;
 }
 function getWindow(node) {
   if (node == null) {
@@ -393,17 +393,17 @@ function applyStyles(_ref) {
   Object.keys(state.elements).forEach(function(name) {
     var style = state.styles[name] || {};
     var attributes = state.attributes[name] || {};
-    var element = state.elements[name];
-    if (!isHTMLElement(element) || !getNodeName(element)) {
+    var element2 = state.elements[name];
+    if (!isHTMLElement(element2) || !getNodeName(element2)) {
       return;
     }
-    Object.assign(element.style, style);
+    Object.assign(element2.style, style);
     Object.keys(attributes).forEach(function(name2) {
       var value = attributes[name2];
       if (value === false) {
-        element.removeAttribute(name2);
+        element2.removeAttribute(name2);
       } else {
-        element.setAttribute(name2, value === true ? "" : value);
+        element2.setAttribute(name2, value === true ? "" : value);
       }
     });
   });
@@ -429,19 +429,19 @@ function effect$2(_ref2) {
   }
   return function() {
     Object.keys(state.elements).forEach(function(name) {
-      var element = state.elements[name];
+      var element2 = state.elements[name];
       var attributes = state.attributes[name] || {};
       var styleProperties = Object.keys(state.styles.hasOwnProperty(name) ? state.styles[name] : initialStyles[name]);
       var style = styleProperties.reduce(function(style2, property) {
         style2[property] = "";
         return style2;
       }, {});
-      if (!isHTMLElement(element) || !getNodeName(element)) {
+      if (!isHTMLElement(element2) || !getNodeName(element2)) {
         return;
       }
-      Object.assign(element.style, style);
+      Object.assign(element2.style, style);
       Object.keys(attributes).forEach(function(attribute) {
-        element.removeAttribute(attribute);
+        element2.removeAttribute(attribute);
       });
     });
   };
@@ -472,21 +472,21 @@ function getUAString() {
 function isLayoutViewport() {
   return !/^((?!chrome|android).)*safari/i.test(getUAString());
 }
-function getBoundingClientRect(element, includeScale, isFixedStrategy) {
+function getBoundingClientRect(element2, includeScale, isFixedStrategy) {
   if (includeScale === void 0) {
     includeScale = false;
   }
   if (isFixedStrategy === void 0) {
     isFixedStrategy = false;
   }
-  var clientRect = element.getBoundingClientRect();
+  var clientRect = element2.getBoundingClientRect();
   var scaleX = 1;
   var scaleY = 1;
-  if (includeScale && isHTMLElement(element)) {
-    scaleX = element.offsetWidth > 0 ? round(clientRect.width) / element.offsetWidth || 1 : 1;
-    scaleY = element.offsetHeight > 0 ? round(clientRect.height) / element.offsetHeight || 1 : 1;
+  if (includeScale && isHTMLElement(element2)) {
+    scaleX = element2.offsetWidth > 0 ? round(clientRect.width) / element2.offsetWidth || 1 : 1;
+    scaleY = element2.offsetHeight > 0 ? round(clientRect.height) / element2.offsetHeight || 1 : 1;
   }
-  var _ref = isElement$1(element) ? getWindow(element) : window, visualViewport = _ref.visualViewport;
+  var _ref = isElement$1(element2) ? getWindow(element2) : window, visualViewport = _ref.visualViewport;
   var addVisualOffsets = !isLayoutViewport() && isFixedStrategy;
   var x = (clientRect.left + (addVisualOffsets && visualViewport ? visualViewport.offsetLeft : 0)) / scaleX;
   var y = (clientRect.top + (addVisualOffsets && visualViewport ? visualViewport.offsetTop : 0)) / scaleY;
@@ -503,10 +503,10 @@ function getBoundingClientRect(element, includeScale, isFixedStrategy) {
     y
   };
 }
-function getLayoutRect(element) {
-  var clientRect = getBoundingClientRect(element);
-  var width = element.offsetWidth;
-  var height = element.offsetHeight;
+function getLayoutRect(element2) {
+  var clientRect = getBoundingClientRect(element2);
+  var width = element2.offsetWidth;
+  var height = element2.offsetHeight;
   if (Math.abs(clientRect.width - width) <= 1) {
     width = clientRect.width;
   }
@@ -514,8 +514,8 @@ function getLayoutRect(element) {
     height = clientRect.height;
   }
   return {
-    x: element.offsetLeft,
-    y: element.offsetTop,
+    x: element2.offsetLeft,
+    y: element2.offsetTop,
     width,
     height
   };
@@ -535,50 +535,50 @@ function contains(parent, child) {
   }
   return false;
 }
-function getComputedStyle$1(element) {
-  return getWindow(element).getComputedStyle(element);
+function getComputedStyle$1(element2) {
+  return getWindow(element2).getComputedStyle(element2);
 }
-function isTableElement(element) {
-  return ["table", "td", "th"].indexOf(getNodeName(element)) >= 0;
+function isTableElement(element2) {
+  return ["table", "td", "th"].indexOf(getNodeName(element2)) >= 0;
 }
-function getDocumentElement(element) {
-  return ((isElement$1(element) ? element.ownerDocument : (
+function getDocumentElement(element2) {
+  return ((isElement$1(element2) ? element2.ownerDocument : (
     // $FlowFixMe[prop-missing]
-    element.document
+    element2.document
   )) || window.document).documentElement;
 }
-function getParentNode(element) {
-  if (getNodeName(element) === "html") {
-    return element;
+function getParentNode(element2) {
+  if (getNodeName(element2) === "html") {
+    return element2;
   }
   return (
     // this is a quicker (but less type safe) way to save quite some bytes from the bundle
     // $FlowFixMe[incompatible-return]
     // $FlowFixMe[prop-missing]
-    element.assignedSlot || // step into the shadow DOM of the parent of a slotted node
-    element.parentNode || // DOM Element detected
-    (isShadowRoot(element) ? element.host : null) || // ShadowRoot detected
+    element2.assignedSlot || // step into the shadow DOM of the parent of a slotted node
+    element2.parentNode || // DOM Element detected
+    (isShadowRoot(element2) ? element2.host : null) || // ShadowRoot detected
     // $FlowFixMe[incompatible-call]: HTMLElement is a Node
-    getDocumentElement(element)
+    getDocumentElement(element2)
   );
 }
-function getTrueOffsetParent(element) {
-  if (!isHTMLElement(element) || // https://github.com/popperjs/popper-core/issues/837
-  getComputedStyle$1(element).position === "fixed") {
+function getTrueOffsetParent(element2) {
+  if (!isHTMLElement(element2) || // https://github.com/popperjs/popper-core/issues/837
+  getComputedStyle$1(element2).position === "fixed") {
     return null;
   }
-  return element.offsetParent;
+  return element2.offsetParent;
 }
-function getContainingBlock(element) {
+function getContainingBlock(element2) {
   var isFirefox = /firefox/i.test(getUAString());
   var isIE = /Trident/i.test(getUAString());
-  if (isIE && isHTMLElement(element)) {
-    var elementCss = getComputedStyle$1(element);
+  if (isIE && isHTMLElement(element2)) {
+    var elementCss = getComputedStyle$1(element2);
     if (elementCss.position === "fixed") {
       return null;
     }
   }
-  var currentNode = getParentNode(element);
+  var currentNode = getParentNode(element2);
   if (isShadowRoot(currentNode)) {
     currentNode = currentNode.host;
   }
@@ -592,16 +592,16 @@ function getContainingBlock(element) {
   }
   return null;
 }
-function getOffsetParent(element) {
-  var window2 = getWindow(element);
-  var offsetParent = getTrueOffsetParent(element);
+function getOffsetParent(element2) {
+  var window2 = getWindow(element2);
+  var offsetParent = getTrueOffsetParent(element2);
   while (offsetParent && isTableElement(offsetParent) && getComputedStyle$1(offsetParent).position === "static") {
     offsetParent = getTrueOffsetParent(offsetParent);
   }
   if (offsetParent && (getNodeName(offsetParent) === "html" || getNodeName(offsetParent) === "body" && getComputedStyle$1(offsetParent).position === "static")) {
     return window2;
   }
-  return offsetParent || getContainingBlock(element) || window2;
+  return offsetParent || getContainingBlock(element2) || window2;
 }
 function getMainAxisFromPlacement(placement) {
   return ["top", "bottom"].indexOf(placement) >= 0 ? "x" : "y";
@@ -816,26 +816,26 @@ var passive = {
   passive: true
 };
 function effect(_ref) {
-  var state = _ref.state, instance = _ref.instance, options = _ref.options;
+  var state = _ref.state, instance2 = _ref.instance, options = _ref.options;
   var _options$scroll = options.scroll, scroll = _options$scroll === void 0 ? true : _options$scroll, _options$resize = options.resize, resize = _options$resize === void 0 ? true : _options$resize;
   var window2 = getWindow(state.elements.popper);
   var scrollParents = [].concat(state.scrollParents.reference, state.scrollParents.popper);
   if (scroll) {
     scrollParents.forEach(function(scrollParent) {
-      scrollParent.addEventListener("scroll", instance.update, passive);
+      scrollParent.addEventListener("scroll", instance2.update, passive);
     });
   }
   if (resize) {
-    window2.addEventListener("resize", instance.update, passive);
+    window2.addEventListener("resize", instance2.update, passive);
   }
   return function() {
     if (scroll) {
       scrollParents.forEach(function(scrollParent) {
-        scrollParent.removeEventListener("scroll", instance.update, passive);
+        scrollParent.removeEventListener("scroll", instance2.update, passive);
       });
     }
     if (resize) {
-      window2.removeEventListener("resize", instance.update, passive);
+      window2.removeEventListener("resize", instance2.update, passive);
     }
   };
 }
@@ -877,12 +877,12 @@ function getWindowScroll(node) {
     scrollTop
   };
 }
-function getWindowScrollBarX(element) {
-  return getBoundingClientRect(getDocumentElement(element)).left + getWindowScroll(element).scrollLeft;
+function getWindowScrollBarX(element2) {
+  return getBoundingClientRect(getDocumentElement(element2)).left + getWindowScroll(element2).scrollLeft;
 }
-function getViewportRect(element, strategy) {
-  var win = getWindow(element);
-  var html = getDocumentElement(element);
+function getViewportRect(element2, strategy) {
+  var win = getWindow(element2);
+  var html = getDocumentElement(element2);
   var visualViewport = win.visualViewport;
   var width = html.clientWidth;
   var height = html.clientHeight;
@@ -900,18 +900,18 @@ function getViewportRect(element, strategy) {
   return {
     width,
     height,
-    x: x + getWindowScrollBarX(element),
+    x: x + getWindowScrollBarX(element2),
     y
   };
 }
-function getDocumentRect(element) {
+function getDocumentRect(element2) {
   var _element$ownerDocumen;
-  var html = getDocumentElement(element);
-  var winScroll = getWindowScroll(element);
-  var body = (_element$ownerDocumen = element.ownerDocument) == null ? void 0 : _element$ownerDocumen.body;
+  var html = getDocumentElement(element2);
+  var winScroll = getWindowScroll(element2);
+  var body = (_element$ownerDocumen = element2.ownerDocument) == null ? void 0 : _element$ownerDocumen.body;
   var width = max(html.scrollWidth, html.clientWidth, body ? body.scrollWidth : 0, body ? body.clientWidth : 0);
   var height = max(html.scrollHeight, html.clientHeight, body ? body.scrollHeight : 0, body ? body.clientHeight : 0);
-  var x = -winScroll.scrollLeft + getWindowScrollBarX(element);
+  var x = -winScroll.scrollLeft + getWindowScrollBarX(element2);
   var y = -winScroll.scrollTop;
   if (getComputedStyle$1(body || html).direction === "rtl") {
     x += max(html.clientWidth, body ? body.clientWidth : 0) - width;
@@ -923,8 +923,8 @@ function getDocumentRect(element) {
     y
   };
 }
-function isScrollParent(element) {
-  var _getComputedStyle = getComputedStyle$1(element), overflow = _getComputedStyle.overflow, overflowX = _getComputedStyle.overflowX, overflowY = _getComputedStyle.overflowY;
+function isScrollParent(element2) {
+  var _getComputedStyle = getComputedStyle$1(element2), overflow = _getComputedStyle.overflow, overflowX = _getComputedStyle.overflowX, overflowY = _getComputedStyle.overflowY;
   return /auto|scroll|overlay|hidden/.test(overflow + overflowY + overflowX);
 }
 function getScrollParent(node) {
@@ -936,13 +936,13 @@ function getScrollParent(node) {
   }
   return getScrollParent(getParentNode(node));
 }
-function listScrollParents(element, list) {
+function listScrollParents(element2, list) {
   var _element$ownerDocumen;
   if (list === void 0) {
     list = [];
   }
-  var scrollParent = getScrollParent(element);
-  var isBody = scrollParent === ((_element$ownerDocumen = element.ownerDocument) == null ? void 0 : _element$ownerDocumen.body);
+  var scrollParent = getScrollParent(element2);
+  var isBody = scrollParent === ((_element$ownerDocumen = element2.ownerDocument) == null ? void 0 : _element$ownerDocumen.body);
   var win = getWindow(scrollParent);
   var target = isBody ? [win].concat(win.visualViewport || [], isScrollParent(scrollParent) ? scrollParent : []) : scrollParent;
   var updatedList = list.concat(target);
@@ -959,25 +959,25 @@ function rectToClientRect(rect) {
     bottom: rect.y + rect.height
   });
 }
-function getInnerBoundingClientRect(element, strategy) {
-  var rect = getBoundingClientRect(element, false, strategy === "fixed");
-  rect.top = rect.top + element.clientTop;
-  rect.left = rect.left + element.clientLeft;
-  rect.bottom = rect.top + element.clientHeight;
-  rect.right = rect.left + element.clientWidth;
-  rect.width = element.clientWidth;
-  rect.height = element.clientHeight;
+function getInnerBoundingClientRect(element2, strategy) {
+  var rect = getBoundingClientRect(element2, false, strategy === "fixed");
+  rect.top = rect.top + element2.clientTop;
+  rect.left = rect.left + element2.clientLeft;
+  rect.bottom = rect.top + element2.clientHeight;
+  rect.right = rect.left + element2.clientWidth;
+  rect.width = element2.clientWidth;
+  rect.height = element2.clientHeight;
   rect.x = rect.left;
   rect.y = rect.top;
   return rect;
 }
-function getClientRectFromMixedType(element, clippingParent, strategy) {
-  return clippingParent === viewport ? rectToClientRect(getViewportRect(element, strategy)) : isElement$1(clippingParent) ? getInnerBoundingClientRect(clippingParent, strategy) : rectToClientRect(getDocumentRect(getDocumentElement(element)));
+function getClientRectFromMixedType(element2, clippingParent, strategy) {
+  return clippingParent === viewport ? rectToClientRect(getViewportRect(element2, strategy)) : isElement$1(clippingParent) ? getInnerBoundingClientRect(clippingParent, strategy) : rectToClientRect(getDocumentRect(getDocumentElement(element2)));
 }
-function getClippingParents(element) {
-  var clippingParents2 = listScrollParents(getParentNode(element));
-  var canEscapeClipping = ["absolute", "fixed"].indexOf(getComputedStyle$1(element).position) >= 0;
-  var clipperElement = canEscapeClipping && isHTMLElement(element) ? getOffsetParent(element) : element;
+function getClippingParents(element2) {
+  var clippingParents2 = listScrollParents(getParentNode(element2));
+  var canEscapeClipping = ["absolute", "fixed"].indexOf(getComputedStyle$1(element2).position) >= 0;
+  var clipperElement = canEscapeClipping && isHTMLElement(element2) ? getOffsetParent(element2) : element2;
   if (!isElement$1(clipperElement)) {
     return [];
   }
@@ -985,18 +985,18 @@ function getClippingParents(element) {
     return isElement$1(clippingParent) && contains(clippingParent, clipperElement) && getNodeName(clippingParent) !== "body";
   });
 }
-function getClippingRect(element, boundary, rootBoundary, strategy) {
-  var mainClippingParents = boundary === "clippingParents" ? getClippingParents(element) : [].concat(boundary);
+function getClippingRect(element2, boundary, rootBoundary, strategy) {
+  var mainClippingParents = boundary === "clippingParents" ? getClippingParents(element2) : [].concat(boundary);
   var clippingParents2 = [].concat(mainClippingParents, [rootBoundary]);
   var firstClippingParent = clippingParents2[0];
   var clippingRect = clippingParents2.reduce(function(accRect, clippingParent) {
-    var rect = getClientRectFromMixedType(element, clippingParent, strategy);
+    var rect = getClientRectFromMixedType(element2, clippingParent, strategy);
     accRect.top = max(rect.top, accRect.top);
     accRect.right = min(rect.right, accRect.right);
     accRect.bottom = min(rect.bottom, accRect.bottom);
     accRect.left = max(rect.left, accRect.left);
     return accRect;
-  }, getClientRectFromMixedType(element, firstClippingParent, strategy));
+  }, getClientRectFromMixedType(element2, firstClippingParent, strategy));
   clippingRect.width = clippingRect.right - clippingRect.left;
   clippingRect.height = clippingRect.bottom - clippingRect.top;
   clippingRect.x = clippingRect.left;
@@ -1004,17 +1004,17 @@ function getClippingRect(element, boundary, rootBoundary, strategy) {
   return clippingRect;
 }
 function computeOffsets(_ref) {
-  var reference2 = _ref.reference, element = _ref.element, placement = _ref.placement;
+  var reference2 = _ref.reference, element2 = _ref.element, placement = _ref.placement;
   var basePlacement = placement ? getBasePlacement$1(placement) : null;
   var variation = placement ? getVariation(placement) : null;
-  var commonX = reference2.x + reference2.width / 2 - element.width / 2;
-  var commonY = reference2.y + reference2.height / 2 - element.height / 2;
+  var commonX = reference2.x + reference2.width / 2 - element2.width / 2;
+  var commonY = reference2.y + reference2.height / 2 - element2.height / 2;
   var offsets;
   switch (basePlacement) {
     case top:
       offsets = {
         x: commonX,
-        y: reference2.y - element.height
+        y: reference2.y - element2.height
       };
       break;
     case bottom:
@@ -1031,7 +1031,7 @@ function computeOffsets(_ref) {
       break;
     case left:
       offsets = {
-        x: reference2.x - element.width,
+        x: reference2.x - element2.width,
         y: commonY
       };
       break;
@@ -1046,10 +1046,10 @@ function computeOffsets(_ref) {
     var len = mainAxis === "y" ? "height" : "width";
     switch (variation) {
       case start:
-        offsets[mainAxis] = offsets[mainAxis] - (reference2[len] / 2 - element[len] / 2);
+        offsets[mainAxis] = offsets[mainAxis] - (reference2[len] / 2 - element2[len] / 2);
         break;
       case end:
-        offsets[mainAxis] = offsets[mainAxis] + (reference2[len] / 2 - element[len] / 2);
+        offsets[mainAxis] = offsets[mainAxis] + (reference2[len] / 2 - element2[len] / 2);
         break;
     }
   }
@@ -1063,8 +1063,8 @@ function detectOverflow(state, options) {
   var paddingObject = mergePaddingObject(typeof padding !== "number" ? padding : expandToHashMap(padding, basePlacements));
   var altContext = elementContext === popper ? reference : popper;
   var popperRect = state.rects.popper;
-  var element = state.elements[altBoundary ? altContext : elementContext];
-  var clippingClientRect = getClippingRect(isElement$1(element) ? element : element.contextElement || getDocumentElement(state.elements.popper), boundary, rootBoundary, strategy);
+  var element2 = state.elements[altBoundary ? altContext : elementContext];
+  var clippingClientRect = getClippingRect(isElement$1(element2) ? element2 : element2.contextElement || getDocumentElement(state.elements.popper), boundary, rootBoundary, strategy);
   var referenceClientRect = getBoundingClientRect(state.elements.reference);
   var popperOffsets2 = computeOffsets({
     reference: referenceClientRect,
@@ -1419,10 +1419,10 @@ const preventOverflow$1 = {
   fn: preventOverflow,
   requiresIfExists: ["offset"]
 };
-function getHTMLElementScroll(element) {
+function getHTMLElementScroll(element2) {
   return {
-    scrollLeft: element.scrollLeft,
-    scrollTop: element.scrollTop
+    scrollLeft: element2.scrollLeft,
+    scrollTop: element2.scrollTop
   };
 }
 function getNodeScroll(node) {
@@ -1432,10 +1432,10 @@ function getNodeScroll(node) {
     return getHTMLElementScroll(node);
   }
 }
-function isElementScaled(element) {
-  var rect = element.getBoundingClientRect();
-  var scaleX = round(rect.width) / element.offsetWidth || 1;
-  var scaleY = round(rect.height) / element.offsetHeight || 1;
+function isElementScaled(element2) {
+  var rect = element2.getBoundingClientRect();
+  var scaleX = round(rect.width) / element2.offsetWidth || 1;
+  var scaleY = round(rect.height) / element2.offsetHeight || 1;
   return scaleX !== 1 || scaleY !== 1;
 }
 function getCompositeRect(elementOrVirtualElement, offsetParent, isFixed) {
@@ -1545,8 +1545,8 @@ function areValidElements() {
   for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
     args[_key] = arguments[_key];
   }
-  return !args.some(function(element) {
-    return !(element && typeof element.getBoundingClientRect === "function");
+  return !args.some(function(element2) {
+    return !(element2 && typeof element2.getBoundingClientRect === "function");
   });
 }
 function popperGenerator(generatorOptions) {
@@ -1572,7 +1572,7 @@ function popperGenerator(generatorOptions) {
     };
     var effectCleanupFns = [];
     var isDestroyed = false;
-    var instance = {
+    var instance2 = {
       state,
       setOptions: function setOptions(setOptionsAction) {
         var options2 = typeof setOptionsAction === "function" ? setOptionsAction(state.options) : setOptionsAction;
@@ -1587,7 +1587,7 @@ function popperGenerator(generatorOptions) {
           return m.enabled;
         });
         runModifierEffects();
-        return instance.update();
+        return instance2.update();
       },
       // Sync update – it will always be executed, even if not necessary. This
       // is useful for low frequency updates where sync behavior simplifies the
@@ -1623,7 +1623,7 @@ function popperGenerator(generatorOptions) {
               state,
               options: _options,
               name,
-              instance
+              instance: instance2
             }) || state;
           }
         }
@@ -1632,7 +1632,7 @@ function popperGenerator(generatorOptions) {
       // not necessary (debounced to run at most once-per-tick)
       update: debounce$1(function() {
         return new Promise(function(resolve) {
-          instance.forceUpdate();
+          instance2.forceUpdate();
           resolve(state);
         });
       }),
@@ -1642,9 +1642,9 @@ function popperGenerator(generatorOptions) {
       }
     };
     if (!areValidElements(reference2, popper2)) {
-      return instance;
+      return instance2;
     }
-    instance.setOptions(options).then(function(state2) {
+    instance2.setOptions(options).then(function(state2) {
       if (!isDestroyed && options.onFirstUpdate) {
         options.onFirstUpdate(state2);
       }
@@ -1656,7 +1656,7 @@ function popperGenerator(generatorOptions) {
           var cleanupFn = effect3({
             state,
             name,
-            instance,
+            instance: instance2,
             options: options2
           });
           var noopFn = function noopFn2() {
@@ -1671,7 +1671,7 @@ function popperGenerator(generatorOptions) {
       });
       effectCleanupFns = [];
     }
-    return instance;
+    return instance2;
   };
 }
 var defaultModifiers = [eventListeners, popperOffsets$1, computeStyles$1, applyStyles$1, offset$1, flip$1, preventOverflow$1, arrow$1, hide$1];
@@ -1791,8 +1791,8 @@ function setVisibilityState(els, state) {
 }
 function getOwnerDocument(elementOrElements) {
   var _element$ownerDocumen;
-  var _normalizeToArray = normalizeToArray(elementOrElements), element = _normalizeToArray[0];
-  return element != null && (_element$ownerDocumen = element.ownerDocument) != null && _element$ownerDocumen.body ? element.ownerDocument : document;
+  var _normalizeToArray = normalizeToArray(elementOrElements), element2 = _normalizeToArray[0];
+  return element2 != null && (_element$ownerDocumen = element2.ownerDocument) != null && _element$ownerDocumen.body ? element2.ownerDocument : document;
 }
 function isCursorOutsideInteractiveBorder(popperTreeData, event) {
   var clientX = event.clientX, clientY = event.clientY;
@@ -1846,18 +1846,18 @@ function onDocumentTouchStart() {
   }
 }
 function onDocumentMouseMove() {
-  var now = performance.now();
-  if (now - lastMouseMoveTime < 20) {
+  var now2 = performance.now();
+  if (now2 - lastMouseMoveTime < 20) {
     currentInput.isTouch = false;
     document.removeEventListener("mousemove", onDocumentMouseMove);
   }
-  lastMouseMoveTime = now;
+  lastMouseMoveTime = now2;
 }
 function onWindowBlur() {
   var activeElement = document.activeElement;
   if (isReferenceElement(activeElement)) {
-    var instance = activeElement._tippy;
-    if (activeElement.blur && !instance.state.isVisible) {
+    var instance2 = activeElement._tippy;
+    if (activeElement.blur && !instance2.state.isVisible) {
       activeElement.blur();
     }
   }
@@ -1992,8 +1992,8 @@ function evaluateProps(reference2, props) {
 var innerHTML = function innerHTML2() {
   return "innerHTML";
 };
-function dangerouslySetInnerHTML(element, html) {
-  element[innerHTML()] = html;
+function dangerouslySetInnerHTML(element2, html) {
+  element2[innerHTML()] = html;
 }
 function createArrowElement(value) {
   var arrow2 = div();
@@ -2037,7 +2037,7 @@ function getChildren(popper2) {
     })
   };
 }
-function render(instance) {
+function render(instance2) {
   var popper2 = div();
   var box = div();
   box.className = BOX_CLASS;
@@ -2046,10 +2046,10 @@ function render(instance) {
   var content = div();
   content.className = CONTENT_CLASS;
   content.setAttribute("data-state", "hidden");
-  setContent(content, instance.props);
+  setContent(content, instance2.props);
   popper2.appendChild(box);
   box.appendChild(content);
-  onUpdate(instance.props, instance.props);
+  onUpdate(instance2.props, instance2.props);
   function onUpdate(prevProps, nextProps) {
     var _getChildren = getChildren(popper2), box2 = _getChildren.box, content2 = _getChildren.content, arrow2 = _getChildren.arrow;
     if (nextProps.theme) {
@@ -2074,7 +2074,7 @@ function render(instance) {
       box2.removeAttribute("role");
     }
     if (prevProps.content !== nextProps.content || prevProps.allowHTML !== nextProps.allowHTML) {
-      setContent(content2, instance.props);
+      setContent(content2, instance2.props);
     }
     if (nextProps.arrow) {
       if (!arrow2) {
@@ -2126,7 +2126,7 @@ function createTippy(reference2, passedProps) {
     // Has the tippy finished transitioning in?
     isShown: false
   };
-  var instance = {
+  var instance2 = {
     // properties
     id,
     reference: reference2,
@@ -2148,38 +2148,38 @@ function createTippy(reference2, passedProps) {
     destroy
   };
   if (!props.render) {
-    return instance;
+    return instance2;
   }
-  var _props$render = props.render(instance), popper2 = _props$render.popper, onUpdate = _props$render.onUpdate;
+  var _props$render = props.render(instance2), popper2 = _props$render.popper, onUpdate = _props$render.onUpdate;
   popper2.setAttribute("data-tippy-root", "");
-  popper2.id = "tippy-" + instance.id;
-  instance.popper = popper2;
-  reference2._tippy = instance;
-  popper2._tippy = instance;
+  popper2.id = "tippy-" + instance2.id;
+  instance2.popper = popper2;
+  reference2._tippy = instance2;
+  popper2._tippy = instance2;
   var pluginsHooks = plugins.map(function(plugin) {
-    return plugin.fn(instance);
+    return plugin.fn(instance2);
   });
   var hasAriaExpanded = reference2.hasAttribute("aria-expanded");
   addListeners();
   handleAriaExpandedAttribute();
   handleStyles();
-  invokeHook("onCreate", [instance]);
+  invokeHook("onCreate", [instance2]);
   if (props.showOnCreate) {
     scheduleShow();
   }
   popper2.addEventListener("mouseenter", function() {
-    if (instance.props.interactive && instance.state.isVisible) {
-      instance.clearDelayTimeouts();
+    if (instance2.props.interactive && instance2.state.isVisible) {
+      instance2.clearDelayTimeouts();
     }
   });
   popper2.addEventListener("mouseleave", function() {
-    if (instance.props.interactive && instance.props.trigger.indexOf("mouseenter") >= 0) {
+    if (instance2.props.interactive && instance2.props.trigger.indexOf("mouseenter") >= 0) {
       getDocument().addEventListener("mousemove", debouncedOnMouseMove);
     }
   });
-  return instance;
+  return instance2;
   function getNormalizedTouchSettings() {
-    var touch = instance.props.touch;
+    var touch = instance2.props.touch;
     return Array.isArray(touch) ? touch : [touch, 0];
   }
   function getIsCustomTouchBehavior() {
@@ -2187,7 +2187,7 @@ function createTippy(reference2, passedProps) {
   }
   function getIsDefaultRenderFn() {
     var _instance$props$rende;
-    return !!((_instance$props$rende = instance.props.render) != null && _instance$props$rende.$$tippy);
+    return !!((_instance$props$rende = instance2.props.render) != null && _instance$props$rende.$$tippy);
   }
   function getCurrentTarget() {
     return currentTarget || reference2;
@@ -2200,17 +2200,17 @@ function createTippy(reference2, passedProps) {
     return getChildren(popper2);
   }
   function getDelay(isShow) {
-    if (instance.state.isMounted && !instance.state.isVisible || currentInput.isTouch || lastTriggerEvent && lastTriggerEvent.type === "focus") {
+    if (instance2.state.isMounted && !instance2.state.isVisible || currentInput.isTouch || lastTriggerEvent && lastTriggerEvent.type === "focus") {
       return 0;
     }
-    return getValueAtIndexOrReturn(instance.props.delay, isShow ? 0 : 1, defaultProps.delay);
+    return getValueAtIndexOrReturn(instance2.props.delay, isShow ? 0 : 1, defaultProps.delay);
   }
   function handleStyles(fromHide) {
     if (fromHide === void 0) {
       fromHide = false;
     }
-    popper2.style.pointerEvents = instance.props.interactive && !fromHide ? "" : "none";
-    popper2.style.zIndex = "" + instance.props.zIndex;
+    popper2.style.pointerEvents = instance2.props.interactive && !fromHide ? "" : "none";
+    popper2.style.zIndex = "" + instance2.props.zIndex;
   }
   function invokeHook(hook, args, shouldInvokePropsHook) {
     if (shouldInvokePropsHook === void 0) {
@@ -2223,39 +2223,39 @@ function createTippy(reference2, passedProps) {
     });
     if (shouldInvokePropsHook) {
       var _instance$props;
-      (_instance$props = instance.props)[hook].apply(_instance$props, args);
+      (_instance$props = instance2.props)[hook].apply(_instance$props, args);
     }
   }
   function handleAriaContentAttribute() {
-    var aria = instance.props.aria;
+    var aria = instance2.props.aria;
     if (!aria.content) {
       return;
     }
-    var attr = "aria-" + aria.content;
+    var attr2 = "aria-" + aria.content;
     var id2 = popper2.id;
-    var nodes = normalizeToArray(instance.props.triggerTarget || reference2);
+    var nodes = normalizeToArray(instance2.props.triggerTarget || reference2);
     nodes.forEach(function(node) {
-      var currentValue = node.getAttribute(attr);
-      if (instance.state.isVisible) {
-        node.setAttribute(attr, currentValue ? currentValue + " " + id2 : id2);
+      var currentValue = node.getAttribute(attr2);
+      if (instance2.state.isVisible) {
+        node.setAttribute(attr2, currentValue ? currentValue + " " + id2 : id2);
       } else {
         var nextValue = currentValue && currentValue.replace(id2, "").trim();
         if (nextValue) {
-          node.setAttribute(attr, nextValue);
+          node.setAttribute(attr2, nextValue);
         } else {
-          node.removeAttribute(attr);
+          node.removeAttribute(attr2);
         }
       }
     });
   }
   function handleAriaExpandedAttribute() {
-    if (hasAriaExpanded || !instance.props.aria.expanded) {
+    if (hasAriaExpanded || !instance2.props.aria.expanded) {
       return;
     }
-    var nodes = normalizeToArray(instance.props.triggerTarget || reference2);
+    var nodes = normalizeToArray(instance2.props.triggerTarget || reference2);
     nodes.forEach(function(node) {
-      if (instance.props.interactive) {
-        node.setAttribute("aria-expanded", instance.state.isVisible && node === getCurrentTarget() ? "true" : "false");
+      if (instance2.props.interactive) {
+        node.setAttribute("aria-expanded", instance2.state.isVisible && node === getCurrentTarget() ? "true" : "false");
       } else {
         node.removeAttribute("aria-expanded");
       }
@@ -2274,29 +2274,29 @@ function createTippy(reference2, passedProps) {
       }
     }
     var actualTarget = event.composedPath && event.composedPath()[0] || event.target;
-    if (instance.props.interactive && actualContains(popper2, actualTarget)) {
+    if (instance2.props.interactive && actualContains(popper2, actualTarget)) {
       return;
     }
-    if (normalizeToArray(instance.props.triggerTarget || reference2).some(function(el) {
+    if (normalizeToArray(instance2.props.triggerTarget || reference2).some(function(el) {
       return actualContains(el, actualTarget);
     })) {
       if (currentInput.isTouch) {
         return;
       }
-      if (instance.state.isVisible && instance.props.trigger.indexOf("click") >= 0) {
+      if (instance2.state.isVisible && instance2.props.trigger.indexOf("click") >= 0) {
         return;
       }
     } else {
-      invokeHook("onClickOutside", [instance, event]);
+      invokeHook("onClickOutside", [instance2, event]);
     }
-    if (instance.props.hideOnClick === true) {
-      instance.clearDelayTimeouts();
-      instance.hide();
+    if (instance2.props.hideOnClick === true) {
+      instance2.clearDelayTimeouts();
+      instance2.hide();
       didHideDueToDocumentMouseDown = true;
       setTimeout(function() {
         didHideDueToDocumentMouseDown = false;
       });
-      if (!instance.state.isMounted) {
+      if (!instance2.state.isMounted) {
         removeDocumentPress();
       }
     }
@@ -2323,7 +2323,7 @@ function createTippy(reference2, passedProps) {
   }
   function onTransitionedOut(duration, callback) {
     onTransitionEnd(duration, function() {
-      if (!instance.state.isVisible && popper2.parentNode && popper2.parentNode.contains(popper2)) {
+      if (!instance2.state.isVisible && popper2.parentNode && popper2.parentNode.contains(popper2)) {
         callback();
       }
     });
@@ -2350,7 +2350,7 @@ function createTippy(reference2, passedProps) {
     if (options === void 0) {
       options = false;
     }
-    var nodes = normalizeToArray(instance.props.triggerTarget || reference2);
+    var nodes = normalizeToArray(instance2.props.triggerTarget || reference2);
     nodes.forEach(function(node) {
       node.addEventListener(eventType, handler, options);
       listeners.push({
@@ -2370,7 +2370,7 @@ function createTippy(reference2, passedProps) {
         passive: true
       });
     }
-    splitBySpaces(instance.props.trigger).forEach(function(eventType) {
+    splitBySpaces(instance2.props.trigger).forEach(function(eventType) {
       if (eventType === "manual") {
         return;
       }
@@ -2398,19 +2398,19 @@ function createTippy(reference2, passedProps) {
   function onTrigger2(event) {
     var _lastTriggerEvent;
     var shouldScheduleClickHide = false;
-    if (!instance.state.isEnabled || isEventListenerStopped(event) || didHideDueToDocumentMouseDown) {
+    if (!instance2.state.isEnabled || isEventListenerStopped(event) || didHideDueToDocumentMouseDown) {
       return;
     }
     var wasFocused = ((_lastTriggerEvent = lastTriggerEvent) == null ? void 0 : _lastTriggerEvent.type) === "focus";
     lastTriggerEvent = event;
     currentTarget = event.currentTarget;
     handleAriaExpandedAttribute();
-    if (!instance.state.isVisible && isMouseEvent(event)) {
+    if (!instance2.state.isVisible && isMouseEvent(event)) {
       mouseMoveListeners.forEach(function(listener) {
         return listener(event);
       });
     }
-    if (event.type === "click" && (instance.props.trigger.indexOf("mouseenter") < 0 || isVisibleFromClick) && instance.props.hideOnClick !== false && instance.state.isVisible) {
+    if (event.type === "click" && (instance2.props.trigger.indexOf("mouseenter") < 0 || isVisibleFromClick) && instance2.props.hideOnClick !== false && instance2.state.isVisible) {
       shouldScheduleClickHide = true;
     } else {
       scheduleShow(event);
@@ -2430,8 +2430,8 @@ function createTippy(reference2, passedProps) {
     }
     var popperTreeData = getNestedPopperTree().concat(popper2).map(function(popper22) {
       var _instance$popperInsta;
-      var instance2 = popper22._tippy;
-      var state2 = (_instance$popperInsta = instance2.popperInstance) == null ? void 0 : _instance$popperInsta.state;
+      var instance22 = popper22._tippy;
+      var state2 = (_instance$popperInsta = instance22.popperInstance) == null ? void 0 : _instance$popperInsta.state;
       if (state2) {
         return {
           popperRect: popper22.getBoundingClientRect(),
@@ -2447,21 +2447,21 @@ function createTippy(reference2, passedProps) {
     }
   }
   function onMouseLeave(event) {
-    var shouldBail = isEventListenerStopped(event) || instance.props.trigger.indexOf("click") >= 0 && isVisibleFromClick;
+    var shouldBail = isEventListenerStopped(event) || instance2.props.trigger.indexOf("click") >= 0 && isVisibleFromClick;
     if (shouldBail) {
       return;
     }
-    if (instance.props.interactive) {
-      instance.hideWithInteractivity(event);
+    if (instance2.props.interactive) {
+      instance2.hideWithInteractivity(event);
       return;
     }
     scheduleHide(event);
   }
   function onBlurOrFocusOut(event) {
-    if (instance.props.trigger.indexOf("focusin") < 0 && event.target !== getCurrentTarget()) {
+    if (instance2.props.trigger.indexOf("focusin") < 0 && event.target !== getCurrentTarget()) {
       return;
     }
-    if (instance.props.interactive && event.relatedTarget && popper2.contains(event.relatedTarget)) {
+    if (instance2.props.interactive && event.relatedTarget && popper2.contains(event.relatedTarget)) {
       return;
     }
     scheduleHide(event);
@@ -2471,7 +2471,7 @@ function createTippy(reference2, passedProps) {
   }
   function createPopperInstance() {
     destroyPopperInstance();
-    var _instance$props2 = instance.props, popperOptions = _instance$props2.popperOptions, placement = _instance$props2.placement, offset2 = _instance$props2.offset, getReferenceClientRect = _instance$props2.getReferenceClientRect, moveTransition = _instance$props2.moveTransition;
+    var _instance$props2 = instance2.props, popperOptions = _instance$props2.popperOptions, placement = _instance$props2.placement, offset2 = _instance$props2.offset, getReferenceClientRect = _instance$props2.getReferenceClientRect, moveTransition = _instance$props2.moveTransition;
     var arrow2 = getIsDefaultRenderFn() ? getChildren(popper2).arrow : null;
     var computedReference = getReferenceClientRect ? {
       getBoundingClientRect: getReferenceClientRect,
@@ -2486,14 +2486,14 @@ function createTippy(reference2, passedProps) {
         var state2 = _ref2.state;
         if (getIsDefaultRenderFn()) {
           var _getDefaultTemplateCh = getDefaultTemplateChildren(), box = _getDefaultTemplateCh.box;
-          ["placement", "reference-hidden", "escaped"].forEach(function(attr) {
-            if (attr === "placement") {
+          ["placement", "reference-hidden", "escaped"].forEach(function(attr2) {
+            if (attr2 === "placement") {
               box.setAttribute("data-placement", state2.placement);
             } else {
-              if (state2.attributes.popper["data-popper-" + attr]) {
-                box.setAttribute("data-" + attr, "");
+              if (state2.attributes.popper["data-popper-" + attr2]) {
+                box.setAttribute("data-" + attr2, "");
               } else {
-                box.removeAttribute("data-" + attr);
+                box.removeAttribute("data-" + attr2);
               }
             }
           });
@@ -2537,23 +2537,23 @@ function createTippy(reference2, passedProps) {
       });
     }
     modifiers.push.apply(modifiers, (popperOptions == null ? void 0 : popperOptions.modifiers) || []);
-    instance.popperInstance = createPopper(computedReference, popper2, Object.assign({}, popperOptions, {
+    instance2.popperInstance = createPopper(computedReference, popper2, Object.assign({}, popperOptions, {
       placement,
       onFirstUpdate,
       modifiers
     }));
   }
   function destroyPopperInstance() {
-    if (instance.popperInstance) {
-      instance.popperInstance.destroy();
-      instance.popperInstance = null;
+    if (instance2.popperInstance) {
+      instance2.popperInstance.destroy();
+      instance2.popperInstance = null;
     }
   }
   function mount() {
-    var appendTo = instance.props.appendTo;
+    var appendTo = instance2.props.appendTo;
     var parentNode;
     var node = getCurrentTarget();
-    if (instance.props.interactive && appendTo === TIPPY_DEFAULT_APPEND_TO || appendTo === "parent") {
+    if (instance2.props.interactive && appendTo === TIPPY_DEFAULT_APPEND_TO || appendTo === "parent") {
       parentNode = node.parentNode;
     } else {
       parentNode = invokeWithArgsOrReturn(appendTo, [node]);
@@ -2561,16 +2561,16 @@ function createTippy(reference2, passedProps) {
     if (!parentNode.contains(popper2)) {
       parentNode.appendChild(popper2);
     }
-    instance.state.isMounted = true;
+    instance2.state.isMounted = true;
     createPopperInstance();
   }
   function getNestedPopperTree() {
     return arrayFrom(popper2.querySelectorAll("[data-tippy-root]"));
   }
   function scheduleShow(event) {
-    instance.clearDelayTimeouts();
+    instance2.clearDelayTimeouts();
     if (event) {
-      invokeHook("onTrigger", [instance, event]);
+      invokeHook("onTrigger", [instance2, event]);
     }
     addDocumentPress();
     var delay = getDelay(true);
@@ -2580,41 +2580,41 @@ function createTippy(reference2, passedProps) {
     }
     if (delay) {
       showTimeout = setTimeout(function() {
-        instance.show();
+        instance2.show();
       }, delay);
     } else {
-      instance.show();
+      instance2.show();
     }
   }
   function scheduleHide(event) {
-    instance.clearDelayTimeouts();
-    invokeHook("onUntrigger", [instance, event]);
-    if (!instance.state.isVisible) {
+    instance2.clearDelayTimeouts();
+    invokeHook("onUntrigger", [instance2, event]);
+    if (!instance2.state.isVisible) {
       removeDocumentPress();
       return;
     }
-    if (instance.props.trigger.indexOf("mouseenter") >= 0 && instance.props.trigger.indexOf("click") >= 0 && ["mouseleave", "mousemove"].indexOf(event.type) >= 0 && isVisibleFromClick) {
+    if (instance2.props.trigger.indexOf("mouseenter") >= 0 && instance2.props.trigger.indexOf("click") >= 0 && ["mouseleave", "mousemove"].indexOf(event.type) >= 0 && isVisibleFromClick) {
       return;
     }
     var delay = getDelay(false);
     if (delay) {
       hideTimeout = setTimeout(function() {
-        if (instance.state.isVisible) {
-          instance.hide();
+        if (instance2.state.isVisible) {
+          instance2.hide();
         }
       }, delay);
     } else {
       scheduleHideAnimationFrame = requestAnimationFrame(function() {
-        instance.hide();
+        instance2.hide();
       });
     }
   }
   function enable() {
-    instance.state.isEnabled = true;
+    instance2.state.isEnabled = true;
   }
   function disable() {
-    instance.hide();
-    instance.state.isEnabled = false;
+    instance2.hide();
+    instance2.state.isEnabled = false;
   }
   function clearDelayTimeouts() {
     clearTimeout(showTimeout);
@@ -2622,16 +2622,16 @@ function createTippy(reference2, passedProps) {
     cancelAnimationFrame(scheduleHideAnimationFrame);
   }
   function setProps(partialProps) {
-    if (instance.state.isDestroyed) {
+    if (instance2.state.isDestroyed) {
       return;
     }
-    invokeHook("onBeforeUpdate", [instance, partialProps]);
+    invokeHook("onBeforeUpdate", [instance2, partialProps]);
     removeListeners();
-    var prevProps = instance.props;
+    var prevProps = instance2.props;
     var nextProps = evaluateProps(reference2, Object.assign({}, prevProps, removeUndefinedProps(partialProps), {
       ignoreAttributes: true
     }));
-    instance.props = nextProps;
+    instance2.props = nextProps;
     addListeners();
     if (prevProps.interactiveDebounce !== nextProps.interactiveDebounce) {
       cleanupInteractiveMouseListeners();
@@ -2649,42 +2649,42 @@ function createTippy(reference2, passedProps) {
     if (onUpdate) {
       onUpdate(prevProps, nextProps);
     }
-    if (instance.popperInstance) {
+    if (instance2.popperInstance) {
       createPopperInstance();
       getNestedPopperTree().forEach(function(nestedPopper) {
         requestAnimationFrame(nestedPopper._tippy.popperInstance.forceUpdate);
       });
     }
-    invokeHook("onAfterUpdate", [instance, partialProps]);
+    invokeHook("onAfterUpdate", [instance2, partialProps]);
   }
   function setContent2(content) {
-    instance.setProps({
+    instance2.setProps({
       content
     });
   }
   function show() {
-    var isAlreadyVisible = instance.state.isVisible;
-    var isDestroyed = instance.state.isDestroyed;
-    var isDisabled = !instance.state.isEnabled;
-    var isTouchAndTouchDisabled = currentInput.isTouch && !instance.props.touch;
-    var duration = getValueAtIndexOrReturn(instance.props.duration, 0, defaultProps.duration);
+    var isAlreadyVisible = instance2.state.isVisible;
+    var isDestroyed = instance2.state.isDestroyed;
+    var isDisabled = !instance2.state.isEnabled;
+    var isTouchAndTouchDisabled = currentInput.isTouch && !instance2.props.touch;
+    var duration = getValueAtIndexOrReturn(instance2.props.duration, 0, defaultProps.duration);
     if (isAlreadyVisible || isDestroyed || isDisabled || isTouchAndTouchDisabled) {
       return;
     }
     if (getCurrentTarget().hasAttribute("disabled")) {
       return;
     }
-    invokeHook("onShow", [instance], false);
-    if (instance.props.onShow(instance) === false) {
+    invokeHook("onShow", [instance2], false);
+    if (instance2.props.onShow(instance2) === false) {
       return;
     }
-    instance.state.isVisible = true;
+    instance2.state.isVisible = true;
     if (getIsDefaultRenderFn()) {
       popper2.style.visibility = "visible";
     }
     handleStyles();
     addDocumentPress();
-    if (!instance.state.isMounted) {
+    if (!instance2.state.isMounted) {
       popper2.style.transition = "none";
     }
     if (getIsDefaultRenderFn()) {
@@ -2693,45 +2693,45 @@ function createTippy(reference2, passedProps) {
     }
     onFirstUpdate = function onFirstUpdate2() {
       var _instance$popperInsta2;
-      if (!instance.state.isVisible || ignoreOnFirstUpdate) {
+      if (!instance2.state.isVisible || ignoreOnFirstUpdate) {
         return;
       }
       ignoreOnFirstUpdate = true;
       void popper2.offsetHeight;
-      popper2.style.transition = instance.props.moveTransition;
-      if (getIsDefaultRenderFn() && instance.props.animation) {
+      popper2.style.transition = instance2.props.moveTransition;
+      if (getIsDefaultRenderFn() && instance2.props.animation) {
         var _getDefaultTemplateCh3 = getDefaultTemplateChildren(), _box = _getDefaultTemplateCh3.box, _content = _getDefaultTemplateCh3.content;
         setTransitionDuration([_box, _content], duration);
         setVisibilityState([_box, _content], "visible");
       }
       handleAriaContentAttribute();
       handleAriaExpandedAttribute();
-      pushIfUnique(mountedInstances, instance);
-      (_instance$popperInsta2 = instance.popperInstance) == null ? void 0 : _instance$popperInsta2.forceUpdate();
-      invokeHook("onMount", [instance]);
-      if (instance.props.animation && getIsDefaultRenderFn()) {
+      pushIfUnique(mountedInstances, instance2);
+      (_instance$popperInsta2 = instance2.popperInstance) == null ? void 0 : _instance$popperInsta2.forceUpdate();
+      invokeHook("onMount", [instance2]);
+      if (instance2.props.animation && getIsDefaultRenderFn()) {
         onTransitionedIn(duration, function() {
-          instance.state.isShown = true;
-          invokeHook("onShown", [instance]);
+          instance2.state.isShown = true;
+          invokeHook("onShown", [instance2]);
         });
       }
     };
     mount();
   }
   function hide2() {
-    var isAlreadyHidden = !instance.state.isVisible;
-    var isDestroyed = instance.state.isDestroyed;
-    var isDisabled = !instance.state.isEnabled;
-    var duration = getValueAtIndexOrReturn(instance.props.duration, 1, defaultProps.duration);
+    var isAlreadyHidden = !instance2.state.isVisible;
+    var isDestroyed = instance2.state.isDestroyed;
+    var isDisabled = !instance2.state.isEnabled;
+    var duration = getValueAtIndexOrReturn(instance2.props.duration, 1, defaultProps.duration);
     if (isAlreadyHidden || isDestroyed || isDisabled) {
       return;
     }
-    invokeHook("onHide", [instance], false);
-    if (instance.props.onHide(instance) === false) {
+    invokeHook("onHide", [instance2], false);
+    if (instance2.props.onHide(instance2) === false) {
       return;
     }
-    instance.state.isVisible = false;
-    instance.state.isShown = false;
+    instance2.state.isVisible = false;
+    instance2.state.isShown = false;
     ignoreOnFirstUpdate = false;
     isVisibleFromClick = false;
     if (getIsDefaultRenderFn()) {
@@ -2742,19 +2742,19 @@ function createTippy(reference2, passedProps) {
     handleStyles(true);
     if (getIsDefaultRenderFn()) {
       var _getDefaultTemplateCh4 = getDefaultTemplateChildren(), box = _getDefaultTemplateCh4.box, content = _getDefaultTemplateCh4.content;
-      if (instance.props.animation) {
+      if (instance2.props.animation) {
         setTransitionDuration([box, content], duration);
         setVisibilityState([box, content], "hidden");
       }
     }
     handleAriaContentAttribute();
     handleAriaExpandedAttribute();
-    if (instance.props.animation) {
+    if (instance2.props.animation) {
       if (getIsDefaultRenderFn()) {
-        onTransitionedOut(duration, instance.unmount);
+        onTransitionedOut(duration, instance2.unmount);
       }
     } else {
-      instance.unmount();
+      instance2.unmount();
     }
   }
   function hideWithInteractivity(event) {
@@ -2763,10 +2763,10 @@ function createTippy(reference2, passedProps) {
     debouncedOnMouseMove(event);
   }
   function unmount() {
-    if (instance.state.isVisible) {
-      instance.hide();
+    if (instance2.state.isVisible) {
+      instance2.hide();
     }
-    if (!instance.state.isMounted) {
+    if (!instance2.state.isMounted) {
       return;
     }
     destroyPopperInstance();
@@ -2777,21 +2777,21 @@ function createTippy(reference2, passedProps) {
       popper2.parentNode.removeChild(popper2);
     }
     mountedInstances = mountedInstances.filter(function(i) {
-      return i !== instance;
+      return i !== instance2;
     });
-    instance.state.isMounted = false;
-    invokeHook("onHidden", [instance]);
+    instance2.state.isMounted = false;
+    invokeHook("onHidden", [instance2]);
   }
   function destroy() {
-    if (instance.state.isDestroyed) {
+    if (instance2.state.isDestroyed) {
       return;
     }
-    instance.clearDelayTimeouts();
-    instance.unmount();
+    instance2.clearDelayTimeouts();
+    instance2.unmount();
     removeListeners();
     delete reference2._tippy;
-    instance.state.isDestroyed = true;
-    invokeHook("onDestroy", [instance]);
+    instance2.state.isDestroyed = true;
+    invokeHook("onDestroy", [instance2]);
   }
 }
 function tippy(targets, optionalProps) {
@@ -2805,9 +2805,9 @@ function tippy(targets, optionalProps) {
   });
   var elements = getArrayOfElements(targets);
   var instances = elements.reduce(function(acc, reference2) {
-    var instance = reference2 && createTippy(reference2, passedProps);
-    if (instance) {
-      acc.push(instance);
+    var instance2 = reference2 && createTippy(reference2, passedProps);
+    if (instance2) {
+      acc.push(instance2);
     }
     return acc;
   }, []);
@@ -2863,16 +2863,16 @@ document.querySelector("[data-fls-tippy]") ? tippy("[data-fls-tippy]", {
         </video>
       `;
   },
-  onShow(instance) {
-    const v = instance.popper.querySelector("video");
+  onShow(instance2) {
+    const v = instance2.popper.querySelector("video");
     if (v) {
       v.currentTime = 0;
       v.play().catch(() => {
       });
     }
   },
-  onHide(instance) {
-    const v = instance.popper.querySelector("video");
+  onHide(instance2) {
+    const v = instance2.popper.querySelector("video");
     if (v) v.pause();
   }
 }) : null;
@@ -2913,9 +2913,9 @@ function pageNavigation() {
           navigatorCurrentItem = document.querySelector(`[data-fls-scrollto="#${targetElement.id}"]`);
         } else if (targetElement.classList.length) {
           for (let index = 0; index < targetElement.classList.length; index++) {
-            const element = targetElement.classList[index];
-            if (document.querySelector(`[data-fls-scrollto=".${element}"]`)) {
-              navigatorCurrentItem = document.querySelector(`[data-fls-scrollto=".${element}"]`);
+            const element2 = targetElement.classList[index];
+            if (document.querySelector(`[data-fls-scrollto=".${element2}"]`)) {
+              navigatorCurrentItem = document.querySelector(`[data-fls-scrollto=".${element2}"]`);
               break;
             }
           }
@@ -3201,12 +3201,12 @@ document.addEventListener("keydown", (e) => {
     }
   }
 });
-async function copyToClipboard(text) {
+async function copyToClipboard(text2) {
   try {
-    await navigator.clipboard.writeText(text);
+    await navigator.clipboard.writeText(text2);
   } catch {
     const ta = document.createElement("textarea");
-    ta.value = text;
+    ta.value = text2;
     ta.style.position = "fixed";
     ta.style.opacity = "0";
     document.body.appendChild(ta);
@@ -3215,13 +3215,13 @@ async function copyToClipboard(text) {
     ta.remove();
   }
 }
-function flashCopiedTooltip(el, { text = "Copied", ms = 1e3 } = {}) {
+function flashCopiedTooltip(el, { text: text2 = "Copied", ms = 1e3 } = {}) {
   const hasAttr = el.hasAttribute("data-fls-tippy-content");
   const prev = hasAttr ? el.getAttribute("data-fls-tippy-content") : null;
-  el.setAttribute("data-fls-tippy-content", text);
+  el.setAttribute("data-fls-tippy-content", text2);
   if (el._tippy) {
     const inst = el._tippy;
-    inst.setContent(text);
+    inst.setContent(text2);
     inst.show();
     setTimeout(() => {
       if (prev !== null) {
@@ -3431,3 +3431,5367 @@ function initCatalogToggle() {
   });
 }
 window.addEventListener("load", initCatalogToggle);
+function noop() {
+}
+function run(fn2) {
+  return fn2();
+}
+function blank_object() {
+  return /* @__PURE__ */ Object.create(null);
+}
+function run_all(fns) {
+  fns.forEach(run);
+}
+function is_function(thing) {
+  return typeof thing === "function";
+}
+function safe_not_equal(a, b) {
+  return a != a ? b == b : a !== b || a && typeof a === "object" || typeof a === "function";
+}
+function is_empty(obj) {
+  return Object.keys(obj).length === 0;
+}
+function subscribe(store, ...callbacks) {
+  if (store == null) {
+    for (const callback of callbacks) {
+      callback(void 0);
+    }
+    return noop;
+  }
+  const unsub = store.subscribe(...callbacks);
+  return unsub.unsubscribe ? () => unsub.unsubscribe() : unsub;
+}
+const is_client = typeof window !== "undefined";
+let now = is_client ? () => window.performance.now() : () => Date.now();
+let raf = is_client ? (cb) => requestAnimationFrame(cb) : noop;
+const tasks = /* @__PURE__ */ new Set();
+function run_tasks(now2) {
+  tasks.forEach((task) => {
+    if (!task.c(now2)) {
+      tasks.delete(task);
+      task.f();
+    }
+  });
+  if (tasks.size !== 0) raf(run_tasks);
+}
+function loop(callback) {
+  let task;
+  if (tasks.size === 0) raf(run_tasks);
+  return {
+    promise: new Promise((fulfill) => {
+      tasks.add(task = { c: callback, f: fulfill });
+    }),
+    abort() {
+      tasks.delete(task);
+    }
+  };
+}
+function append(target, node) {
+  target.appendChild(node);
+}
+function append_styles(target, style_sheet_id, styles) {
+  const append_styles_to = get_root_for_style(target);
+  if (!append_styles_to.getElementById(style_sheet_id)) {
+    const style = element("style");
+    style.id = style_sheet_id;
+    style.textContent = styles;
+    append_stylesheet(append_styles_to, style);
+  }
+}
+function get_root_for_style(node) {
+  if (!node) return document;
+  const root = node.getRootNode ? node.getRootNode() : node.ownerDocument;
+  if (root && /** @type {ShadowRoot} */
+  root.host) {
+    return (
+      /** @type {ShadowRoot} */
+      root
+    );
+  }
+  return node.ownerDocument;
+}
+function append_stylesheet(node, style) {
+  append(
+    /** @type {Document} */
+    node.head || node,
+    style
+  );
+  return style.sheet;
+}
+function insert(target, node, anchor) {
+  target.insertBefore(node, anchor || null);
+}
+function detach(node) {
+  if (node.parentNode) {
+    node.parentNode.removeChild(node);
+  }
+}
+function destroy_each(iterations, detaching) {
+  for (let i = 0; i < iterations.length; i += 1) {
+    if (iterations[i]) iterations[i].d(detaching);
+  }
+}
+function element(name) {
+  return document.createElement(name);
+}
+function svg_element(name) {
+  return document.createElementNS("http://www.w3.org/2000/svg", name);
+}
+function text(data) {
+  return document.createTextNode(data);
+}
+function space() {
+  return text(" ");
+}
+function empty() {
+  return text("");
+}
+function listen(node, event, handler, options) {
+  node.addEventListener(event, handler, options);
+  return () => node.removeEventListener(event, handler, options);
+}
+function prevent_default(fn2) {
+  return function(event) {
+    event.preventDefault();
+    return fn2.call(this, event);
+  };
+}
+function attr(node, attribute, value) {
+  if (value == null) node.removeAttribute(attribute);
+  else if (node.getAttribute(attribute) !== value) node.setAttribute(attribute, value);
+}
+function children(element2) {
+  return Array.from(element2.childNodes);
+}
+function set_data(text2, data) {
+  data = "" + data;
+  if (text2.data === data) return;
+  text2.data = /** @type {string} */
+  data;
+}
+function toggle_class(element2, name, toggle) {
+  element2.classList.toggle(name, !!toggle);
+}
+function custom_event(type, detail, { bubbles = false, cancelable = false } = {}) {
+  return new CustomEvent(type, { detail, bubbles, cancelable });
+}
+class HtmlTag {
+  /**
+   * @private
+   * @default false
+   */
+  is_svg = false;
+  /** parent for creating node */
+  e = void 0;
+  /** html tag nodes */
+  n = void 0;
+  /** target */
+  t = void 0;
+  /** anchor */
+  a = void 0;
+  constructor(is_svg = false) {
+    this.is_svg = is_svg;
+    this.e = this.n = null;
+  }
+  /**
+   * @param {string} html
+   * @returns {void}
+   */
+  c(html) {
+    this.h(html);
+  }
+  /**
+   * @param {string} html
+   * @param {HTMLElement | SVGElement} target
+   * @param {HTMLElement | SVGElement} anchor
+   * @returns {void}
+   */
+  m(html, target, anchor = null) {
+    if (!this.e) {
+      if (this.is_svg)
+        this.e = svg_element(
+          /** @type {keyof SVGElementTagNameMap} */
+          target.nodeName
+        );
+      else
+        this.e = element(
+          /** @type {keyof HTMLElementTagNameMap} */
+          target.nodeType === 11 ? "TEMPLATE" : target.nodeName
+        );
+      this.t = target.tagName !== "TEMPLATE" ? target : (
+        /** @type {HTMLTemplateElement} */
+        target.content
+      );
+      this.c(html);
+    }
+    this.i(anchor);
+  }
+  /**
+   * @param {string} html
+   * @returns {void}
+   */
+  h(html) {
+    this.e.innerHTML = html;
+    this.n = Array.from(
+      this.e.nodeName === "TEMPLATE" ? this.e.content.childNodes : this.e.childNodes
+    );
+  }
+  /**
+   * @returns {void} */
+  i(anchor) {
+    for (let i = 0; i < this.n.length; i += 1) {
+      insert(this.t, this.n[i], anchor);
+    }
+  }
+  /**
+   * @param {string} html
+   * @returns {void}
+   */
+  p(html) {
+    this.d();
+    this.h(html);
+    this.i(this.a);
+  }
+  /**
+   * @returns {void} */
+  d() {
+    this.n.forEach(detach);
+  }
+}
+function get_custom_elements_slots(element2) {
+  const result = {};
+  element2.childNodes.forEach(
+    /** @param {Element} node */
+    (node) => {
+      result[node.slot || "default"] = true;
+    }
+  );
+  return result;
+}
+let current_component;
+function set_current_component(component) {
+  current_component = component;
+}
+function get_current_component() {
+  if (!current_component) throw new Error("Function called outside component initialization");
+  return current_component;
+}
+function onMount2(fn2) {
+  get_current_component().$$.on_mount.push(fn2);
+}
+function createEventDispatcher() {
+  const component = get_current_component();
+  return (type, detail, { cancelable = false } = {}) => {
+    const callbacks = component.$$.callbacks[type];
+    if (callbacks) {
+      const event = custom_event(
+        /** @type {string} */
+        type,
+        detail,
+        { cancelable }
+      );
+      callbacks.slice().forEach((fn2) => {
+        fn2.call(component, event);
+      });
+      return !event.defaultPrevented;
+    }
+    return true;
+  };
+}
+const dirty_components = [];
+const binding_callbacks = [];
+let render_callbacks = [];
+const flush_callbacks = [];
+const resolved_promise = /* @__PURE__ */ Promise.resolve();
+let update_scheduled = false;
+function schedule_update() {
+  if (!update_scheduled) {
+    update_scheduled = true;
+    resolved_promise.then(flush);
+  }
+}
+function add_render_callback(fn2) {
+  render_callbacks.push(fn2);
+}
+const seen_callbacks = /* @__PURE__ */ new Set();
+let flushidx = 0;
+function flush() {
+  if (flushidx !== 0) {
+    return;
+  }
+  const saved_component = current_component;
+  do {
+    try {
+      while (flushidx < dirty_components.length) {
+        const component = dirty_components[flushidx];
+        flushidx++;
+        set_current_component(component);
+        update(component.$$);
+      }
+    } catch (e) {
+      dirty_components.length = 0;
+      flushidx = 0;
+      throw e;
+    }
+    set_current_component(null);
+    dirty_components.length = 0;
+    flushidx = 0;
+    while (binding_callbacks.length) binding_callbacks.pop()();
+    for (let i = 0; i < render_callbacks.length; i += 1) {
+      const callback = render_callbacks[i];
+      if (!seen_callbacks.has(callback)) {
+        seen_callbacks.add(callback);
+        callback();
+      }
+    }
+    render_callbacks.length = 0;
+  } while (dirty_components.length);
+  while (flush_callbacks.length) {
+    flush_callbacks.pop()();
+  }
+  update_scheduled = false;
+  seen_callbacks.clear();
+  set_current_component(saved_component);
+}
+function update($$) {
+  if ($$.fragment !== null) {
+    $$.update();
+    run_all($$.before_update);
+    const dirty = $$.dirty;
+    $$.dirty = [-1];
+    $$.fragment && $$.fragment.p($$.ctx, dirty);
+    $$.after_update.forEach(add_render_callback);
+  }
+}
+function flush_render_callbacks(fns) {
+  const filtered = [];
+  const targets = [];
+  render_callbacks.forEach((c) => fns.indexOf(c) === -1 ? filtered.push(c) : targets.push(c));
+  targets.forEach((c) => c());
+  render_callbacks = filtered;
+}
+const outroing = /* @__PURE__ */ new Set();
+let outros;
+function group_outros() {
+  outros = {
+    r: 0,
+    c: [],
+    p: outros
+    // parent group
+  };
+}
+function check_outros() {
+  if (!outros.r) {
+    run_all(outros.c);
+  }
+  outros = outros.p;
+}
+function transition_in(block, local) {
+  if (block && block.i) {
+    outroing.delete(block);
+    block.i(local);
+  }
+}
+function transition_out(block, local, detach2, callback) {
+  if (block && block.o) {
+    if (outroing.has(block)) return;
+    outroing.add(block);
+    outros.c.push(() => {
+      outroing.delete(block);
+      if (callback) {
+        if (detach2) block.d(1);
+        callback();
+      }
+    });
+    block.o(local);
+  } else if (callback) {
+    callback();
+  }
+}
+function ensure_array_like(array_like_or_iterator) {
+  return array_like_or_iterator?.length !== void 0 ? array_like_or_iterator : Array.from(array_like_or_iterator);
+}
+function create_component(block) {
+  block && block.c();
+}
+function mount_component(component, target, anchor) {
+  const { fragment, after_update } = component.$$;
+  fragment && fragment.m(target, anchor);
+  add_render_callback(() => {
+    const new_on_destroy = component.$$.on_mount.map(run).filter(is_function);
+    if (component.$$.on_destroy) {
+      component.$$.on_destroy.push(...new_on_destroy);
+    } else {
+      run_all(new_on_destroy);
+    }
+    component.$$.on_mount = [];
+  });
+  after_update.forEach(add_render_callback);
+}
+function destroy_component(component, detaching) {
+  const $$ = component.$$;
+  if ($$.fragment !== null) {
+    flush_render_callbacks($$.after_update);
+    run_all($$.on_destroy);
+    $$.fragment && $$.fragment.d(detaching);
+    $$.on_destroy = $$.fragment = null;
+    $$.ctx = [];
+  }
+}
+function make_dirty(component, i) {
+  if (component.$$.dirty[0] === -1) {
+    dirty_components.push(component);
+    schedule_update();
+    component.$$.dirty.fill(0);
+  }
+  component.$$.dirty[i / 31 | 0] |= 1 << i % 31;
+}
+function init(component, options, instance2, create_fragment2, not_equal, props, append_styles2 = null, dirty = [-1]) {
+  const parent_component = current_component;
+  set_current_component(component);
+  const $$ = component.$$ = {
+    fragment: null,
+    ctx: [],
+    // state
+    props,
+    update: noop,
+    not_equal,
+    bound: blank_object(),
+    // lifecycle
+    on_mount: [],
+    on_destroy: [],
+    on_disconnect: [],
+    before_update: [],
+    after_update: [],
+    context: new Map(options.context || (parent_component ? parent_component.$$.context : [])),
+    // everything else
+    callbacks: blank_object(),
+    dirty,
+    skip_bound: false,
+    root: options.target || parent_component.$$.root
+  };
+  append_styles2 && append_styles2($$.root);
+  let ready = false;
+  $$.ctx = instance2 ? instance2(component, options.props || {}, (i, ret, ...rest) => {
+    const value = rest.length ? rest[0] : ret;
+    if ($$.ctx && not_equal($$.ctx[i], $$.ctx[i] = value)) {
+      if (!$$.skip_bound && $$.bound[i]) $$.bound[i](value);
+      if (ready) make_dirty(component, i);
+    }
+    return ret;
+  }) : [];
+  $$.update();
+  ready = true;
+  run_all($$.before_update);
+  $$.fragment = create_fragment2 ? create_fragment2($$.ctx) : false;
+  if (options.target) {
+    if (options.hydrate) {
+      const nodes = children(options.target);
+      $$.fragment && $$.fragment.l(nodes);
+      nodes.forEach(detach);
+    } else {
+      $$.fragment && $$.fragment.c();
+    }
+    if (options.intro) transition_in(component.$$.fragment);
+    mount_component(component, options.target, options.anchor);
+    flush();
+  }
+  set_current_component(parent_component);
+}
+let SvelteElement;
+if (typeof HTMLElement === "function") {
+  SvelteElement = class extends HTMLElement {
+    /** The Svelte component constructor */
+    $$ctor;
+    /** Slots */
+    $$s;
+    /** The Svelte component instance */
+    $$c;
+    /** Whether or not the custom element is connected */
+    $$cn = false;
+    /** Component props data */
+    $$d = {};
+    /** `true` if currently in the process of reflecting component props back to attributes */
+    $$r = false;
+    /** @type {Record<string, CustomElementPropDefinition>} Props definition (name, reflected, type etc) */
+    $$p_d = {};
+    /** @type {Record<string, Function[]>} Event listeners */
+    $$l = {};
+    /** @type {Map<Function, Function>} Event listener unsubscribe functions */
+    $$l_u = /* @__PURE__ */ new Map();
+    constructor($$componentCtor, $$slots, use_shadow_dom) {
+      super();
+      this.$$ctor = $$componentCtor;
+      this.$$s = $$slots;
+      if (use_shadow_dom) {
+        this.attachShadow({ mode: "open" });
+      }
+    }
+    addEventListener(type, listener, options) {
+      this.$$l[type] = this.$$l[type] || [];
+      this.$$l[type].push(listener);
+      if (this.$$c) {
+        const unsub = this.$$c.$on(type, listener);
+        this.$$l_u.set(listener, unsub);
+      }
+      super.addEventListener(type, listener, options);
+    }
+    removeEventListener(type, listener, options) {
+      super.removeEventListener(type, listener, options);
+      if (this.$$c) {
+        const unsub = this.$$l_u.get(listener);
+        if (unsub) {
+          unsub();
+          this.$$l_u.delete(listener);
+        }
+      }
+      if (this.$$l[type]) {
+        const idx = this.$$l[type].indexOf(listener);
+        if (idx >= 0) {
+          this.$$l[type].splice(idx, 1);
+        }
+      }
+    }
+    async connectedCallback() {
+      this.$$cn = true;
+      if (!this.$$c) {
+        let create_slot2 = function(name) {
+          return () => {
+            let node;
+            const obj = {
+              c: function create() {
+                node = element("slot");
+                if (name !== "default") {
+                  attr(node, "name", name);
+                }
+              },
+              /**
+               * @param {HTMLElement} target
+               * @param {HTMLElement} [anchor]
+               */
+              m: function mount(target, anchor) {
+                insert(target, node, anchor);
+              },
+              d: function destroy(detaching) {
+                if (detaching) {
+                  detach(node);
+                }
+              }
+            };
+            return obj;
+          };
+        };
+        var create_slot = create_slot2;
+        await Promise.resolve();
+        if (!this.$$cn || this.$$c) {
+          return;
+        }
+        const $$slots = {};
+        const existing_slots = get_custom_elements_slots(this);
+        for (const name of this.$$s) {
+          if (name in existing_slots) {
+            $$slots[name] = [create_slot2(name)];
+          }
+        }
+        for (const attribute of this.attributes) {
+          const name = this.$$g_p(attribute.name);
+          if (!(name in this.$$d)) {
+            this.$$d[name] = get_custom_element_value(name, attribute.value, this.$$p_d, "toProp");
+          }
+        }
+        for (const key in this.$$p_d) {
+          if (!(key in this.$$d) && this[key] !== void 0) {
+            this.$$d[key] = this[key];
+            delete this[key];
+          }
+        }
+        this.$$c = new this.$$ctor({
+          target: this.shadowRoot || this,
+          props: {
+            ...this.$$d,
+            $$slots,
+            $$scope: {
+              ctx: []
+            }
+          }
+        });
+        const reflect_attributes = () => {
+          this.$$r = true;
+          for (const key in this.$$p_d) {
+            this.$$d[key] = this.$$c.$$.ctx[this.$$c.$$.props[key]];
+            if (this.$$p_d[key].reflect) {
+              const attribute_value = get_custom_element_value(
+                key,
+                this.$$d[key],
+                this.$$p_d,
+                "toAttribute"
+              );
+              if (attribute_value == null) {
+                this.removeAttribute(this.$$p_d[key].attribute || key);
+              } else {
+                this.setAttribute(this.$$p_d[key].attribute || key, attribute_value);
+              }
+            }
+          }
+          this.$$r = false;
+        };
+        this.$$c.$$.after_update.push(reflect_attributes);
+        reflect_attributes();
+        for (const type in this.$$l) {
+          for (const listener of this.$$l[type]) {
+            const unsub = this.$$c.$on(type, listener);
+            this.$$l_u.set(listener, unsub);
+          }
+        }
+        this.$$l = {};
+      }
+    }
+    // We don't need this when working within Svelte code, but for compatibility of people using this outside of Svelte
+    // and setting attributes through setAttribute etc, this is helpful
+    attributeChangedCallback(attr2, _oldValue, newValue) {
+      if (this.$$r) return;
+      attr2 = this.$$g_p(attr2);
+      this.$$d[attr2] = get_custom_element_value(attr2, newValue, this.$$p_d, "toProp");
+      this.$$c?.$set({ [attr2]: this.$$d[attr2] });
+    }
+    disconnectedCallback() {
+      this.$$cn = false;
+      Promise.resolve().then(() => {
+        if (!this.$$cn && this.$$c) {
+          this.$$c.$destroy();
+          this.$$c = void 0;
+        }
+      });
+    }
+    $$g_p(attribute_name) {
+      return Object.keys(this.$$p_d).find(
+        (key) => this.$$p_d[key].attribute === attribute_name || !this.$$p_d[key].attribute && key.toLowerCase() === attribute_name
+      ) || attribute_name;
+    }
+  };
+}
+function get_custom_element_value(prop, value, props_definition, transform) {
+  const type = props_definition[prop]?.type;
+  value = type === "Boolean" && typeof value !== "boolean" ? value != null : value;
+  if (!transform || !props_definition[prop]) {
+    return value;
+  } else if (transform === "toAttribute") {
+    switch (type) {
+      case "Object":
+      case "Array":
+        return value == null ? null : JSON.stringify(value);
+      case "Boolean":
+        return value ? "" : null;
+      case "Number":
+        return value == null ? null : value;
+      default:
+        return value;
+    }
+  } else {
+    switch (type) {
+      case "Object":
+      case "Array":
+        return value && JSON.parse(value);
+      case "Boolean":
+        return value;
+      // conversion already handled above
+      case "Number":
+        return value != null ? +value : value;
+      default:
+        return value;
+    }
+  }
+}
+function create_custom_element(Component, props_definition, slots, accessors, use_shadow_dom, extend) {
+  let Class = class extends SvelteElement {
+    constructor() {
+      super(Component, slots, use_shadow_dom);
+      this.$$p_d = props_definition;
+    }
+    static get observedAttributes() {
+      return Object.keys(props_definition).map(
+        (key) => (props_definition[key].attribute || key).toLowerCase()
+      );
+    }
+  };
+  Object.keys(props_definition).forEach((prop) => {
+    Object.defineProperty(Class.prototype, prop, {
+      get() {
+        return this.$$c && prop in this.$$c ? this.$$c[prop] : this.$$d[prop];
+      },
+      set(value) {
+        value = get_custom_element_value(prop, value, props_definition);
+        this.$$d[prop] = value;
+        this.$$c?.$set({ [prop]: value });
+      }
+    });
+  });
+  accessors.forEach((accessor) => {
+    Object.defineProperty(Class.prototype, accessor, {
+      get() {
+        return this.$$c?.[accessor];
+      }
+    });
+  });
+  Component.element = /** @type {any} */
+  Class;
+  return Class;
+}
+class SvelteComponent {
+  /**
+   * ### PRIVATE API
+   *
+   * Do not use, may change at any time
+   *
+   * @type {any}
+   */
+  $$ = void 0;
+  /**
+   * ### PRIVATE API
+   *
+   * Do not use, may change at any time
+   *
+   * @type {any}
+   */
+  $$set = void 0;
+  /** @returns {void} */
+  $destroy() {
+    destroy_component(this, 1);
+    this.$destroy = noop;
+  }
+  /**
+   * @template {Extract<keyof Events, string>} K
+   * @param {K} type
+   * @param {((e: Events[K]) => void) | null | undefined} callback
+   * @returns {() => void}
+   */
+  $on(type, callback) {
+    if (!is_function(callback)) {
+      return noop;
+    }
+    const callbacks = this.$$.callbacks[type] || (this.$$.callbacks[type] = []);
+    callbacks.push(callback);
+    return () => {
+      const index = callbacks.indexOf(callback);
+      if (index !== -1) callbacks.splice(index, 1);
+    };
+  }
+  /**
+   * @param {Partial<Props>} props
+   * @returns {void}
+   */
+  $set(props) {
+    if (this.$$set && !is_empty(props)) {
+      this.$$.skip_bound = true;
+      this.$$set(props);
+      this.$$.skip_bound = false;
+    }
+  }
+}
+const PUBLIC_VERSION = "4";
+if (typeof window !== "undefined")
+  (window.__svelte || (window.__svelte = { v: /* @__PURE__ */ new Set() })).v.add(PUBLIC_VERSION);
+const subscriber_queue = [];
+function writable(value, start2 = noop) {
+  let stop;
+  const subscribers = /* @__PURE__ */ new Set();
+  function set(new_value) {
+    if (safe_not_equal(value, new_value)) {
+      value = new_value;
+      if (stop) {
+        const run_queue = !subscriber_queue.length;
+        for (const subscriber of subscribers) {
+          subscriber[1]();
+          subscriber_queue.push(subscriber, value);
+        }
+        if (run_queue) {
+          for (let i = 0; i < subscriber_queue.length; i += 2) {
+            subscriber_queue[i][0](subscriber_queue[i + 1]);
+          }
+          subscriber_queue.length = 0;
+        }
+      }
+    }
+  }
+  function update2(fn2) {
+    set(fn2(value));
+  }
+  function subscribe2(run2, invalidate = noop) {
+    const subscriber = [run2, invalidate];
+    subscribers.add(subscriber);
+    if (subscribers.size === 1) {
+      stop = start2(set, update2) || noop;
+    }
+    run2(value);
+    return () => {
+      subscribers.delete(subscriber);
+      if (subscribers.size === 0 && stop) {
+        stop();
+        stop = null;
+      }
+    };
+  }
+  return { set, update: update2, subscribe: subscribe2 };
+}
+function is_date(obj) {
+  return Object.prototype.toString.call(obj) === "[object Date]";
+}
+function tick_spring(ctx, last_value, current_value, target_value) {
+  if (typeof current_value === "number" || is_date(current_value)) {
+    const delta = target_value - current_value;
+    const velocity = (current_value - last_value) / (ctx.dt || 1 / 60);
+    const spring2 = ctx.opts.stiffness * delta;
+    const damper = ctx.opts.damping * velocity;
+    const acceleration = (spring2 - damper) * ctx.inv_mass;
+    const d = (velocity + acceleration) * ctx.dt;
+    if (Math.abs(d) < ctx.opts.precision && Math.abs(delta) < ctx.opts.precision) {
+      return target_value;
+    } else {
+      ctx.settled = false;
+      return is_date(current_value) ? new Date(current_value.getTime() + d) : current_value + d;
+    }
+  } else if (Array.isArray(current_value)) {
+    return current_value.map(
+      (_, i) => tick_spring(ctx, last_value[i], current_value[i], target_value[i])
+    );
+  } else if (typeof current_value === "object") {
+    const next_value = {};
+    for (const k in current_value) {
+      next_value[k] = tick_spring(ctx, last_value[k], current_value[k], target_value[k]);
+    }
+    return next_value;
+  } else {
+    throw new Error(`Cannot spring ${typeof current_value} values`);
+  }
+}
+function spring(value, opts = {}) {
+  const store = writable(value);
+  const { stiffness = 0.15, damping = 0.8, precision = 0.01 } = opts;
+  let last_time;
+  let task;
+  let current_token;
+  let last_value = value;
+  let target_value = value;
+  let inv_mass = 1;
+  let inv_mass_recovery_rate = 0;
+  let cancel_task = false;
+  function set(new_value, opts2 = {}) {
+    target_value = new_value;
+    const token = current_token = {};
+    if (value == null || opts2.hard || spring2.stiffness >= 1 && spring2.damping >= 1) {
+      cancel_task = true;
+      last_time = now();
+      last_value = new_value;
+      store.set(value = target_value);
+      return Promise.resolve();
+    } else if (opts2.soft) {
+      const rate = opts2.soft === true ? 0.5 : +opts2.soft;
+      inv_mass_recovery_rate = 1 / (rate * 60);
+      inv_mass = 0;
+    }
+    if (!task) {
+      last_time = now();
+      cancel_task = false;
+      task = loop((now2) => {
+        if (cancel_task) {
+          cancel_task = false;
+          task = null;
+          return false;
+        }
+        inv_mass = Math.min(inv_mass + inv_mass_recovery_rate, 1);
+        const ctx = {
+          inv_mass,
+          opts: spring2,
+          settled: true,
+          dt: (now2 - last_time) * 60 / 1e3
+        };
+        const next_value = tick_spring(ctx, last_value, value, target_value);
+        last_time = now2;
+        last_value = value;
+        store.set(value = next_value);
+        if (ctx.settled) {
+          task = null;
+        }
+        return !ctx.settled;
+      });
+    }
+    return new Promise((fulfil) => {
+      task.promise.then(() => {
+        if (token === current_token) fulfil();
+      });
+    });
+  }
+  const spring2 = {
+    set,
+    update: (fn2, opts2) => set(fn2(target_value, value), opts2),
+    subscribe: store.subscribe,
+    stiffness,
+    damping,
+    precision
+  };
+  return spring2;
+}
+function isFiniteNumber(value) {
+  return typeof value === "number" && !isNaN(value) && isFinite(value);
+}
+const coerceFloat = (value, precision = 2) => {
+  return parseFloat((+value).toFixed(precision));
+};
+const clampValue = function(value, min2, max2) {
+  return value <= min2 ? min2 : value >= max2 ? max2 : value;
+};
+const valueAsPercent = function(value, min2, max2, precision = 2) {
+  let percent = (value - min2) / (max2 - min2) * 100;
+  if (isNaN(percent) || percent <= 0) {
+    return 0;
+  } else if (percent >= 100) {
+    return 100;
+  } else {
+    return coerceFloat(percent, precision);
+  }
+};
+const percentAsValue = function(percent, min2, max2) {
+  return (max2 - min2) / 100 * percent + min2;
+};
+const constrainAndAlignValue = function(value, min2, max2, step, precision = 2, limits = null) {
+  value = isFiniteNumber(value) ? value : limits?.[0] ?? min2;
+  if (value <= (limits?.[0] ?? min2) || value >= (limits?.[1] ?? max2)) {
+    return value = clampValue(value, limits?.[0] ?? min2, limits?.[1] ?? max2);
+  }
+  let remainder = (value - min2) % step;
+  let aligned = value - remainder;
+  if (Math.abs(remainder) * 2 >= step) {
+    aligned += remainder > 0 ? step : -step;
+  } else if (value >= max2 - remainder) {
+    aligned = max2;
+  }
+  aligned = clampValue(aligned, limits?.[0] ?? min2, limits?.[1] ?? max2);
+  return coerceFloat(aligned, precision);
+};
+const pureText = (possibleHtml = "") => {
+  return `${possibleHtml}`.replace(/<[^>]*>/g, "");
+};
+const normalisedClient = (event) => {
+  const { clientX, clientY } = "touches" in event ? event.touches[0] || event.changedTouches[0] : event;
+  return { x: clientX, y: clientY };
+};
+const elementIndex = (el) => {
+  if (!el)
+    return -1;
+  var i = 0;
+  while (el = el.previousElementSibling) {
+    i++;
+  }
+  return i;
+};
+const isInRange = (value, range, type) => {
+  if (type === "min") {
+    return range[0] > value;
+  } else if (type === "max") {
+    return range[0] < value;
+  } else if (type) {
+    return range[0] < value && range[1] > value;
+  }
+};
+const isOutOfLimit = (value, limits) => {
+  if (!limits)
+    return false;
+  return value < limits[0] || value > limits[1];
+};
+const isSelected = (value, values, precision = 2) => {
+  return values.some((v) => coerceFloat(v, precision) === coerceFloat(value, precision));
+};
+const getValueFromIndex = (index, min2, max2, pipStep, step, precision = 2) => {
+  return coerceFloat(min2 + index * step * pipStep, precision);
+};
+const calculatePointerValues = (slider, clientPos, vertical, reversed, min2, max2) => {
+  const dims = slider.getBoundingClientRect();
+  let pointerPos = 0;
+  let pointerPercent = 0;
+  let pointerVal = 0;
+  if (vertical) {
+    pointerPos = clientPos.y - dims.top;
+    pointerPercent = pointerPos / dims.height * 100;
+    pointerPercent = reversed ? pointerPercent : 100 - pointerPercent;
+  } else {
+    pointerPos = clientPos.x - dims.left;
+    pointerPercent = pointerPos / dims.width * 100;
+    pointerPercent = reversed ? 100 - pointerPercent : pointerPercent;
+  }
+  pointerVal = percentAsValue(pointerPercent, min2, max2);
+  return { pointerVal, pointerPercent };
+};
+function add_css$1(target) {
+  append_styles(target, "svelte-it72d8", ".rangePips{--pip:var(--range-pip, var(--slider-base));--pip-text:var(--range-pip-text, var(--pip));--pip-active:var(--range-pip-active, var(--slider-fg));--pip-active-text:var(--range-pip-active-text, var(--pip-active));--pip-hover:var(--range-pip-hover, var(--slider-fg));--pip-hover-text:var(--range-pip-hover-text, var(--pip-hover));--pip-in-range:var(--range-pip-in-range, var(--pip-active));--pip-in-range-text:var(--range-pip-in-range-text, var(--pip-active-text));--pip-out-of-limit:var(--range-pip-out-of-limit, var(--slider-base-100));--pip-out-of-limit-text:var(--range-pip-out-of-limit-text, var(--pip-out-of-limit))}.rangePips{position:absolute;transform:translate3d(0, 0, 0.001px);height:1em;left:0;right:0;bottom:-1em;font-variant-numeric:tabular-nums}.rangePips.rsVertical{height:auto;width:1em;left:100%;right:auto;top:0;bottom:0}.rangePips .rsPip{height:0.4em;position:absolute;top:0.25em;width:1px;white-space:nowrap;transform:translate3d(0, 0, 0.001px)}.rangePips.rsVertical .rsPip{height:1px;width:0.4em;left:0.25em;top:auto;bottom:auto}.rangePips .rsPipVal{position:absolute;top:0.4em;transform:translate(-50%, 25%);display:inline-flex}.rangePips.rsVertical .rsPipVal{position:absolute;top:0;left:0.4em;transform:translate(25%, -50%)}.rangePips .rsPip{transition:all 0.15s ease}.rangePips .rsPipVal{transition:all 0.15s ease,\n      font-weight 0s linear}.rangePips .rsPip{color:var(--pip-text);background-color:var(--pip)}.rangePips .rsPip.rsSelected{color:var(--pip-active-text);background-color:var(--pip-active)}.rangePips.rsHoverable:not(.rsDisabled) .rsPip:not(.rsOutOfLimit):hover{color:var(--pip-hover-text);background-color:var(--pip-hover)}.rangePips .rsPip.rsInRange{color:var(--pip-in-range-text);background-color:var(--pip-in-range)}.rangePips .rsPip.rsOutOfLimit{color:var(--pip-out-of-limit-text);background-color:var(--pip-out-of-limit)}.rangePips .rsPip.rsSelected{height:0.75em}.rangePips.rsVertical .rsPip.rsSelected{height:1px;width:0.75em}.rangePips .rsPip.rsSelected .rsPipVal{font-weight:bold;top:0.75em}.rangePips.rsVertical .rsPip.rsSelected .rsPipVal{top:0;left:0.75em}.rangePips.rsHoverable:not(.rsDisabled) .rsPip:not(.rsSelected):not(.rsOutOfLimit):hover{transition:none}.rangePips.rsHoverable:not(.rsDisabled) .rsPip:not(.rsSelected):not(.rsOutOfLimit):hover .rsPipVal{transition:none;font-weight:bold}");
+}
+function get_each_context$1(ctx, list, i) {
+  const child_ctx = ctx.slice();
+  child_ctx[36] = list[i];
+  child_ctx[39] = i;
+  const constants_0 = getValueFromIndex(
+    /*i*/
+    child_ctx[39],
+    /*min*/
+    child_ctx[1],
+    /*max*/
+    child_ctx[2],
+    /*finalPipStep*/
+    child_ctx[21],
+    /*step*/
+    child_ctx[3],
+    /*precision*/
+    child_ctx[17]
+  );
+  child_ctx[37] = constants_0;
+  return child_ctx;
+}
+function create_if_block_9$1(ctx) {
+  let span;
+  let span_style_value;
+  let span_data_val_value;
+  let mounted;
+  let dispose;
+  let if_block = (
+    /*all*/
+    (ctx[10] === "label" || /*first*/
+    ctx[11] === "label") && create_if_block_10$1(ctx)
+  );
+  return {
+    c() {
+      span = element("span");
+      if (if_block) if_block.c();
+      attr(span, "class", "rsPip rsPip--first");
+      attr(span, "style", span_style_value = /*orientationStart*/
+      ctx[19] + ": 0%;");
+      attr(span, "data-val", span_data_val_value = coerceFloat(
+        /*min*/
+        ctx[1],
+        /*precision*/
+        ctx[17]
+      ));
+      attr(span, "data-index", 0);
+      toggle_class(span, "rsSelected", isSelected(
+        /*min*/
+        ctx[1],
+        /*values*/
+        ctx[4],
+        /*precision*/
+        ctx[17]
+      ));
+      toggle_class(span, "rsInRange", isInRange(
+        /*min*/
+        ctx[1],
+        /*values*/
+        ctx[4],
+        /*range*/
+        ctx[0]
+      ));
+      toggle_class(span, "rsOutOfLimit", isOutOfLimit(
+        /*min*/
+        ctx[1],
+        /*limits*/
+        ctx[9]
+      ));
+    },
+    m(target, anchor) {
+      insert(target, span, anchor);
+      if (if_block) if_block.m(span, null);
+      if (!mounted) {
+        dispose = [
+          listen(
+            span,
+            "pointerdown",
+            /*pointerdown_handler*/
+            ctx[29]
+          ),
+          listen(
+            span,
+            "pointerup",
+            /*pointerup_handler*/
+            ctx[30]
+          )
+        ];
+        mounted = true;
+      }
+    },
+    p(ctx2, dirty) {
+      if (
+        /*all*/
+        ctx2[10] === "label" || /*first*/
+        ctx2[11] === "label"
+      ) {
+        if (if_block) {
+          if_block.p(ctx2, dirty);
+        } else {
+          if_block = create_if_block_10$1(ctx2);
+          if_block.c();
+          if_block.m(span, null);
+        }
+      } else if (if_block) {
+        if_block.d(1);
+        if_block = null;
+      }
+      if (dirty[0] & /*orientationStart*/
+      524288 && span_style_value !== (span_style_value = /*orientationStart*/
+      ctx2[19] + ": 0%;")) {
+        attr(span, "style", span_style_value);
+      }
+      if (dirty[0] & /*min, precision*/
+      131074 && span_data_val_value !== (span_data_val_value = coerceFloat(
+        /*min*/
+        ctx2[1],
+        /*precision*/
+        ctx2[17]
+      ))) {
+        attr(span, "data-val", span_data_val_value);
+      }
+      if (dirty[0] & /*min, values, precision*/
+      131090) {
+        toggle_class(span, "rsSelected", isSelected(
+          /*min*/
+          ctx2[1],
+          /*values*/
+          ctx2[4],
+          /*precision*/
+          ctx2[17]
+        ));
+      }
+      if (dirty[0] & /*min, values, range*/
+      19) {
+        toggle_class(span, "rsInRange", isInRange(
+          /*min*/
+          ctx2[1],
+          /*values*/
+          ctx2[4],
+          /*range*/
+          ctx2[0]
+        ));
+      }
+      if (dirty[0] & /*min, limits*/
+      514) {
+        toggle_class(span, "rsOutOfLimit", isOutOfLimit(
+          /*min*/
+          ctx2[1],
+          /*limits*/
+          ctx2[9]
+        ));
+      }
+    },
+    d(detaching) {
+      if (detaching) {
+        detach(span);
+      }
+      if (if_block) if_block.d();
+      mounted = false;
+      run_all(dispose);
+    }
+  };
+}
+function create_if_block_10$1(ctx) {
+  let span;
+  let t0;
+  let html_tag;
+  let raw_value = (
+    /*formatter*/
+    ctx[16](coerceFloat(
+      /*min*/
+      ctx[1],
+      /*precision*/
+      ctx[17]
+    ), 0, 0) + ""
+  );
+  let t1;
+  let if_block0 = (
+    /*prefix*/
+    ctx[14] && create_if_block_12(ctx)
+  );
+  let if_block1 = (
+    /*suffix*/
+    ctx[15] && create_if_block_11$1(ctx)
+  );
+  return {
+    c() {
+      span = element("span");
+      if (if_block0) if_block0.c();
+      t0 = space();
+      html_tag = new HtmlTag(false);
+      t1 = space();
+      if (if_block1) if_block1.c();
+      html_tag.a = t1;
+      attr(span, "class", "rsPipVal");
+    },
+    m(target, anchor) {
+      insert(target, span, anchor);
+      if (if_block0) if_block0.m(span, null);
+      append(span, t0);
+      html_tag.m(raw_value, span);
+      append(span, t1);
+      if (if_block1) if_block1.m(span, null);
+    },
+    p(ctx2, dirty) {
+      if (
+        /*prefix*/
+        ctx2[14]
+      ) {
+        if (if_block0) {
+          if_block0.p(ctx2, dirty);
+        } else {
+          if_block0 = create_if_block_12(ctx2);
+          if_block0.c();
+          if_block0.m(span, t0);
+        }
+      } else if (if_block0) {
+        if_block0.d(1);
+        if_block0 = null;
+      }
+      if (dirty[0] & /*formatter, min, precision*/
+      196610 && raw_value !== (raw_value = /*formatter*/
+      ctx2[16](coerceFloat(
+        /*min*/
+        ctx2[1],
+        /*precision*/
+        ctx2[17]
+      ), 0, 0) + "")) html_tag.p(raw_value);
+      if (
+        /*suffix*/
+        ctx2[15]
+      ) {
+        if (if_block1) {
+          if_block1.p(ctx2, dirty);
+        } else {
+          if_block1 = create_if_block_11$1(ctx2);
+          if_block1.c();
+          if_block1.m(span, null);
+        }
+      } else if (if_block1) {
+        if_block1.d(1);
+        if_block1 = null;
+      }
+    },
+    d(detaching) {
+      if (detaching) {
+        detach(span);
+      }
+      if (if_block0) if_block0.d();
+      if (if_block1) if_block1.d();
+    }
+  };
+}
+function create_if_block_12(ctx) {
+  let span;
+  let t;
+  return {
+    c() {
+      span = element("span");
+      t = text(
+        /*prefix*/
+        ctx[14]
+      );
+      attr(span, "class", "rsPipValPrefix");
+    },
+    m(target, anchor) {
+      insert(target, span, anchor);
+      append(span, t);
+    },
+    p(ctx2, dirty) {
+      if (dirty[0] & /*prefix*/
+      16384) set_data(
+        t,
+        /*prefix*/
+        ctx2[14]
+      );
+    },
+    d(detaching) {
+      if (detaching) {
+        detach(span);
+      }
+    }
+  };
+}
+function create_if_block_11$1(ctx) {
+  let span;
+  let t;
+  return {
+    c() {
+      span = element("span");
+      t = text(
+        /*suffix*/
+        ctx[15]
+      );
+      attr(span, "class", "rsPipValSuffix");
+    },
+    m(target, anchor) {
+      insert(target, span, anchor);
+      append(span, t);
+    },
+    p(ctx2, dirty) {
+      if (dirty[0] & /*suffix*/
+      32768) set_data(
+        t,
+        /*suffix*/
+        ctx2[15]
+      );
+    },
+    d(detaching) {
+      if (detaching) {
+        detach(span);
+      }
+    }
+  };
+}
+function create_if_block_4$1(ctx) {
+  let each_1_anchor;
+  let each_value = ensure_array_like(Array(
+    /*pipCount*/
+    ctx[20]
+  ));
+  let each_blocks = [];
+  for (let i = 0; i < each_value.length; i += 1) {
+    each_blocks[i] = create_each_block$1(get_each_context$1(ctx, each_value, i));
+  }
+  return {
+    c() {
+      for (let i = 0; i < each_blocks.length; i += 1) {
+        each_blocks[i].c();
+      }
+      each_1_anchor = empty();
+    },
+    m(target, anchor) {
+      for (let i = 0; i < each_blocks.length; i += 1) {
+        if (each_blocks[i]) {
+          each_blocks[i].m(target, anchor);
+        }
+      }
+      insert(target, each_1_anchor, anchor);
+    },
+    p(ctx2, dirty) {
+      if (dirty[0] & /*orientationStart, min, max, finalPipStep, step, precision, values, range, limits, labelDown, labelUp, suffix, formatter, prefix, all, rest, pipCount*/
+      16508447) {
+        each_value = ensure_array_like(Array(
+          /*pipCount*/
+          ctx2[20]
+        ));
+        let i;
+        for (i = 0; i < each_value.length; i += 1) {
+          const child_ctx = get_each_context$1(ctx2, each_value, i);
+          if (each_blocks[i]) {
+            each_blocks[i].p(child_ctx, dirty);
+          } else {
+            each_blocks[i] = create_each_block$1(child_ctx);
+            each_blocks[i].c();
+            each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
+          }
+        }
+        for (; i < each_blocks.length; i += 1) {
+          each_blocks[i].d(1);
+        }
+        each_blocks.length = each_value.length;
+      }
+    },
+    d(detaching) {
+      if (detaching) {
+        detach(each_1_anchor);
+      }
+      destroy_each(each_blocks, detaching);
+    }
+  };
+}
+function create_if_block_5$1(ctx) {
+  let span;
+  let t;
+  let span_style_value;
+  let span_data_val_value;
+  let mounted;
+  let dispose;
+  let if_block = (
+    /*all*/
+    (ctx[10] === "label" || /*rest*/
+    ctx[13] === "label") && create_if_block_6$1(ctx)
+  );
+  function pointerup_handler_1(...args) {
+    return (
+      /*pointerup_handler_1*/
+      ctx[32](
+        /*val*/
+        ctx[37],
+        ...args
+      )
+    );
+  }
+  return {
+    c() {
+      span = element("span");
+      if (if_block) if_block.c();
+      t = space();
+      attr(span, "class", "rsPip");
+      attr(span, "style", span_style_value = /*orientationStart*/
+      ctx[19] + ": " + valueAsPercent(
+        /*val*/
+        ctx[37],
+        /*min*/
+        ctx[1],
+        /*max*/
+        ctx[2],
+        /*precision*/
+        ctx[17]
+      ) + "%;");
+      attr(span, "data-val", span_data_val_value = /*val*/
+      ctx[37]);
+      attr(
+        span,
+        "data-index",
+        /*i*/
+        ctx[39]
+      );
+      toggle_class(span, "rsSelected", isSelected(
+        /*val*/
+        ctx[37],
+        /*values*/
+        ctx[4],
+        /*precision*/
+        ctx[17]
+      ));
+      toggle_class(span, "rsInRange", isInRange(
+        /*val*/
+        ctx[37],
+        /*values*/
+        ctx[4],
+        /*range*/
+        ctx[0]
+      ));
+      toggle_class(span, "rsOutOfLimit", isOutOfLimit(
+        /*val*/
+        ctx[37],
+        /*limits*/
+        ctx[9]
+      ));
+    },
+    m(target, anchor) {
+      insert(target, span, anchor);
+      if (if_block) if_block.m(span, null);
+      append(span, t);
+      if (!mounted) {
+        dispose = [
+          listen(
+            span,
+            "pointerdown",
+            /*pointerdown_handler_1*/
+            ctx[31]
+          ),
+          listen(span, "pointerup", pointerup_handler_1)
+        ];
+        mounted = true;
+      }
+    },
+    p(new_ctx, dirty) {
+      ctx = new_ctx;
+      if (
+        /*all*/
+        ctx[10] === "label" || /*rest*/
+        ctx[13] === "label"
+      ) {
+        if (if_block) {
+          if_block.p(ctx, dirty);
+        } else {
+          if_block = create_if_block_6$1(ctx);
+          if_block.c();
+          if_block.m(span, t);
+        }
+      } else if (if_block) {
+        if_block.d(1);
+        if_block = null;
+      }
+      if (dirty[0] & /*orientationStart, min, max, finalPipStep, step, precision*/
+      2752526 && span_style_value !== (span_style_value = /*orientationStart*/
+      ctx[19] + ": " + valueAsPercent(
+        /*val*/
+        ctx[37],
+        /*min*/
+        ctx[1],
+        /*max*/
+        ctx[2],
+        /*precision*/
+        ctx[17]
+      ) + "%;")) {
+        attr(span, "style", span_style_value);
+      }
+      if (dirty[0] & /*min, max, finalPipStep, step, precision*/
+      2228238 && span_data_val_value !== (span_data_val_value = /*val*/
+      ctx[37])) {
+        attr(span, "data-val", span_data_val_value);
+      }
+      if (dirty[0] & /*min, max, finalPipStep, step, precision, values*/
+      2228254) {
+        toggle_class(span, "rsSelected", isSelected(
+          /*val*/
+          ctx[37],
+          /*values*/
+          ctx[4],
+          /*precision*/
+          ctx[17]
+        ));
+      }
+      if (dirty[0] & /*min, max, finalPipStep, step, precision, values, range*/
+      2228255) {
+        toggle_class(span, "rsInRange", isInRange(
+          /*val*/
+          ctx[37],
+          /*values*/
+          ctx[4],
+          /*range*/
+          ctx[0]
+        ));
+      }
+      if (dirty[0] & /*min, max, finalPipStep, step, precision, limits*/
+      2228750) {
+        toggle_class(span, "rsOutOfLimit", isOutOfLimit(
+          /*val*/
+          ctx[37],
+          /*limits*/
+          ctx[9]
+        ));
+      }
+    },
+    d(detaching) {
+      if (detaching) {
+        detach(span);
+      }
+      if (if_block) if_block.d();
+      mounted = false;
+      run_all(dispose);
+    }
+  };
+}
+function create_if_block_6$1(ctx) {
+  let span;
+  let t0;
+  let html_tag;
+  let raw_value = (
+    /*formatter*/
+    ctx[16](
+      /*val*/
+      ctx[37],
+      /*i*/
+      ctx[39],
+      valueAsPercent(
+        /*val*/
+        ctx[37],
+        /*min*/
+        ctx[1],
+        /*max*/
+        ctx[2],
+        /*precision*/
+        ctx[17]
+      )
+    ) + ""
+  );
+  let t1;
+  let if_block0 = create_if_block_8$1(ctx);
+  let if_block1 = create_if_block_7$1(ctx);
+  return {
+    c() {
+      span = element("span");
+      if (if_block0) if_block0.c();
+      t0 = space();
+      html_tag = new HtmlTag(false);
+      t1 = space();
+      if (if_block1) if_block1.c();
+      html_tag.a = t1;
+      attr(span, "class", "rsPipVal");
+    },
+    m(target, anchor) {
+      insert(target, span, anchor);
+      if (if_block0) if_block0.m(span, null);
+      append(span, t0);
+      html_tag.m(raw_value, span);
+      append(span, t1);
+      if (if_block1) if_block1.m(span, null);
+    },
+    p(ctx2, dirty) {
+      {
+        if (if_block0) {
+          if_block0.p(ctx2, dirty);
+        } else {
+          if_block0 = create_if_block_8$1(ctx2);
+          if_block0.c();
+          if_block0.m(span, t0);
+        }
+      }
+      if (dirty[0] & /*formatter, min, max, finalPipStep, step, precision*/
+      2293774 && raw_value !== (raw_value = /*formatter*/
+      ctx2[16](
+        /*val*/
+        ctx2[37],
+        /*i*/
+        ctx2[39],
+        valueAsPercent(
+          /*val*/
+          ctx2[37],
+          /*min*/
+          ctx2[1],
+          /*max*/
+          ctx2[2],
+          /*precision*/
+          ctx2[17]
+        )
+      ) + "")) html_tag.p(raw_value);
+      {
+        if (if_block1) {
+          if_block1.p(ctx2, dirty);
+        } else {
+          if_block1 = create_if_block_7$1(ctx2);
+          if_block1.c();
+          if_block1.m(span, null);
+        }
+      }
+    },
+    d(detaching) {
+      if (detaching) {
+        detach(span);
+      }
+      if (if_block0) if_block0.d();
+      if (if_block1) if_block1.d();
+    }
+  };
+}
+function create_if_block_8$1(ctx) {
+  let span;
+  let t;
+  return {
+    c() {
+      span = element("span");
+      t = text(
+        /*prefix*/
+        ctx[14]
+      );
+      attr(span, "class", "rsPipValPrefix");
+    },
+    m(target, anchor) {
+      insert(target, span, anchor);
+      append(span, t);
+    },
+    p(ctx2, dirty) {
+      if (dirty[0] & /*prefix*/
+      16384) set_data(
+        t,
+        /*prefix*/
+        ctx2[14]
+      );
+    },
+    d(detaching) {
+      if (detaching) {
+        detach(span);
+      }
+    }
+  };
+}
+function create_if_block_7$1(ctx) {
+  let span;
+  let t;
+  return {
+    c() {
+      span = element("span");
+      t = text(
+        /*suffix*/
+        ctx[15]
+      );
+      attr(span, "class", "rsPipValSuffix");
+    },
+    m(target, anchor) {
+      insert(target, span, anchor);
+      append(span, t);
+    },
+    p(ctx2, dirty) {
+      if (dirty[0] & /*suffix*/
+      32768) set_data(
+        t,
+        /*suffix*/
+        ctx2[15]
+      );
+    },
+    d(detaching) {
+      if (detaching) {
+        detach(span);
+      }
+    }
+  };
+}
+function create_each_block$1(ctx) {
+  let if_block_anchor;
+  let if_block = (
+    /*val*/
+    ctx[37] > /*min*/
+    ctx[1] && /*val*/
+    ctx[37] < /*max*/
+    ctx[2] && create_if_block_5$1(ctx)
+  );
+  return {
+    c() {
+      if (if_block) if_block.c();
+      if_block_anchor = empty();
+    },
+    m(target, anchor) {
+      if (if_block) if_block.m(target, anchor);
+      insert(target, if_block_anchor, anchor);
+    },
+    p(ctx2, dirty) {
+      if (
+        /*val*/
+        ctx2[37] > /*min*/
+        ctx2[1] && /*val*/
+        ctx2[37] < /*max*/
+        ctx2[2]
+      ) {
+        if (if_block) {
+          if_block.p(ctx2, dirty);
+        } else {
+          if_block = create_if_block_5$1(ctx2);
+          if_block.c();
+          if_block.m(if_block_anchor.parentNode, if_block_anchor);
+        }
+      } else if (if_block) {
+        if_block.d(1);
+        if_block = null;
+      }
+    },
+    d(detaching) {
+      if (detaching) {
+        detach(if_block_anchor);
+      }
+      if (if_block) if_block.d(detaching);
+    }
+  };
+}
+function create_if_block$1(ctx) {
+  let span;
+  let span_style_value;
+  let span_data_val_value;
+  let mounted;
+  let dispose;
+  let if_block = (
+    /*all*/
+    (ctx[10] === "label" || /*last*/
+    ctx[12] === "label") && create_if_block_1$1(ctx)
+  );
+  return {
+    c() {
+      span = element("span");
+      if (if_block) if_block.c();
+      attr(span, "class", "rsPip rsPip--last");
+      attr(span, "style", span_style_value = /*orientationStart*/
+      ctx[19] + ": 100%;");
+      attr(span, "data-val", span_data_val_value = coerceFloat(
+        /*max*/
+        ctx[2],
+        /*precision*/
+        ctx[17]
+      ));
+      attr(
+        span,
+        "data-index",
+        /*pipCount*/
+        ctx[20]
+      );
+      toggle_class(span, "rsSelected", isSelected(
+        /*max*/
+        ctx[2],
+        /*values*/
+        ctx[4],
+        /*precision*/
+        ctx[17]
+      ));
+      toggle_class(span, "rsInRange", isInRange(
+        /*max*/
+        ctx[2],
+        /*values*/
+        ctx[4],
+        /*range*/
+        ctx[0]
+      ));
+      toggle_class(span, "rsOutOfLimit", isOutOfLimit(
+        /*max*/
+        ctx[2],
+        /*limits*/
+        ctx[9]
+      ));
+    },
+    m(target, anchor) {
+      insert(target, span, anchor);
+      if (if_block) if_block.m(span, null);
+      if (!mounted) {
+        dispose = [
+          listen(
+            span,
+            "pointerdown",
+            /*pointerdown_handler_2*/
+            ctx[33]
+          ),
+          listen(
+            span,
+            "pointerup",
+            /*pointerup_handler_2*/
+            ctx[34]
+          )
+        ];
+        mounted = true;
+      }
+    },
+    p(ctx2, dirty) {
+      if (
+        /*all*/
+        ctx2[10] === "label" || /*last*/
+        ctx2[12] === "label"
+      ) {
+        if (if_block) {
+          if_block.p(ctx2, dirty);
+        } else {
+          if_block = create_if_block_1$1(ctx2);
+          if_block.c();
+          if_block.m(span, null);
+        }
+      } else if (if_block) {
+        if_block.d(1);
+        if_block = null;
+      }
+      if (dirty[0] & /*orientationStart*/
+      524288 && span_style_value !== (span_style_value = /*orientationStart*/
+      ctx2[19] + ": 100%;")) {
+        attr(span, "style", span_style_value);
+      }
+      if (dirty[0] & /*max, precision*/
+      131076 && span_data_val_value !== (span_data_val_value = coerceFloat(
+        /*max*/
+        ctx2[2],
+        /*precision*/
+        ctx2[17]
+      ))) {
+        attr(span, "data-val", span_data_val_value);
+      }
+      if (dirty[0] & /*pipCount*/
+      1048576) {
+        attr(
+          span,
+          "data-index",
+          /*pipCount*/
+          ctx2[20]
+        );
+      }
+      if (dirty[0] & /*max, values, precision*/
+      131092) {
+        toggle_class(span, "rsSelected", isSelected(
+          /*max*/
+          ctx2[2],
+          /*values*/
+          ctx2[4],
+          /*precision*/
+          ctx2[17]
+        ));
+      }
+      if (dirty[0] & /*max, values, range*/
+      21) {
+        toggle_class(span, "rsInRange", isInRange(
+          /*max*/
+          ctx2[2],
+          /*values*/
+          ctx2[4],
+          /*range*/
+          ctx2[0]
+        ));
+      }
+      if (dirty[0] & /*max, limits*/
+      516) {
+        toggle_class(span, "rsOutOfLimit", isOutOfLimit(
+          /*max*/
+          ctx2[2],
+          /*limits*/
+          ctx2[9]
+        ));
+      }
+    },
+    d(detaching) {
+      if (detaching) {
+        detach(span);
+      }
+      if (if_block) if_block.d();
+      mounted = false;
+      run_all(dispose);
+    }
+  };
+}
+function create_if_block_1$1(ctx) {
+  let span;
+  let t0;
+  let html_tag;
+  let raw_value = (
+    /*formatter*/
+    ctx[16](
+      coerceFloat(
+        /*max*/
+        ctx[2],
+        /*precision*/
+        ctx[17]
+      ),
+      /*pipCount*/
+      ctx[20],
+      100
+    ) + ""
+  );
+  let t1;
+  let if_block0 = (
+    /*prefix*/
+    ctx[14] && create_if_block_3$1(ctx)
+  );
+  let if_block1 = (
+    /*suffix*/
+    ctx[15] && create_if_block_2$1(ctx)
+  );
+  return {
+    c() {
+      span = element("span");
+      if (if_block0) if_block0.c();
+      t0 = space();
+      html_tag = new HtmlTag(false);
+      t1 = space();
+      if (if_block1) if_block1.c();
+      html_tag.a = t1;
+      attr(span, "class", "rsPipVal");
+    },
+    m(target, anchor) {
+      insert(target, span, anchor);
+      if (if_block0) if_block0.m(span, null);
+      append(span, t0);
+      html_tag.m(raw_value, span);
+      append(span, t1);
+      if (if_block1) if_block1.m(span, null);
+    },
+    p(ctx2, dirty) {
+      if (
+        /*prefix*/
+        ctx2[14]
+      ) {
+        if (if_block0) {
+          if_block0.p(ctx2, dirty);
+        } else {
+          if_block0 = create_if_block_3$1(ctx2);
+          if_block0.c();
+          if_block0.m(span, t0);
+        }
+      } else if (if_block0) {
+        if_block0.d(1);
+        if_block0 = null;
+      }
+      if (dirty[0] & /*formatter, max, precision, pipCount*/
+      1245188 && raw_value !== (raw_value = /*formatter*/
+      ctx2[16](
+        coerceFloat(
+          /*max*/
+          ctx2[2],
+          /*precision*/
+          ctx2[17]
+        ),
+        /*pipCount*/
+        ctx2[20],
+        100
+      ) + "")) html_tag.p(raw_value);
+      if (
+        /*suffix*/
+        ctx2[15]
+      ) {
+        if (if_block1) {
+          if_block1.p(ctx2, dirty);
+        } else {
+          if_block1 = create_if_block_2$1(ctx2);
+          if_block1.c();
+          if_block1.m(span, null);
+        }
+      } else if (if_block1) {
+        if_block1.d(1);
+        if_block1 = null;
+      }
+    },
+    d(detaching) {
+      if (detaching) {
+        detach(span);
+      }
+      if (if_block0) if_block0.d();
+      if (if_block1) if_block1.d();
+    }
+  };
+}
+function create_if_block_3$1(ctx) {
+  let span;
+  let t;
+  return {
+    c() {
+      span = element("span");
+      t = text(
+        /*prefix*/
+        ctx[14]
+      );
+      attr(span, "class", "rsPipValPrefix");
+    },
+    m(target, anchor) {
+      insert(target, span, anchor);
+      append(span, t);
+    },
+    p(ctx2, dirty) {
+      if (dirty[0] & /*prefix*/
+      16384) set_data(
+        t,
+        /*prefix*/
+        ctx2[14]
+      );
+    },
+    d(detaching) {
+      if (detaching) {
+        detach(span);
+      }
+    }
+  };
+}
+function create_if_block_2$1(ctx) {
+  let span;
+  let t;
+  return {
+    c() {
+      span = element("span");
+      t = text(
+        /*suffix*/
+        ctx[15]
+      );
+      attr(span, "class", "rsPipValSuffix");
+    },
+    m(target, anchor) {
+      insert(target, span, anchor);
+      append(span, t);
+    },
+    p(ctx2, dirty) {
+      if (dirty[0] & /*suffix*/
+      32768) set_data(
+        t,
+        /*suffix*/
+        ctx2[15]
+      );
+    },
+    d(detaching) {
+      if (detaching) {
+        detach(span);
+      }
+    }
+  };
+}
+function create_fragment$1(ctx) {
+  let div2;
+  let t0;
+  let t1;
+  let if_block0 = (
+    /*all*/
+    (ctx[10] && /*first*/
+    ctx[11] !== false || /*first*/
+    ctx[11]) && create_if_block_9$1(ctx)
+  );
+  let if_block1 = (
+    /*all*/
+    (ctx[10] && /*rest*/
+    ctx[13] !== false || /*rest*/
+    ctx[13]) && create_if_block_4$1(ctx)
+  );
+  let if_block2 = (
+    /*all*/
+    (ctx[10] && /*last*/
+    ctx[12] !== false || /*last*/
+    ctx[12]) && create_if_block$1(ctx)
+  );
+  return {
+    c() {
+      div2 = element("div");
+      if (if_block0) if_block0.c();
+      t0 = space();
+      if (if_block1) if_block1.c();
+      t1 = space();
+      if (if_block2) if_block2.c();
+      attr(div2, "class", "rangePips");
+      toggle_class(
+        div2,
+        "rsDisabled",
+        /*disabled*/
+        ctx[8]
+      );
+      toggle_class(
+        div2,
+        "rsHoverable",
+        /*hoverable*/
+        ctx[7]
+      );
+      toggle_class(
+        div2,
+        "rsVertical",
+        /*vertical*/
+        ctx[5]
+      );
+      toggle_class(
+        div2,
+        "rsReversed",
+        /*reversed*/
+        ctx[6]
+      );
+      toggle_class(
+        div2,
+        "rsFocus",
+        /*focus*/
+        ctx[18]
+      );
+    },
+    m(target, anchor) {
+      insert(target, div2, anchor);
+      if (if_block0) if_block0.m(div2, null);
+      append(div2, t0);
+      if (if_block1) if_block1.m(div2, null);
+      append(div2, t1);
+      if (if_block2) if_block2.m(div2, null);
+    },
+    p(ctx2, dirty) {
+      if (
+        /*all*/
+        ctx2[10] && /*first*/
+        ctx2[11] !== false || /*first*/
+        ctx2[11]
+      ) {
+        if (if_block0) {
+          if_block0.p(ctx2, dirty);
+        } else {
+          if_block0 = create_if_block_9$1(ctx2);
+          if_block0.c();
+          if_block0.m(div2, t0);
+        }
+      } else if (if_block0) {
+        if_block0.d(1);
+        if_block0 = null;
+      }
+      if (
+        /*all*/
+        ctx2[10] && /*rest*/
+        ctx2[13] !== false || /*rest*/
+        ctx2[13]
+      ) {
+        if (if_block1) {
+          if_block1.p(ctx2, dirty);
+        } else {
+          if_block1 = create_if_block_4$1(ctx2);
+          if_block1.c();
+          if_block1.m(div2, t1);
+        }
+      } else if (if_block1) {
+        if_block1.d(1);
+        if_block1 = null;
+      }
+      if (
+        /*all*/
+        ctx2[10] && /*last*/
+        ctx2[12] !== false || /*last*/
+        ctx2[12]
+      ) {
+        if (if_block2) {
+          if_block2.p(ctx2, dirty);
+        } else {
+          if_block2 = create_if_block$1(ctx2);
+          if_block2.c();
+          if_block2.m(div2, null);
+        }
+      } else if (if_block2) {
+        if_block2.d(1);
+        if_block2 = null;
+      }
+      if (dirty[0] & /*disabled*/
+      256) {
+        toggle_class(
+          div2,
+          "rsDisabled",
+          /*disabled*/
+          ctx2[8]
+        );
+      }
+      if (dirty[0] & /*hoverable*/
+      128) {
+        toggle_class(
+          div2,
+          "rsHoverable",
+          /*hoverable*/
+          ctx2[7]
+        );
+      }
+      if (dirty[0] & /*vertical*/
+      32) {
+        toggle_class(
+          div2,
+          "rsVertical",
+          /*vertical*/
+          ctx2[5]
+        );
+      }
+      if (dirty[0] & /*reversed*/
+      64) {
+        toggle_class(
+          div2,
+          "rsReversed",
+          /*reversed*/
+          ctx2[6]
+        );
+      }
+      if (dirty[0] & /*focus*/
+      262144) {
+        toggle_class(
+          div2,
+          "rsFocus",
+          /*focus*/
+          ctx2[18]
+        );
+      }
+    },
+    i: noop,
+    o: noop,
+    d(detaching) {
+      if (detaching) {
+        detach(div2);
+      }
+      if (if_block0) if_block0.d();
+      if (if_block1) if_block1.d();
+      if (if_block2) if_block2.d();
+    }
+  };
+}
+const limitPipCount = 500;
+function instance$1($$self, $$props, $$invalidate) {
+  let stepMax;
+  let tooManySteps;
+  let { range = false } = $$props;
+  let { min: min2 = 0 } = $$props;
+  let { max: max2 = 100 } = $$props;
+  let { step = 1 } = $$props;
+  let { value = (max2 + min2) / 2 } = $$props;
+  let { values = [value] } = $$props;
+  let { vertical = false } = $$props;
+  let { reversed = false } = $$props;
+  let { hoverable = true } = $$props;
+  let { disabled = false } = $$props;
+  let { limits = null } = $$props;
+  let { pipstep = void 0 } = $$props;
+  let { all = true } = $$props;
+  let { first = void 0 } = $$props;
+  let { last = void 0 } = $$props;
+  let { rest = void 0 } = $$props;
+  let { prefix = "" } = $$props;
+  let { suffix = "" } = $$props;
+  let { formatter = (v, i, p) => v } = $$props;
+  let { precision = 2 } = $$props;
+  let { focus } = $$props;
+  let { orientationStart } = $$props;
+  let { moveHandle } = $$props;
+  let clientStart = null;
+  let pipCount = 0;
+  let finalPipStep = 1;
+  function labelDown(event) {
+    clientStart = normalisedClient(event);
+  }
+  function labelUp(pipValue, event) {
+    const clientEnd = normalisedClient(event);
+    if (!disabled && clientStart) {
+      const distanceMoved = Math.sqrt(Math.pow(clientStart.x - clientEnd.x, 2) + Math.pow(clientStart.y - clientEnd.y, 2));
+      if (distanceMoved <= 5) {
+        moveHandle(null, pipValue);
+      }
+      clientStart = null;
+    }
+  }
+  const pointerdown_handler = (e) => {
+    labelDown(e);
+  };
+  const pointerup_handler = (e) => {
+    labelUp(min2, e);
+  };
+  const pointerdown_handler_1 = (e) => {
+    labelDown(e);
+  };
+  const pointerup_handler_1 = (val, e) => {
+    labelUp(val, e);
+  };
+  const pointerdown_handler_2 = (e) => {
+    labelDown(e);
+  };
+  const pointerup_handler_2 = (e) => {
+    labelUp(max2, e);
+  };
+  $$self.$$set = ($$props2) => {
+    if ("range" in $$props2) $$invalidate(0, range = $$props2.range);
+    if ("min" in $$props2) $$invalidate(1, min2 = $$props2.min);
+    if ("max" in $$props2) $$invalidate(2, max2 = $$props2.max);
+    if ("step" in $$props2) $$invalidate(3, step = $$props2.step);
+    if ("value" in $$props2) $$invalidate(24, value = $$props2.value);
+    if ("values" in $$props2) $$invalidate(4, values = $$props2.values);
+    if ("vertical" in $$props2) $$invalidate(5, vertical = $$props2.vertical);
+    if ("reversed" in $$props2) $$invalidate(6, reversed = $$props2.reversed);
+    if ("hoverable" in $$props2) $$invalidate(7, hoverable = $$props2.hoverable);
+    if ("disabled" in $$props2) $$invalidate(8, disabled = $$props2.disabled);
+    if ("limits" in $$props2) $$invalidate(9, limits = $$props2.limits);
+    if ("pipstep" in $$props2) $$invalidate(25, pipstep = $$props2.pipstep);
+    if ("all" in $$props2) $$invalidate(10, all = $$props2.all);
+    if ("first" in $$props2) $$invalidate(11, first = $$props2.first);
+    if ("last" in $$props2) $$invalidate(12, last = $$props2.last);
+    if ("rest" in $$props2) $$invalidate(13, rest = $$props2.rest);
+    if ("prefix" in $$props2) $$invalidate(14, prefix = $$props2.prefix);
+    if ("suffix" in $$props2) $$invalidate(15, suffix = $$props2.suffix);
+    if ("formatter" in $$props2) $$invalidate(16, formatter = $$props2.formatter);
+    if ("precision" in $$props2) $$invalidate(17, precision = $$props2.precision);
+    if ("focus" in $$props2) $$invalidate(18, focus = $$props2.focus);
+    if ("orientationStart" in $$props2) $$invalidate(19, orientationStart = $$props2.orientationStart);
+    if ("moveHandle" in $$props2) $$invalidate(26, moveHandle = $$props2.moveHandle);
+  };
+  $$self.$$.update = () => {
+    if ($$self.$$.dirty[0] & /*vertical*/
+    32) {
+      $$invalidate(27, stepMax = vertical ? 50 : 100);
+    }
+    if ($$self.$$.dirty[0] & /*max, min, step, stepMax*/
+    134217742) {
+      $$invalidate(28, tooManySteps = (max2 - min2) / step >= stepMax);
+    }
+    if ($$self.$$.dirty[0] & /*pipstep, tooManySteps, max, min, stepMax, step, finalPipStep, pipCount*/
+    439353358) {
+      {
+        $$invalidate(21, finalPipStep = pipstep ?? (tooManySteps ? (max2 - min2) / (stepMax / 5) : 1));
+        $$invalidate(20, pipCount = Math.ceil((max2 - min2) / (step * finalPipStep)));
+        if (pipCount > limitPipCount) {
+          console.warn('RangePips: You are trying to render too many pips. This will cause performance issues. Try increasing the "pipstep" prop to reduce the number of pips shown.');
+          while (pipCount >= limitPipCount) {
+            $$invalidate(21, finalPipStep = finalPipStep + finalPipStep);
+            $$invalidate(20, pipCount = Math.ceil((max2 - min2) / (step * finalPipStep)));
+          }
+        }
+      }
+    }
+  };
+  return [
+    range,
+    min2,
+    max2,
+    step,
+    values,
+    vertical,
+    reversed,
+    hoverable,
+    disabled,
+    limits,
+    all,
+    first,
+    last,
+    rest,
+    prefix,
+    suffix,
+    formatter,
+    precision,
+    focus,
+    orientationStart,
+    pipCount,
+    finalPipStep,
+    labelDown,
+    labelUp,
+    value,
+    pipstep,
+    moveHandle,
+    stepMax,
+    tooManySteps,
+    pointerdown_handler,
+    pointerup_handler,
+    pointerdown_handler_1,
+    pointerup_handler_1,
+    pointerdown_handler_2,
+    pointerup_handler_2
+  ];
+}
+class RangePips extends SvelteComponent {
+  constructor(options) {
+    super();
+    init(
+      this,
+      options,
+      instance$1,
+      create_fragment$1,
+      safe_not_equal,
+      {
+        range: 0,
+        min: 1,
+        max: 2,
+        step: 3,
+        value: 24,
+        values: 4,
+        vertical: 5,
+        reversed: 6,
+        hoverable: 7,
+        disabled: 8,
+        limits: 9,
+        pipstep: 25,
+        all: 10,
+        first: 11,
+        last: 12,
+        rest: 13,
+        prefix: 14,
+        suffix: 15,
+        formatter: 16,
+        precision: 17,
+        focus: 18,
+        orientationStart: 19,
+        moveHandle: 26
+      },
+      add_css$1,
+      [-1, -1]
+    );
+  }
+  get range() {
+    return this.$$.ctx[0];
+  }
+  set range(range) {
+    this.$$set({ range });
+    flush();
+  }
+  get min() {
+    return this.$$.ctx[1];
+  }
+  set min(min2) {
+    this.$$set({ min: min2 });
+    flush();
+  }
+  get max() {
+    return this.$$.ctx[2];
+  }
+  set max(max2) {
+    this.$$set({ max: max2 });
+    flush();
+  }
+  get step() {
+    return this.$$.ctx[3];
+  }
+  set step(step) {
+    this.$$set({ step });
+    flush();
+  }
+  get value() {
+    return this.$$.ctx[24];
+  }
+  set value(value) {
+    this.$$set({ value });
+    flush();
+  }
+  get values() {
+    return this.$$.ctx[4];
+  }
+  set values(values) {
+    this.$$set({ values });
+    flush();
+  }
+  get vertical() {
+    return this.$$.ctx[5];
+  }
+  set vertical(vertical) {
+    this.$$set({ vertical });
+    flush();
+  }
+  get reversed() {
+    return this.$$.ctx[6];
+  }
+  set reversed(reversed) {
+    this.$$set({ reversed });
+    flush();
+  }
+  get hoverable() {
+    return this.$$.ctx[7];
+  }
+  set hoverable(hoverable) {
+    this.$$set({ hoverable });
+    flush();
+  }
+  get disabled() {
+    return this.$$.ctx[8];
+  }
+  set disabled(disabled) {
+    this.$$set({ disabled });
+    flush();
+  }
+  get limits() {
+    return this.$$.ctx[9];
+  }
+  set limits(limits) {
+    this.$$set({ limits });
+    flush();
+  }
+  get pipstep() {
+    return this.$$.ctx[25];
+  }
+  set pipstep(pipstep) {
+    this.$$set({ pipstep });
+    flush();
+  }
+  get all() {
+    return this.$$.ctx[10];
+  }
+  set all(all) {
+    this.$$set({ all });
+    flush();
+  }
+  get first() {
+    return this.$$.ctx[11];
+  }
+  set first(first) {
+    this.$$set({ first });
+    flush();
+  }
+  get last() {
+    return this.$$.ctx[12];
+  }
+  set last(last) {
+    this.$$set({ last });
+    flush();
+  }
+  get rest() {
+    return this.$$.ctx[13];
+  }
+  set rest(rest) {
+    this.$$set({ rest });
+    flush();
+  }
+  get prefix() {
+    return this.$$.ctx[14];
+  }
+  set prefix(prefix) {
+    this.$$set({ prefix });
+    flush();
+  }
+  get suffix() {
+    return this.$$.ctx[15];
+  }
+  set suffix(suffix) {
+    this.$$set({ suffix });
+    flush();
+  }
+  get formatter() {
+    return this.$$.ctx[16];
+  }
+  set formatter(formatter) {
+    this.$$set({ formatter });
+    flush();
+  }
+  get precision() {
+    return this.$$.ctx[17];
+  }
+  set precision(precision) {
+    this.$$set({ precision });
+    flush();
+  }
+  get focus() {
+    return this.$$.ctx[18];
+  }
+  set focus(focus) {
+    this.$$set({ focus });
+    flush();
+  }
+  get orientationStart() {
+    return this.$$.ctx[19];
+  }
+  set orientationStart(orientationStart) {
+    this.$$set({ orientationStart });
+    flush();
+  }
+  get moveHandle() {
+    return this.$$.ctx[26];
+  }
+  set moveHandle(moveHandle) {
+    this.$$set({ moveHandle });
+    flush();
+  }
+}
+create_custom_element(RangePips, { "range": { "type": "Boolean" }, "min": {}, "max": {}, "step": {}, "value": {}, "values": {}, "vertical": { "type": "Boolean" }, "reversed": { "type": "Boolean" }, "hoverable": { "type": "Boolean" }, "disabled": { "type": "Boolean" }, "limits": {}, "pipstep": {}, "all": { "type": "Boolean" }, "first": {}, "last": {}, "rest": {}, "prefix": {}, "suffix": {}, "formatter": {}, "precision": {}, "focus": {}, "orientationStart": {}, "moveHandle": {} }, [], [], true);
+function add_css(target) {
+  append_styles(target, "svelte-ufxuds", "@layer base{.rangeSlider{--slider-light-accent:#4a40d4;--slider-light-accent-100:#838de7;--slider-light-accent-text:#ffffff;--slider-light-base:#99a2a2;--slider-light-base-100:#b9c2c2;--slider-light-bg:#d7dada;--slider-light-fg:#3f3e4f;--slider-dark-accent:#6070fc;--slider-dark-accent-100:#7a7fab;--slider-dark-accent-text:#ffffff;--slider-dark-base:#82809f;--slider-dark-base-100:#595868;--slider-dark-bg:#3f3e4f;--slider-dark-fg:#d7dada;--slider-accent:var(--slider-light-accent);--slider-accent-100:var(--slider-light-accent-100);--slider-accent-text:var(--slider-light-accent-text);--slider-base:var(--slider-light-base);--slider-base-100:var(--slider-light-base-100);--slider-bg:var(--slider-light-bg);--slider-fg:var(--slider-light-fg);--slider:var(--range-slider, var(--slider-bg));--handle-inactive:var(--range-handle-inactive, var(--slider-base));--handle:var(--range-handle, var(--slider-accent-100));--handle-focus:var(--range-handle-focus, var(--slider-accent));--handle-border:var(--range-handle-border, var(--handle));--range-inactive:var(--range-range-inactive, var(--handle-inactive));--range:var(--range-range, var(--handle-focus));--range-limit:var(--range-range-limit, var(--slider-base-100));--range-hover:var(--range-range-hover, var(--handle-border));--range-press:var(--range-range-press, var(--handle-border));--float-inactive:var(--range-float-inactive, var(--handle-inactive));--float:var(--range-float, var(--handle-focus));--float-text:var(--range-float-text, var(--slider-accent-text))}.rangeSlider.rsDark{--slider-accent:var(--slider-dark-accent);--slider-accent-100:var(--slider-dark-accent-100);--slider-accent-text:var(--slider-dark-accent-text);--slider-base:var(--slider-dark-base);--slider-base-100:var(--slider-dark-base-100);--slider-bg:var(--slider-dark-bg);--slider-fg:var(--slider-dark-fg)}@media(prefers-color-scheme: dark){.rangeSlider.rsAutoDark{--slider-accent:var(--slider-dark-accent);--slider-accent-100:var(--slider-dark-accent-100);--slider-accent-text:var(--slider-dark-accent-text);--slider-base:var(--slider-dark-base);--slider-base-100:var(--slider-dark-base-100);--slider-bg:var(--slider-dark-bg);--slider-fg:var(--slider-dark-fg)}}}.rangeSlider{position:relative;border-radius:100px;height:0.5em;margin:1em;transition:opacity 0.2s ease;user-select:none;overflow:visible}.rangeSlider *{user-select:none}.rangeSlider.rsPips{margin-bottom:1.8em}.rangeSlider.rsPipLabels{margin-bottom:2.8em}.rangeSlider.rsVertical{display:inline-block;border-radius:100px;width:0.5em;min-height:200px}.rangeSlider.rsVertical.rsPips{margin-right:1.8em;margin-bottom:1em}.rangeSlider.rsVertical.rsPipLabels{margin-right:2.8em;margin-bottom:1em}.rangeSlider .rangeHandle{position:absolute;display:block;height:1.4em;width:1.4em;top:0.25em;bottom:auto;transform:translateY(-50%) translateX(-50%);translate:calc(var(--slider-length) * (var(--handle-pos) / 100) * 1px) 0;z-index:2}.rangeSlider.rsReversed .rangeHandle{transform:translateY(-50%) translateX(-50%);translate:calc((var(--slider-length) * 1px) - (var(--slider-length) * (var(--handle-pos) / 100) * 1px)) 0}.rangeSlider.rsVertical .rangeHandle{left:0.25em;top:auto;transform:translateY(-50%) translateX(-50%);translate:0 calc(var(--slider-length) * (1 - var(--handle-pos) / 100) * 1px)}.rangeSlider.rsVertical.rsReversed .rangeHandle{transform:translateY(-50%) translateX(-50%);translate:0 calc((var(--slider-length) * 1px) - (var(--slider-length) * (1 - var(--handle-pos) / 100) * 1px))}.rangeSlider .rangeNub,.rangeSlider .rangeHandle::before{position:absolute;left:0;top:0;display:block;border-radius:10em;height:100%;width:100%;transition:background 0.2s ease,\n      box-shadow 0.2s ease}.rangeSlider .rangeHandle::before{content:'';left:1px;top:1px;bottom:1px;right:1px;height:auto;width:auto;box-shadow:0 0 0 0px var(--handle-border);opacity:0;transition:opacity 0.2s ease,\n      box-shadow 0.2s ease}.rangeSlider.rsHoverable:not(.rsDisabled) .rangeHandle:hover::before{box-shadow:0 0 0 8px var(--handle-border);opacity:0.2}.rangeSlider.rsHoverable:not(.rsDisabled) .rangeHandle.rsPress::before,.rangeSlider.rsHoverable:not(.rsDisabled) .rangeHandle.rsPress:hover::before{box-shadow:0 0 0 12px var(--handle-border);opacity:0.4}.rangeSlider.rsRange:not(.rsMin):not(.rsMax) .rangeNub{border-radius:10em 10em 10em 1.6em}.rangeSlider.rsRange .rangeHandle:nth-of-type(1) .rangeNub{transform:rotate(-135deg)}.rangeSlider.rsRange .rangeHandle:nth-of-type(2) .rangeNub{transform:rotate(45deg)}.rangeSlider.rsRange.rsReversed .rangeHandle:nth-of-type(1) .rangeNub{transform:rotate(45deg)}.rangeSlider.rsRange.rsReversed .rangeHandle:nth-of-type(2) .rangeNub{transform:rotate(-135deg)}.rangeSlider.rsRange.rsVertical .rangeHandle:nth-of-type(1) .rangeNub{transform:rotate(135deg)}.rangeSlider.rsRange.rsVertical .rangeHandle:nth-of-type(2) .rangeNub{transform:rotate(-45deg)}.rangeSlider.rsRange.rsVertical.rsReversed .rangeHandle:nth-of-type(1) .rangeNub{transform:rotate(-45deg)}.rangeSlider.rsRange.rsVertical.rsReversed .rangeHandle:nth-of-type(2) .rangeNub{transform:rotate(135deg)}.rangeSlider .rangeFloat{display:block;position:absolute;left:50%;bottom:1.75em;font-size:1em;text-align:center;pointer-events:none;white-space:nowrap;font-size:0.9em;line-height:1;padding:0.33em 0.5em 0.5em;border-radius:0.5em;z-index:3;opacity:0;translate:-50% -50% 0.01px;scale:1;transform-origin:center;transition:all 0.22s cubic-bezier(0.33, 1, 0.68, 1)}.rangeSlider .rangeHandle.rsActive .rangeFloat,.rangeSlider.rsHoverable .rangeHandle:hover .rangeFloat,.rangeSlider.rsHoverable .rangeBar:hover .rangeFloat,.rangeSlider.rsFocus .rangeBar .rangeFloat{opacity:1;scale:1;translate:-50% 0% 0.01px}.rangeSlider .rangeBar .rangeFloat{bottom:0.875em;z-index:2}.rangeSlider.rsVertical .rangeFloat{top:50%;bottom:auto;left:auto;right:1.75em;translate:-50% -50% 0.01px}.rangeSlider.rsVertical .rangeHandle.rsActive .rangeFloat,.rangeSlider.rsVertical.rsHoverable .rangeHandle:hover .rangeFloat,.rangeSlider.rsVertical.rsHoverable .rangeBar:hover .rangeFloat,.rangeSlider.rsVertical.rsFocus .rangeBar .rangeFloat{translate:0% -50% 0.01px}.rangeSlider.rsVertical .rangeBar .rangeFloat{right:0.875em}.rangeSlider .rangeBar,.rangeSlider .rangeLimit,.rangeSlider.rsDrag .rangeBar::before{position:absolute;display:block;transition:background 0.2s ease;border-radius:1em;height:0.5em;top:0;user-select:none;z-index:1}.rangeSlider.rsVertical .rangeBar,.rangeSlider.rsVertical .rangeLimit,.rangeSlider.rsVertical.rsDrag .rangeBar::before{width:0.5em;height:auto}.rangeSlider .rangeBar{translate:calc((var(--slider-length) * (var(--range-start) / 100) * 1px)) 0;width:calc(var(--slider-length) * (var(--range-size) / 100 * 1px))}.rangeSlider.rsReversed .rangeBar{translate:calc((var(--slider-length) * 1px) - (var(--slider-length) * (var(--range-end) / 100) * 1px)) 0}.rangeSlider.rsVertical .rangeBar{translate:0 calc((var(--slider-length) * 1px) - (var(--slider-length) * (var(--range-end) / 100) * 1px));height:calc(var(--slider-length) * (var(--range-size) / 100 * 1px))}.rangeSlider.rsVertical.rsReversed .rangeBar{translate:0 calc((var(--slider-length) * (var(--range-start) / 100) * 1px))}.rangeSlider.rsDrag .rangeBar::before{content:'';inset:0;top:-0.5em;bottom:-0.5em;height:auto;background-color:var(--range-hover);opacity:0;scale:1 0.5;transition:opacity 0.2s ease,\n      scale 0.2s ease}.rangeSlider.rsVertical.rsDrag .rangeBar::before{inset:0;left:-0.5em;right:-0.5em;width:auto}.rangeSlider.rsHoverable:not(.rsDisabled).rsDrag .rangeBar:hover::before{opacity:0.2;scale:1 1}.rangeSlider.rsHoverable:not(.rsDisabled).rsDrag .rangeBar.rsPress::before{opacity:0.4;scale:1 1.25}.rangeSlider.rsVertical.rsHoverable:not(.rsDisabled).rsDrag .rangeBar.rsPress::before{scale:1.25 1}.rangeSlider{background-color:var(--slider)}.rangeSlider .rangeBar{background-color:var(--range-inactive)}.rangeSlider.rsFocus .rangeBar{background-color:var(--range)}.rangeSlider .rangeLimit{background-color:var(--range-limit)}.rangeSlider .rangeNub{background-color:var(--handle-inactive)}.rangeSlider.rsFocus .rangeNub{background-color:var(--handle)}.rangeSlider .rangeHandle.rsActive .rangeNub{background-color:var(--handle-focus)}.rangeSlider .rangeFloat{color:var(--float-text);background-color:var(--float-inactive)}.rangeSlider.rsFocus .rangeFloat{background-color:var(--float)}.rangeSlider.rsDisabled{opacity:0.5}.rangeSlider.rsDisabled .rangeNub{background-color:var(--handle-inactive)}.rangeSlider .rangeBar,.rangeSlider .rangeHandle{transition:opacity 0.2s ease}");
+}
+function get_if_ctx(ctx) {
+  const child_ctx = ctx.slice();
+  const constants_0 = (
+    /*range*/
+    child_ctx[11] === "min" ? (
+      /*min*/
+      child_ctx[1]
+    ) : (
+      /*values*/
+      child_ctx[4][0]
+    )
+  );
+  child_ctx[99] = constants_0;
+  const constants_1 = (
+    /*range*/
+    child_ctx[11] === "max" ? (
+      /*max*/
+      child_ctx[2]
+    ) : (
+      /*range*/
+      child_ctx[11] === "min" ? (
+        /*values*/
+        child_ctx[4][0]
+      ) : (
+        /*values*/
+        child_ctx[4][1]
+      )
+    )
+  );
+  child_ctx[100] = constants_1;
+  const constants_2 = (
+    /*reversed*/
+    child_ctx[16] ? [
+      /*rangeMax*/
+      child_ctx[100],
+      /*rangeMin*/
+      child_ctx[99]
+    ] : [
+      /*rangeMin*/
+      child_ctx[99],
+      /*rangeMax*/
+      child_ctx[100]
+    ]
+  );
+  child_ctx[31] = constants_2[0];
+  child_ctx[101] = constants_2[1];
+  return child_ctx;
+}
+function get_if_ctx_1(ctx) {
+  const child_ctx = ctx.slice();
+  const constants_0 = (
+    /*rangeStartPercent*/
+    child_ctx[44](
+      /*$springPositions*/
+      child_ctx[42]
+    )
+  );
+  child_ctx[95] = constants_0;
+  const constants_1 = (
+    /*rangeEndPercent*/
+    child_ctx[45](
+      /*$springPositions*/
+      child_ctx[42]
+    )
+  );
+  child_ctx[96] = constants_1;
+  const constants_2 = (
+    /*rangeEnd*/
+    child_ctx[96] - /*rangeStart*/
+    child_ctx[95]
+  );
+  child_ctx[97] = constants_2;
+  const constants_3 = (
+    /*isMounted*/
+    child_ctx[32] ? `` : `opacity: 0; `
+  );
+  child_ctx[98] = constants_3;
+  return child_ctx;
+}
+function get_each_context(ctx, list, i) {
+  const child_ctx = ctx.slice();
+  child_ctx[9] = list[i];
+  child_ctx[104] = i;
+  const constants_0 = (
+    /*focus*/
+    child_ctx[33] && /*activeHandle*/
+    child_ctx[36] === /*index*/
+    child_ctx[104] ? `z-index: 3; ` : ``
+  );
+  child_ctx[102] = constants_0;
+  const constants_1 = (
+    /*isMounted*/
+    child_ctx[32] ? `` : `opacity: 0; `
+  );
+  child_ctx[98] = constants_1;
+  return child_ctx;
+}
+function get_if_ctx_2(ctx) {
+  const child_ctx = ctx.slice();
+  const constants_0 = valueAsPercent(
+    /*value*/
+    child_ctx[9],
+    /*min*/
+    child_ctx[1],
+    /*max*/
+    child_ctx[2],
+    /*precision*/
+    child_ctx[10]
+  );
+  child_ctx[105] = constants_0;
+  const constants_1 = (
+    /*handleFormatter*/
+    child_ctx[6](
+      /*value*/
+      child_ctx[9],
+      /*index*/
+      child_ctx[104],
+      /*percent*/
+      child_ctx[105]
+    )
+  );
+  child_ctx[106] = constants_1;
+  return child_ctx;
+}
+function create_if_block_9(ctx) {
+  let span;
+  let if_block0_anchor;
+  let html_tag;
+  let raw_value = (
+    /*formattedValue*/
+    ctx[106] + ""
+  );
+  let html_anchor;
+  let if_block0 = (
+    /*prefix*/
+    ctx[25] && create_if_block_11(ctx)
+  );
+  let if_block1 = (
+    /*suffix*/
+    ctx[26] && create_if_block_10(ctx)
+  );
+  return {
+    c() {
+      span = element("span");
+      if (if_block0) if_block0.c();
+      if_block0_anchor = empty();
+      html_tag = new HtmlTag(false);
+      html_anchor = empty();
+      if (if_block1) if_block1.c();
+      html_tag.a = html_anchor;
+      attr(span, "class", "rangeFloat");
+    },
+    m(target, anchor) {
+      insert(target, span, anchor);
+      if (if_block0) if_block0.m(span, null);
+      append(span, if_block0_anchor);
+      html_tag.m(raw_value, span);
+      append(span, html_anchor);
+      if (if_block1) if_block1.m(span, null);
+    },
+    p(ctx2, dirty) {
+      if (
+        /*prefix*/
+        ctx2[25]
+      ) {
+        if (if_block0) {
+          if_block0.p(ctx2, dirty);
+        } else {
+          if_block0 = create_if_block_11(ctx2);
+          if_block0.c();
+          if_block0.m(span, if_block0_anchor);
+        }
+      } else if (if_block0) {
+        if_block0.d(1);
+        if_block0 = null;
+      }
+      if (dirty[0] & /*handleFormatter, values, min, max, precision*/
+      1110 && raw_value !== (raw_value = /*formattedValue*/
+      ctx2[106] + "")) html_tag.p(raw_value);
+      if (
+        /*suffix*/
+        ctx2[26]
+      ) {
+        if (if_block1) {
+          if_block1.p(ctx2, dirty);
+        } else {
+          if_block1 = create_if_block_10(ctx2);
+          if_block1.c();
+          if_block1.m(span, null);
+        }
+      } else if (if_block1) {
+        if_block1.d(1);
+        if_block1 = null;
+      }
+    },
+    d(detaching) {
+      if (detaching) {
+        detach(span);
+      }
+      if (if_block0) if_block0.d();
+      if (if_block1) if_block1.d();
+    }
+  };
+}
+function create_if_block_11(ctx) {
+  let span;
+  let t;
+  return {
+    c() {
+      span = element("span");
+      t = text(
+        /*prefix*/
+        ctx[25]
+      );
+      attr(span, "class", "rangeFloatPrefix");
+    },
+    m(target, anchor) {
+      insert(target, span, anchor);
+      append(span, t);
+    },
+    p(ctx2, dirty) {
+      if (dirty[0] & /*prefix*/
+      33554432) set_data(
+        t,
+        /*prefix*/
+        ctx2[25]
+      );
+    },
+    d(detaching) {
+      if (detaching) {
+        detach(span);
+      }
+    }
+  };
+}
+function create_if_block_10(ctx) {
+  let span;
+  let t;
+  return {
+    c() {
+      span = element("span");
+      t = text(
+        /*suffix*/
+        ctx[26]
+      );
+      attr(span, "class", "rangeFloatSuffix");
+    },
+    m(target, anchor) {
+      insert(target, span, anchor);
+      append(span, t);
+    },
+    p(ctx2, dirty) {
+      if (dirty[0] & /*suffix*/
+      67108864) set_data(
+        t,
+        /*suffix*/
+        ctx2[26]
+      );
+    },
+    d(detaching) {
+      if (detaching) {
+        detach(span);
+      }
+    }
+  };
+}
+function create_each_block(ctx) {
+  let span1;
+  let span0;
+  let t;
+  let span1_style_value;
+  let span1_aria_label_value;
+  let span1_aria_valuemin_value;
+  let span1_aria_valuemax_value;
+  let span1_aria_valuenow_value;
+  let span1_aria_valuetext_value;
+  let span1_aria_orientation_value;
+  let span1_tabindex_value;
+  let mounted;
+  let dispose;
+  let if_block = (
+    /*float*/
+    ctx[14] && create_if_block_9(get_if_ctx_2(ctx))
+  );
+  return {
+    c() {
+      span1 = element("span");
+      span0 = element("span");
+      t = space();
+      if (if_block) if_block.c();
+      attr(span0, "class", "rangeNub");
+      attr(span1, "role", "slider");
+      attr(span1, "class", "rangeHandle");
+      attr(
+        span1,
+        "data-handle",
+        /*index*/
+        ctx[104]
+      );
+      attr(span1, "style", span1_style_value = `--handle-pos: ${/*$springPositions*/
+      ctx[42][
+        /*index*/
+        ctx[104]
+      ]};${/*zindex*/
+      ctx[102]}${/*mountOpacity*/
+      ctx[98]}`);
+      attr(span1, "aria-label", span1_aria_label_value = /*ariaLabels*/
+      ctx[8][
+        /*index*/
+        ctx[104]
+      ]);
+      attr(span1, "aria-valuemin", span1_aria_valuemin_value = /*range*/
+      ctx[11] === true && /*index*/
+      ctx[104] === 1 ? (
+        /*values*/
+        ctx[4][0]
+      ) : (
+        /*min*/
+        ctx[1]
+      ));
+      attr(span1, "aria-valuemax", span1_aria_valuemax_value = /*range*/
+      ctx[11] === true && /*index*/
+      ctx[104] === 0 ? (
+        /*values*/
+        ctx[4][1]
+      ) : (
+        /*max*/
+        ctx[2]
+      ));
+      attr(span1, "aria-valuenow", span1_aria_valuenow_value = /*value*/
+      ctx[9]);
+      attr(span1, "aria-valuetext", span1_aria_valuetext_value = /*ariaLabelFormatter*/
+      ctx[56](
+        /*value*/
+        ctx[9],
+        /*index*/
+        ctx[104]
+      ));
+      attr(span1, "aria-orientation", span1_aria_orientation_value = /*vertical*/
+      ctx[13] ? "vertical" : "horizontal");
+      attr(
+        span1,
+        "aria-disabled",
+        /*disabled*/
+        ctx[18]
+      );
+      attr(span1, "tabindex", span1_tabindex_value = /*disabled*/
+      ctx[18] ? -1 : 0);
+      toggle_class(
+        span1,
+        "rsActive",
+        /*focus*/
+        ctx[33] && /*activeHandle*/
+        ctx[36] === /*index*/
+        ctx[104]
+      );
+      toggle_class(
+        span1,
+        "rsPress",
+        /*handlePressed*/
+        ctx[34] && /*activeHandle*/
+        ctx[36] === /*index*/
+        ctx[104]
+      );
+    },
+    m(target, anchor) {
+      insert(target, span1, anchor);
+      append(span1, span0);
+      append(span1, t);
+      if (if_block) if_block.m(span1, null);
+      if (!mounted) {
+        dispose = [
+          listen(
+            span1,
+            "blur",
+            /*sliderBlurHandle*/
+            ctx[46]
+          ),
+          listen(
+            span1,
+            "focus",
+            /*sliderFocusHandle*/
+            ctx[47]
+          ),
+          listen(
+            span1,
+            "keydown",
+            /*sliderKeydown*/
+            ctx[48]
+          )
+        ];
+        mounted = true;
+      }
+    },
+    p(ctx2, dirty) {
+      if (
+        /*float*/
+        ctx2[14]
+      ) {
+        if (if_block) {
+          if_block.p(get_if_ctx_2(ctx2), dirty);
+        } else {
+          if_block = create_if_block_9(get_if_ctx_2(ctx2));
+          if_block.c();
+          if_block.m(span1, null);
+        }
+      } else if (if_block) {
+        if_block.d(1);
+        if_block = null;
+      }
+      if (dirty[1] & /*$springPositions, focus, activeHandle, isMounted*/
+      2086 && span1_style_value !== (span1_style_value = `--handle-pos: ${/*$springPositions*/
+      ctx2[42][
+        /*index*/
+        ctx2[104]
+      ]};${/*zindex*/
+      ctx2[102]}${/*mountOpacity*/
+      ctx2[98]}`)) {
+        attr(span1, "style", span1_style_value);
+      }
+      if (dirty[0] & /*ariaLabels*/
+      256 && span1_aria_label_value !== (span1_aria_label_value = /*ariaLabels*/
+      ctx2[8][
+        /*index*/
+        ctx2[104]
+      ])) {
+        attr(span1, "aria-label", span1_aria_label_value);
+      }
+      if (dirty[0] & /*range, values, min*/
+      2066 && span1_aria_valuemin_value !== (span1_aria_valuemin_value = /*range*/
+      ctx2[11] === true && /*index*/
+      ctx2[104] === 1 ? (
+        /*values*/
+        ctx2[4][0]
+      ) : (
+        /*min*/
+        ctx2[1]
+      ))) {
+        attr(span1, "aria-valuemin", span1_aria_valuemin_value);
+      }
+      if (dirty[0] & /*range, values, max*/
+      2068 && span1_aria_valuemax_value !== (span1_aria_valuemax_value = /*range*/
+      ctx2[11] === true && /*index*/
+      ctx2[104] === 0 ? (
+        /*values*/
+        ctx2[4][1]
+      ) : (
+        /*max*/
+        ctx2[2]
+      ))) {
+        attr(span1, "aria-valuemax", span1_aria_valuemax_value);
+      }
+      if (dirty[0] & /*values*/
+      16 && span1_aria_valuenow_value !== (span1_aria_valuenow_value = /*value*/
+      ctx2[9])) {
+        attr(span1, "aria-valuenow", span1_aria_valuenow_value);
+      }
+      if (dirty[0] & /*values*/
+      16 && span1_aria_valuetext_value !== (span1_aria_valuetext_value = /*ariaLabelFormatter*/
+      ctx2[56](
+        /*value*/
+        ctx2[9],
+        /*index*/
+        ctx2[104]
+      ))) {
+        attr(span1, "aria-valuetext", span1_aria_valuetext_value);
+      }
+      if (dirty[0] & /*vertical*/
+      8192 && span1_aria_orientation_value !== (span1_aria_orientation_value = /*vertical*/
+      ctx2[13] ? "vertical" : "horizontal")) {
+        attr(span1, "aria-orientation", span1_aria_orientation_value);
+      }
+      if (dirty[0] & /*disabled*/
+      262144) {
+        attr(
+          span1,
+          "aria-disabled",
+          /*disabled*/
+          ctx2[18]
+        );
+      }
+      if (dirty[0] & /*disabled*/
+      262144 && span1_tabindex_value !== (span1_tabindex_value = /*disabled*/
+      ctx2[18] ? -1 : 0)) {
+        attr(span1, "tabindex", span1_tabindex_value);
+      }
+      if (dirty[1] & /*focus, activeHandle*/
+      36) {
+        toggle_class(
+          span1,
+          "rsActive",
+          /*focus*/
+          ctx2[33] && /*activeHandle*/
+          ctx2[36] === /*index*/
+          ctx2[104]
+        );
+      }
+      if (dirty[1] & /*handlePressed, activeHandle*/
+      40) {
+        toggle_class(
+          span1,
+          "rsPress",
+          /*handlePressed*/
+          ctx2[34] && /*activeHandle*/
+          ctx2[36] === /*index*/
+          ctx2[104]
+        );
+      }
+    },
+    d(detaching) {
+      if (detaching) {
+        detach(span1);
+      }
+      if (if_block) if_block.d();
+      mounted = false;
+      run_all(dispose);
+    }
+  };
+}
+function create_if_block_8(ctx) {
+  let span;
+  let span_style_value;
+  return {
+    c() {
+      span = element("span");
+      attr(span, "class", "rangeLimit");
+      attr(span, "style", span_style_value = /*orientationStart*/
+      ctx[40] + ": " + valueAsPercent(
+        /*limits*/
+        ctx[19][0],
+        /*min*/
+        ctx[1],
+        /*max*/
+        ctx[2],
+        /*precision*/
+        ctx[10]
+      ) + "%; " + /*orientationEnd*/
+      ctx[39] + ": " + (100 - valueAsPercent(
+        /*limits*/
+        ctx[19][1],
+        /*min*/
+        ctx[1],
+        /*max*/
+        ctx[2],
+        /*precision*/
+        ctx[10]
+      )) + "%;");
+    },
+    m(target, anchor) {
+      insert(target, span, anchor);
+    },
+    p(ctx2, dirty) {
+      if (dirty[0] & /*limits, min, max, precision*/
+      525318 | dirty[1] & /*orientationStart, orientationEnd*/
+      768 && span_style_value !== (span_style_value = /*orientationStart*/
+      ctx2[40] + ": " + valueAsPercent(
+        /*limits*/
+        ctx2[19][0],
+        /*min*/
+        ctx2[1],
+        /*max*/
+        ctx2[2],
+        /*precision*/
+        ctx2[10]
+      ) + "%; " + /*orientationEnd*/
+      ctx2[39] + ": " + (100 - valueAsPercent(
+        /*limits*/
+        ctx2[19][1],
+        /*min*/
+        ctx2[1],
+        /*max*/
+        ctx2[2],
+        /*precision*/
+        ctx2[10]
+      )) + "%;")) {
+        attr(span, "style", span_style_value);
+      }
+    },
+    d(detaching) {
+      if (detaching) {
+        detach(span);
+      }
+    }
+  };
+}
+function create_if_block_1(ctx) {
+  let span;
+  let span_style_value;
+  let if_block = (
+    /*rangeFloat*/
+    ctx[15] && create_if_block_2(get_if_ctx(ctx))
+  );
+  return {
+    c() {
+      span = element("span");
+      if (if_block) if_block.c();
+      attr(span, "class", "rangeBar");
+      attr(span, "style", span_style_value = `--range-start:${/*rangeStart*/
+      ctx[95]};--range-end:${/*rangeEnd*/
+      ctx[96]};--range-size:${/*rangeSize*/
+      ctx[97]};${/*mountOpacity*/
+      ctx[98]};`);
+      toggle_class(
+        span,
+        "rsPress",
+        /*rangePressed*/
+        ctx[35]
+      );
+    },
+    m(target, anchor) {
+      insert(target, span, anchor);
+      if (if_block) if_block.m(span, null);
+    },
+    p(ctx2, dirty) {
+      if (
+        /*rangeFloat*/
+        ctx2[15]
+      ) {
+        if (if_block) {
+          if_block.p(get_if_ctx(ctx2), dirty);
+        } else {
+          if_block = create_if_block_2(get_if_ctx(ctx2));
+          if_block.c();
+          if_block.m(span, null);
+        }
+      } else if (if_block) {
+        if_block.d(1);
+        if_block = null;
+      }
+      if (dirty[1] & /*$springPositions, isMounted*/
+      2050 && span_style_value !== (span_style_value = `--range-start:${/*rangeStart*/
+      ctx2[95]};--range-end:${/*rangeEnd*/
+      ctx2[96]};--range-size:${/*rangeSize*/
+      ctx2[97]};${/*mountOpacity*/
+      ctx2[98]};`)) {
+        attr(span, "style", span_style_value);
+      }
+      if (dirty[1] & /*rangePressed*/
+      16) {
+        toggle_class(
+          span,
+          "rsPress",
+          /*rangePressed*/
+          ctx2[35]
+        );
+      }
+    },
+    d(detaching) {
+      if (detaching) {
+        detach(span);
+      }
+      if (if_block) if_block.d();
+    }
+  };
+}
+function create_if_block_2(ctx) {
+  let span;
+  function select_block_type(ctx2, dirty) {
+    if (
+      /*rangeFormatter*/
+      ctx2[7]
+    ) return create_if_block_3;
+    return create_else_block;
+  }
+  let current_block_type = select_block_type(ctx);
+  let if_block = current_block_type(ctx);
+  return {
+    c() {
+      span = element("span");
+      if_block.c();
+      attr(span, "class", "rangeFloat");
+    },
+    m(target, anchor) {
+      insert(target, span, anchor);
+      if_block.m(span, null);
+    },
+    p(ctx2, dirty) {
+      if (current_block_type === (current_block_type = select_block_type(ctx2)) && if_block) {
+        if_block.p(ctx2, dirty);
+      } else {
+        if_block.d(1);
+        if_block = current_block_type(ctx2);
+        if (if_block) {
+          if_block.c();
+          if_block.m(span, null);
+        }
+      }
+    },
+    d(detaching) {
+      if (detaching) {
+        detach(span);
+      }
+      if_block.d();
+    }
+  };
+}
+function create_else_block(ctx) {
+  let if_block0_anchor;
+  let html_tag;
+  let raw0_value = (
+    /*first*/
+    ctx[31] + ""
+  );
+  let html_anchor;
+  let t0;
+  let t1_value = " ";
+  let t1;
+  let t2;
+  let t3_value = " ";
+  let t3;
+  let t4;
+  let if_block2_anchor;
+  let html_tag_1;
+  let raw1_value = (
+    /*second*/
+    ctx[101] + ""
+  );
+  let html_anchor_1;
+  let if_block3_anchor;
+  let if_block0 = (
+    /*prefix*/
+    ctx[25] && create_if_block_7(ctx)
+  );
+  let if_block1 = (
+    /*suffix*/
+    ctx[26] && create_if_block_6(ctx)
+  );
+  let if_block2 = (
+    /*prefix*/
+    ctx[25] && create_if_block_5(ctx)
+  );
+  let if_block3 = (
+    /*suffix*/
+    ctx[26] && create_if_block_4(ctx)
+  );
+  return {
+    c() {
+      if (if_block0) if_block0.c();
+      if_block0_anchor = empty();
+      html_tag = new HtmlTag(false);
+      html_anchor = empty();
+      if (if_block1) if_block1.c();
+      t0 = space();
+      t1 = text(t1_value);
+      t2 = text("-");
+      t3 = text(t3_value);
+      t4 = space();
+      if (if_block2) if_block2.c();
+      if_block2_anchor = empty();
+      html_tag_1 = new HtmlTag(false);
+      html_anchor_1 = empty();
+      if (if_block3) if_block3.c();
+      if_block3_anchor = empty();
+      html_tag.a = html_anchor;
+      html_tag_1.a = html_anchor_1;
+    },
+    m(target, anchor) {
+      if (if_block0) if_block0.m(target, anchor);
+      insert(target, if_block0_anchor, anchor);
+      html_tag.m(raw0_value, target, anchor);
+      insert(target, html_anchor, anchor);
+      if (if_block1) if_block1.m(target, anchor);
+      insert(target, t0, anchor);
+      insert(target, t1, anchor);
+      insert(target, t2, anchor);
+      insert(target, t3, anchor);
+      insert(target, t4, anchor);
+      if (if_block2) if_block2.m(target, anchor);
+      insert(target, if_block2_anchor, anchor);
+      html_tag_1.m(raw1_value, target, anchor);
+      insert(target, html_anchor_1, anchor);
+      if (if_block3) if_block3.m(target, anchor);
+      insert(target, if_block3_anchor, anchor);
+    },
+    p(ctx2, dirty) {
+      if (
+        /*prefix*/
+        ctx2[25]
+      ) {
+        if (if_block0) {
+          if_block0.p(ctx2, dirty);
+        } else {
+          if_block0 = create_if_block_7(ctx2);
+          if_block0.c();
+          if_block0.m(if_block0_anchor.parentNode, if_block0_anchor);
+        }
+      } else if (if_block0) {
+        if_block0.d(1);
+        if_block0 = null;
+      }
+      if (dirty[0] & /*reversed, range, max, values, min*/
+      67606 && raw0_value !== (raw0_value = /*first*/
+      ctx2[31] + "")) html_tag.p(raw0_value);
+      if (
+        /*suffix*/
+        ctx2[26]
+      ) {
+        if (if_block1) {
+          if_block1.p(ctx2, dirty);
+        } else {
+          if_block1 = create_if_block_6(ctx2);
+          if_block1.c();
+          if_block1.m(t0.parentNode, t0);
+        }
+      } else if (if_block1) {
+        if_block1.d(1);
+        if_block1 = null;
+      }
+      if (
+        /*prefix*/
+        ctx2[25]
+      ) {
+        if (if_block2) {
+          if_block2.p(ctx2, dirty);
+        } else {
+          if_block2 = create_if_block_5(ctx2);
+          if_block2.c();
+          if_block2.m(if_block2_anchor.parentNode, if_block2_anchor);
+        }
+      } else if (if_block2) {
+        if_block2.d(1);
+        if_block2 = null;
+      }
+      if (dirty[0] & /*reversed, range, max, values, min*/
+      67606 && raw1_value !== (raw1_value = /*second*/
+      ctx2[101] + "")) html_tag_1.p(raw1_value);
+      if (
+        /*suffix*/
+        ctx2[26]
+      ) {
+        if (if_block3) {
+          if_block3.p(ctx2, dirty);
+        } else {
+          if_block3 = create_if_block_4(ctx2);
+          if_block3.c();
+          if_block3.m(if_block3_anchor.parentNode, if_block3_anchor);
+        }
+      } else if (if_block3) {
+        if_block3.d(1);
+        if_block3 = null;
+      }
+    },
+    d(detaching) {
+      if (detaching) {
+        detach(if_block0_anchor);
+        detach(html_anchor);
+        html_tag.d();
+        detach(t0);
+        detach(t1);
+        detach(t2);
+        detach(t3);
+        detach(t4);
+        detach(if_block2_anchor);
+        detach(html_anchor_1);
+        html_tag_1.d();
+        detach(if_block3_anchor);
+      }
+      if (if_block0) if_block0.d(detaching);
+      if (if_block1) if_block1.d(detaching);
+      if (if_block2) if_block2.d(detaching);
+      if (if_block3) if_block3.d(detaching);
+    }
+  };
+}
+function create_if_block_3(ctx) {
+  let html_tag;
+  let raw_value = (
+    /*rangeFormatter*/
+    ctx[7](
+      /*first*/
+      ctx[31],
+      /*second*/
+      ctx[101],
+      valueAsPercent(
+        /*first*/
+        ctx[31],
+        /*min*/
+        ctx[1],
+        /*max*/
+        ctx[2],
+        /*precision*/
+        ctx[10]
+      ),
+      valueAsPercent(
+        /*second*/
+        ctx[101],
+        /*min*/
+        ctx[1],
+        /*max*/
+        ctx[2],
+        /*precision*/
+        ctx[10]
+      )
+    ) + ""
+  );
+  let html_anchor;
+  return {
+    c() {
+      html_tag = new HtmlTag(false);
+      html_anchor = empty();
+      html_tag.a = html_anchor;
+    },
+    m(target, anchor) {
+      html_tag.m(raw_value, target, anchor);
+      insert(target, html_anchor, anchor);
+    },
+    p(ctx2, dirty) {
+      if (dirty[0] & /*rangeFormatter, reversed, range, max, values, min, precision*/
+      68758 && raw_value !== (raw_value = /*rangeFormatter*/
+      ctx2[7](
+        /*first*/
+        ctx2[31],
+        /*second*/
+        ctx2[101],
+        valueAsPercent(
+          /*first*/
+          ctx2[31],
+          /*min*/
+          ctx2[1],
+          /*max*/
+          ctx2[2],
+          /*precision*/
+          ctx2[10]
+        ),
+        valueAsPercent(
+          /*second*/
+          ctx2[101],
+          /*min*/
+          ctx2[1],
+          /*max*/
+          ctx2[2],
+          /*precision*/
+          ctx2[10]
+        )
+      ) + "")) html_tag.p(raw_value);
+    },
+    d(detaching) {
+      if (detaching) {
+        detach(html_anchor);
+        html_tag.d();
+      }
+    }
+  };
+}
+function create_if_block_7(ctx) {
+  let span;
+  let t;
+  return {
+    c() {
+      span = element("span");
+      t = text(
+        /*prefix*/
+        ctx[25]
+      );
+      attr(span, "class", "rangeFloatPrefix");
+    },
+    m(target, anchor) {
+      insert(target, span, anchor);
+      append(span, t);
+    },
+    p(ctx2, dirty) {
+      if (dirty[0] & /*prefix*/
+      33554432) set_data(
+        t,
+        /*prefix*/
+        ctx2[25]
+      );
+    },
+    d(detaching) {
+      if (detaching) {
+        detach(span);
+      }
+    }
+  };
+}
+function create_if_block_6(ctx) {
+  let span;
+  let t;
+  return {
+    c() {
+      span = element("span");
+      t = text(
+        /*suffix*/
+        ctx[26]
+      );
+      attr(span, "class", "rangeFloatSuffix");
+    },
+    m(target, anchor) {
+      insert(target, span, anchor);
+      append(span, t);
+    },
+    p(ctx2, dirty) {
+      if (dirty[0] & /*suffix*/
+      67108864) set_data(
+        t,
+        /*suffix*/
+        ctx2[26]
+      );
+    },
+    d(detaching) {
+      if (detaching) {
+        detach(span);
+      }
+    }
+  };
+}
+function create_if_block_5(ctx) {
+  let span;
+  let t;
+  return {
+    c() {
+      span = element("span");
+      t = text(
+        /*prefix*/
+        ctx[25]
+      );
+      attr(span, "class", "rangeFloatPrefix");
+    },
+    m(target, anchor) {
+      insert(target, span, anchor);
+      append(span, t);
+    },
+    p(ctx2, dirty) {
+      if (dirty[0] & /*prefix*/
+      33554432) set_data(
+        t,
+        /*prefix*/
+        ctx2[25]
+      );
+    },
+    d(detaching) {
+      if (detaching) {
+        detach(span);
+      }
+    }
+  };
+}
+function create_if_block_4(ctx) {
+  let span;
+  let t;
+  return {
+    c() {
+      span = element("span");
+      t = text(
+        /*suffix*/
+        ctx[26]
+      );
+      attr(span, "class", "rangeFloatSuffix");
+    },
+    m(target, anchor) {
+      insert(target, span, anchor);
+      append(span, t);
+    },
+    p(ctx2, dirty) {
+      if (dirty[0] & /*suffix*/
+      67108864) set_data(
+        t,
+        /*suffix*/
+        ctx2[26]
+      );
+    },
+    d(detaching) {
+      if (detaching) {
+        detach(span);
+      }
+    }
+  };
+}
+function create_if_block(ctx) {
+  let rangepips;
+  let current;
+  rangepips = new RangePips({
+    props: {
+      values: (
+        /*values*/
+        ctx[4]
+      ),
+      min: (
+        /*min*/
+        ctx[1]
+      ),
+      max: (
+        /*max*/
+        ctx[2]
+      ),
+      step: (
+        /*step*/
+        ctx[3]
+      ),
+      range: (
+        /*range*/
+        ctx[11]
+      ),
+      vertical: (
+        /*vertical*/
+        ctx[13]
+      ),
+      reversed: (
+        /*reversed*/
+        ctx[16]
+      ),
+      orientationStart: (
+        /*orientationStart*/
+        ctx[40]
+      ),
+      hoverable: (
+        /*hoverable*/
+        ctx[17]
+      ),
+      disabled: (
+        /*disabled*/
+        ctx[18]
+      ),
+      limits: (
+        /*limits*/
+        ctx[19]
+      ),
+      all: (
+        /*all*/
+        ctx[22]
+      ),
+      first: (
+        /*first*/
+        ctx[31]
+      ),
+      last: (
+        /*last*/
+        ctx[23]
+      ),
+      rest: (
+        /*rest*/
+        ctx[24]
+      ),
+      pipstep: (
+        /*pipstep*/
+        ctx[21]
+      ),
+      prefix: (
+        /*prefix*/
+        ctx[25]
+      ),
+      suffix: (
+        /*suffix*/
+        ctx[26]
+      ),
+      formatter: (
+        /*formatter*/
+        ctx[5]
+      ),
+      precision: (
+        /*precision*/
+        ctx[10]
+      ),
+      focus: (
+        /*focus*/
+        ctx[33]
+      ),
+      moveHandle: (
+        /*moveHandle*/
+        ctx[43]
+      )
+    }
+  });
+  return {
+    c() {
+      create_component(rangepips.$$.fragment);
+    },
+    m(target, anchor) {
+      mount_component(rangepips, target, anchor);
+      current = true;
+    },
+    p(ctx2, dirty) {
+      const rangepips_changes = {};
+      if (dirty[0] & /*values*/
+      16) rangepips_changes.values = /*values*/
+      ctx2[4];
+      if (dirty[0] & /*min*/
+      2) rangepips_changes.min = /*min*/
+      ctx2[1];
+      if (dirty[0] & /*max*/
+      4) rangepips_changes.max = /*max*/
+      ctx2[2];
+      if (dirty[0] & /*step*/
+      8) rangepips_changes.step = /*step*/
+      ctx2[3];
+      if (dirty[0] & /*range*/
+      2048) rangepips_changes.range = /*range*/
+      ctx2[11];
+      if (dirty[0] & /*vertical*/
+      8192) rangepips_changes.vertical = /*vertical*/
+      ctx2[13];
+      if (dirty[0] & /*reversed*/
+      65536) rangepips_changes.reversed = /*reversed*/
+      ctx2[16];
+      if (dirty[1] & /*orientationStart*/
+      512) rangepips_changes.orientationStart = /*orientationStart*/
+      ctx2[40];
+      if (dirty[0] & /*hoverable*/
+      131072) rangepips_changes.hoverable = /*hoverable*/
+      ctx2[17];
+      if (dirty[0] & /*disabled*/
+      262144) rangepips_changes.disabled = /*disabled*/
+      ctx2[18];
+      if (dirty[0] & /*limits*/
+      524288) rangepips_changes.limits = /*limits*/
+      ctx2[19];
+      if (dirty[0] & /*all*/
+      4194304) rangepips_changes.all = /*all*/
+      ctx2[22];
+      if (dirty[1] & /*first*/
+      1) rangepips_changes.first = /*first*/
+      ctx2[31];
+      if (dirty[0] & /*last*/
+      8388608) rangepips_changes.last = /*last*/
+      ctx2[23];
+      if (dirty[0] & /*rest*/
+      16777216) rangepips_changes.rest = /*rest*/
+      ctx2[24];
+      if (dirty[0] & /*pipstep*/
+      2097152) rangepips_changes.pipstep = /*pipstep*/
+      ctx2[21];
+      if (dirty[0] & /*prefix*/
+      33554432) rangepips_changes.prefix = /*prefix*/
+      ctx2[25];
+      if (dirty[0] & /*suffix*/
+      67108864) rangepips_changes.suffix = /*suffix*/
+      ctx2[26];
+      if (dirty[0] & /*formatter*/
+      32) rangepips_changes.formatter = /*formatter*/
+      ctx2[5];
+      if (dirty[0] & /*precision*/
+      1024) rangepips_changes.precision = /*precision*/
+      ctx2[10];
+      if (dirty[1] & /*focus*/
+      4) rangepips_changes.focus = /*focus*/
+      ctx2[33];
+      rangepips.$set(rangepips_changes);
+    },
+    i(local) {
+      if (current) return;
+      transition_in(rangepips.$$.fragment, local);
+      current = true;
+    },
+    o(local) {
+      transition_out(rangepips.$$.fragment, local);
+      current = false;
+    },
+    d(detaching) {
+      destroy_component(rangepips, detaching);
+    }
+  };
+}
+function create_fragment(ctx) {
+  let div2;
+  let t0;
+  let t1;
+  let t2;
+  let div_class_value;
+  let div_style_value;
+  let current;
+  let mounted;
+  let dispose;
+  let each_value = ensure_array_like(
+    /*values*/
+    ctx[4]
+  );
+  let each_blocks = [];
+  for (let i = 0; i < each_value.length; i += 1) {
+    each_blocks[i] = create_each_block(get_each_context(ctx, each_value, i));
+  }
+  let if_block0 = (
+    /*limits*/
+    ctx[19] && create_if_block_8(ctx)
+  );
+  let if_block1 = (
+    /*hasRange*/
+    ctx[41] && create_if_block_1(get_if_ctx_1(ctx))
+  );
+  let if_block2 = (
+    /*pips*/
+    ctx[20] && create_if_block(ctx)
+  );
+  return {
+    c() {
+      div2 = element("div");
+      for (let i = 0; i < each_blocks.length; i += 1) {
+        each_blocks[i].c();
+      }
+      t0 = space();
+      if (if_block0) if_block0.c();
+      t1 = space();
+      if (if_block1) if_block1.c();
+      t2 = space();
+      if (if_block2) if_block2.c();
+      attr(
+        div2,
+        "id",
+        /*id*/
+        ctx[27]
+      );
+      attr(div2, "role", "none");
+      attr(div2, "class", div_class_value = "rangeSlider " + /*classes*/
+      ctx[28]);
+      attr(div2, "style", div_style_value = `--slider-length: ${/*sliderSize*/
+      ctx[37]};${/*style*/
+      ctx[29] ?? ""}`);
+      toggle_class(
+        div2,
+        "rsDark",
+        /*darkmode*/
+        ctx[30] === "force"
+      );
+      toggle_class(
+        div2,
+        "rsAutoDark",
+        /*darkmode*/
+        ctx[30] === "auto"
+      );
+      toggle_class(
+        div2,
+        "rsRange",
+        /*hasRange*/
+        ctx[41]
+      );
+      toggle_class(
+        div2,
+        "rsDrag",
+        /*hasRange*/
+        ctx[41] && /*draggy*/
+        ctx[12]
+      );
+      toggle_class(
+        div2,
+        "rsMin",
+        /*hasRange*/
+        ctx[41] && /*range*/
+        ctx[11] === "min"
+      );
+      toggle_class(
+        div2,
+        "rsMax",
+        /*hasRange*/
+        ctx[41] && /*range*/
+        ctx[11] === "max"
+      );
+      toggle_class(
+        div2,
+        "rsDisabled",
+        /*disabled*/
+        ctx[18]
+      );
+      toggle_class(
+        div2,
+        "rsHoverable",
+        /*hoverable*/
+        ctx[17]
+      );
+      toggle_class(
+        div2,
+        "rsVertical",
+        /*vertical*/
+        ctx[13]
+      );
+      toggle_class(
+        div2,
+        "rsReversed",
+        /*reversed*/
+        ctx[16]
+      );
+      toggle_class(
+        div2,
+        "rsFocus",
+        /*focus*/
+        ctx[33]
+      );
+      toggle_class(
+        div2,
+        "rsPips",
+        /*pips*/
+        ctx[20]
+      );
+      toggle_class(
+        div2,
+        "rsPipLabels",
+        /*all*/
+        ctx[22] === "label" || /*first*/
+        ctx[31] === "label" || /*last*/
+        ctx[23] === "label" || /*rest*/
+        ctx[24] === "label"
+      );
+    },
+    m(target, anchor) {
+      insert(target, div2, anchor);
+      for (let i = 0; i < each_blocks.length; i += 1) {
+        if (each_blocks[i]) {
+          each_blocks[i].m(div2, null);
+        }
+      }
+      append(div2, t0);
+      if (if_block0) if_block0.m(div2, null);
+      append(div2, t1);
+      if (if_block1) if_block1.m(div2, null);
+      append(div2, t2);
+      if (if_block2) if_block2.m(div2, null);
+      ctx[63](div2);
+      current = true;
+      if (!mounted) {
+        dispose = [
+          listen(
+            window,
+            "mousedown",
+            /*bodyInteractStart*/
+            ctx[51]
+          ),
+          listen(
+            window,
+            "touchstart",
+            /*bodyInteractStart*/
+            ctx[51]
+          ),
+          listen(
+            window,
+            "mousemove",
+            /*bodyInteract*/
+            ctx[52]
+          ),
+          listen(
+            window,
+            "touchmove",
+            /*bodyInteract*/
+            ctx[52]
+          ),
+          listen(
+            window,
+            "mouseup",
+            /*bodyMouseUp*/
+            ctx[53]
+          ),
+          listen(
+            window,
+            "touchend",
+            /*bodyTouchEnd*/
+            ctx[54]
+          ),
+          listen(
+            window,
+            "keydown",
+            /*bodyKeyDown*/
+            ctx[55]
+          ),
+          listen(
+            div2,
+            "mousedown",
+            /*sliderInteractStart*/
+            ctx[49]
+          ),
+          listen(
+            div2,
+            "mouseup",
+            /*sliderInteractEnd*/
+            ctx[50]
+          ),
+          listen(div2, "touchstart", prevent_default(
+            /*sliderInteractStart*/
+            ctx[49]
+          )),
+          listen(div2, "touchend", prevent_default(
+            /*sliderInteractEnd*/
+            ctx[50]
+          ))
+        ];
+        mounted = true;
+      }
+    },
+    p(ctx2, dirty) {
+      if (dirty[0] & /*ariaLabels, range, values, min, max, vertical, disabled, suffix, handleFormatter, precision, prefix, float*/
+      100953430 | dirty[1] & /*$springPositions, focus, activeHandle, isMounted, ariaLabelFormatter, handlePressed, sliderBlurHandle, sliderFocusHandle, sliderKeydown*/
+      33785902) {
+        each_value = ensure_array_like(
+          /*values*/
+          ctx2[4]
+        );
+        let i;
+        for (i = 0; i < each_value.length; i += 1) {
+          const child_ctx = get_each_context(ctx2, each_value, i);
+          if (each_blocks[i]) {
+            each_blocks[i].p(child_ctx, dirty);
+          } else {
+            each_blocks[i] = create_each_block(child_ctx);
+            each_blocks[i].c();
+            each_blocks[i].m(div2, t0);
+          }
+        }
+        for (; i < each_blocks.length; i += 1) {
+          each_blocks[i].d(1);
+        }
+        each_blocks.length = each_value.length;
+      }
+      if (
+        /*limits*/
+        ctx2[19]
+      ) {
+        if (if_block0) {
+          if_block0.p(ctx2, dirty);
+        } else {
+          if_block0 = create_if_block_8(ctx2);
+          if_block0.c();
+          if_block0.m(div2, t1);
+        }
+      } else if (if_block0) {
+        if_block0.d(1);
+        if_block0 = null;
+      }
+      if (
+        /*hasRange*/
+        ctx2[41]
+      ) {
+        if (if_block1) {
+          if_block1.p(get_if_ctx_1(ctx2), dirty);
+        } else {
+          if_block1 = create_if_block_1(get_if_ctx_1(ctx2));
+          if_block1.c();
+          if_block1.m(div2, t2);
+        }
+      } else if (if_block1) {
+        if_block1.d(1);
+        if_block1 = null;
+      }
+      if (
+        /*pips*/
+        ctx2[20]
+      ) {
+        if (if_block2) {
+          if_block2.p(ctx2, dirty);
+          if (dirty[0] & /*pips*/
+          1048576) {
+            transition_in(if_block2, 1);
+          }
+        } else {
+          if_block2 = create_if_block(ctx2);
+          if_block2.c();
+          transition_in(if_block2, 1);
+          if_block2.m(div2, null);
+        }
+      } else if (if_block2) {
+        group_outros();
+        transition_out(if_block2, 1, 1, () => {
+          if_block2 = null;
+        });
+        check_outros();
+      }
+      if (!current || dirty[0] & /*id*/
+      134217728) {
+        attr(
+          div2,
+          "id",
+          /*id*/
+          ctx2[27]
+        );
+      }
+      if (!current || dirty[0] & /*classes*/
+      268435456 && div_class_value !== (div_class_value = "rangeSlider " + /*classes*/
+      ctx2[28])) {
+        attr(div2, "class", div_class_value);
+      }
+      if (!current || dirty[0] & /*style*/
+      536870912 | dirty[1] & /*sliderSize*/
+      64 && div_style_value !== (div_style_value = `--slider-length: ${/*sliderSize*/
+      ctx2[37]};${/*style*/
+      ctx2[29] ?? ""}`)) {
+        attr(div2, "style", div_style_value);
+      }
+      if (!current || dirty[0] & /*classes, darkmode*/
+      1342177280) {
+        toggle_class(
+          div2,
+          "rsDark",
+          /*darkmode*/
+          ctx2[30] === "force"
+        );
+      }
+      if (!current || dirty[0] & /*classes, darkmode*/
+      1342177280) {
+        toggle_class(
+          div2,
+          "rsAutoDark",
+          /*darkmode*/
+          ctx2[30] === "auto"
+        );
+      }
+      if (!current || dirty[0] & /*classes*/
+      268435456 | dirty[1] & /*hasRange*/
+      1024) {
+        toggle_class(
+          div2,
+          "rsRange",
+          /*hasRange*/
+          ctx2[41]
+        );
+      }
+      if (!current || dirty[0] & /*classes, draggy*/
+      268439552 | dirty[1] & /*hasRange*/
+      1024) {
+        toggle_class(
+          div2,
+          "rsDrag",
+          /*hasRange*/
+          ctx2[41] && /*draggy*/
+          ctx2[12]
+        );
+      }
+      if (!current || dirty[0] & /*classes, range*/
+      268437504 | dirty[1] & /*hasRange*/
+      1024) {
+        toggle_class(
+          div2,
+          "rsMin",
+          /*hasRange*/
+          ctx2[41] && /*range*/
+          ctx2[11] === "min"
+        );
+      }
+      if (!current || dirty[0] & /*classes, range*/
+      268437504 | dirty[1] & /*hasRange*/
+      1024) {
+        toggle_class(
+          div2,
+          "rsMax",
+          /*hasRange*/
+          ctx2[41] && /*range*/
+          ctx2[11] === "max"
+        );
+      }
+      if (!current || dirty[0] & /*classes, disabled*/
+      268697600) {
+        toggle_class(
+          div2,
+          "rsDisabled",
+          /*disabled*/
+          ctx2[18]
+        );
+      }
+      if (!current || dirty[0] & /*classes, hoverable*/
+      268566528) {
+        toggle_class(
+          div2,
+          "rsHoverable",
+          /*hoverable*/
+          ctx2[17]
+        );
+      }
+      if (!current || dirty[0] & /*classes, vertical*/
+      268443648) {
+        toggle_class(
+          div2,
+          "rsVertical",
+          /*vertical*/
+          ctx2[13]
+        );
+      }
+      if (!current || dirty[0] & /*classes, reversed*/
+      268500992) {
+        toggle_class(
+          div2,
+          "rsReversed",
+          /*reversed*/
+          ctx2[16]
+        );
+      }
+      if (!current || dirty[0] & /*classes*/
+      268435456 | dirty[1] & /*focus*/
+      4) {
+        toggle_class(
+          div2,
+          "rsFocus",
+          /*focus*/
+          ctx2[33]
+        );
+      }
+      if (!current || dirty[0] & /*classes, pips*/
+      269484032) {
+        toggle_class(
+          div2,
+          "rsPips",
+          /*pips*/
+          ctx2[20]
+        );
+      }
+      if (!current || dirty[0] & /*classes, all, last, rest*/
+      297795584 | dirty[1] & /*first*/
+      1) {
+        toggle_class(
+          div2,
+          "rsPipLabels",
+          /*all*/
+          ctx2[22] === "label" || /*first*/
+          ctx2[31] === "label" || /*last*/
+          ctx2[23] === "label" || /*rest*/
+          ctx2[24] === "label"
+        );
+      }
+    },
+    i(local) {
+      if (current) return;
+      transition_in(if_block2);
+      current = true;
+    },
+    o(local) {
+      transition_out(if_block2);
+      current = false;
+    },
+    d(detaching) {
+      if (detaching) {
+        detach(div2);
+      }
+      destroy_each(each_blocks, detaching);
+      if (if_block0) if_block0.d();
+      if (if_block1) if_block1.d();
+      if (if_block2) if_block2.d();
+      ctx[63](null);
+      mounted = false;
+      run_all(dispose);
+    }
+  };
+}
+function trimRange(values, range) {
+  if (range === "min" || range === "max") {
+    return values.slice(0, 1);
+  } else if (range) {
+    return values.slice(0, 2);
+  } else {
+    return values;
+  }
+}
+function instance($$self, $$props, $$invalidate) {
+  let hasRange;
+  let orientationStart;
+  let orientationEnd;
+  let $springPositions, $$unsubscribe_springPositions = noop, $$subscribe_springPositions = () => ($$unsubscribe_springPositions(), $$unsubscribe_springPositions = subscribe(springPositions, ($$value) => $$invalidate(42, $springPositions = $$value)), springPositions);
+  $$self.$$.on_destroy.push(() => $$unsubscribe_springPositions());
+  let { slider = void 0 } = $$props;
+  let { precision = 2 } = $$props;
+  let { range = false } = $$props;
+  let { pushy = false } = $$props;
+  let { draggy = false } = $$props;
+  let { min: min2 = 0 } = $$props;
+  let { max: max2 = 100 } = $$props;
+  let { step = 1 } = $$props;
+  let { values = [coerceFloat((max2 + min2) / 2, precision)] } = $$props;
+  let { value = values[0] } = $$props;
+  let { vertical = false } = $$props;
+  let { float = false } = $$props;
+  let { rangeFloat = false } = $$props;
+  let { reversed = false } = $$props;
+  let { hoverable = true } = $$props;
+  let { disabled = false } = $$props;
+  let { limits = null } = $$props;
+  let { rangeGapMin = 0 } = $$props;
+  let { rangeGapMax = Infinity } = $$props;
+  let { pips = false } = $$props;
+  let { pipstep = void 0 } = $$props;
+  let { all = true } = $$props;
+  let { first = void 0 } = $$props;
+  let { last = void 0 } = $$props;
+  let { rest = void 0 } = $$props;
+  let { prefix = "" } = $$props;
+  let { suffix = "" } = $$props;
+  let { formatter = (v, i, p) => v } = $$props;
+  let { handleFormatter = formatter } = $$props;
+  let { rangeFormatter = null } = $$props;
+  let { ariaLabels = [] } = $$props;
+  let { id = void 0 } = $$props;
+  let { class: classes = "" } = $$props;
+  let { style = void 0 } = $$props;
+  let { darkmode = false } = $$props;
+  let { springValues = { stiffness: 0.15, damping: 0.4 } } = $$props;
+  let { spring: spring$1 = true } = $$props;
+  const dispatch = createEventDispatcher();
+  let isMounted = false;
+  let valueLength = 0;
+  let focus = false;
+  let handleActivated = false;
+  let handlePressed = false;
+  let rangeActivated = false;
+  let rangePressed = false;
+  let rangeDistancesFromPointer = [1, 1];
+  let keyboardActive = false;
+  let activeHandle = -1;
+  let startValues = [];
+  let previousValues = [];
+  let sliderSize = 0;
+  let springPositions;
+  const updateValues = () => {
+    checkValuesIsArray();
+    if (values[0] !== value) {
+      $$invalidate(4, values[0] = value, values);
+    }
+  };
+  const updateValue = () => {
+    checkValueIsNumber();
+    if (value !== values[0]) {
+      $$invalidate(9, value = values[0]);
+    }
+  };
+  const checkMinMax = () => {
+    if (!isFiniteNumber(min2)) {
+      $$invalidate(1, min2 = 0);
+      console.error("'min' prop must be a valid finite Number");
+    }
+    if (!isFiniteNumber(max2)) {
+      $$invalidate(2, max2 = 100);
+      console.error("'max' prop must be a valid finite Number");
+    }
+    if (min2 >= max2) {
+      $$invalidate(1, min2 = 0);
+      $$invalidate(2, max2 = 100);
+      console.error("'min' prop should be less than 'max'");
+    }
+    $$invalidate(1, min2 = coerceFloat(min2, precision));
+    $$invalidate(2, max2 = coerceFloat(max2, precision));
+  };
+  const checkValueIsNumber = () => {
+    if (!isFiniteNumber(value)) {
+      $$invalidate(9, value = (max2 + min2) / 2);
+      console.error("'value' prop should be a Number");
+    }
+  };
+  const checkValuesIsArray = () => {
+    if (!Array.isArray(values)) {
+      $$invalidate(4, values = [value]);
+      console.error("'values' prop should be an Array");
+    } else if (values.some((v) => !isFiniteNumber(v))) {
+      $$invalidate(4, values = values.map((v) => isFiniteNumber(v) ? v : (max2 + min2) / 2));
+      console.error("'values' prop should be an Array of Numbers");
+    }
+  };
+  const checkStep = () => {
+    if (!isFiniteNumber(step) || step <= 0) {
+      $$invalidate(3, step = 1);
+      console.error("'step' prop must be a positive Number");
+    }
+  };
+  const checkAriaLabels = () => {
+    if (values.length > 1 && !Array.isArray(ariaLabels)) {
+      $$invalidate(8, ariaLabels = []);
+      console.warn(`'ariaLabels' prop should be an Array`);
+    }
+  };
+  const checkValuesAgainstRangeGaps = () => {
+    $$invalidate(4, values = values.map((v) => constrainAndAlignValue(v, min2, max2, step, precision, limits)));
+    if (rangeGapMin < 0) $$invalidate(57, rangeGapMin = 0);
+    if (rangeGapMax < 0) $$invalidate(58, rangeGapMax = Infinity);
+    if (rangeGapMin > rangeGapMax) $$invalidate(57, rangeGapMin = rangeGapMax);
+    if (rangeGapMax < Infinity) {
+      const gapMax = constrainAndAlignValue(values[0] + rangeGapMax, min2, max2, step, precision, limits);
+      if (values[1] > gapMax) {
+        $$invalidate(4, values[1] = gapMax, values);
+      }
+    }
+    if (rangeGapMin > 0) {
+      const gapMin = constrainAndAlignValue(values[0] + rangeGapMin, min2, max2, step, precision, limits);
+      if (values[1] < gapMin) {
+        $$invalidate(4, values[1] = gapMin, values);
+      }
+    }
+  };
+  const checkFormatters = () => {
+    if (formatter === null || formatter === void 0) {
+      console.error("formatter must be a function");
+      $$invalidate(5, formatter = (v, i, p) => v);
+    }
+    if (handleFormatter === null || handleFormatter === void 0) {
+      console.error("handleFormatter must be a function");
+      $$invalidate(6, handleFormatter = formatter);
+    }
+    if (rangeFormatter === void 0) {
+      console.error("rangeFormatter must be a function, or null");
+      $$invalidate(7, rangeFormatter = null);
+    }
+  };
+  checkMinMax();
+  checkValueIsNumber();
+  checkValuesIsArray();
+  checkStep();
+  checkValuesAgainstRangeGaps();
+  checkFormatters();
+  const createSpring = (values2) => {
+    $$subscribe_springPositions($$invalidate(38, springPositions = spring(values2.map((v) => valueAsPercent(v, min2, max2)), springValues)));
+  };
+  const updateSpring = (values2) => {
+    requestAnimationFrame(() => {
+      springPositions.set(values2.map((v) => valueAsPercent(v, min2, max2)), { hard: !spring$1 });
+    });
+  };
+  const updateSpringValues = () => {
+    if (springPositions) {
+      $$subscribe_springPositions($$invalidate(38, springPositions.stiffness = springValues.stiffness ?? 0.15, springPositions));
+      $$subscribe_springPositions($$invalidate(38, springPositions.damping = springValues.damping ?? 0.4, springPositions));
+    }
+  };
+  function updateSliderSize(slider2) {
+    return requestAnimationFrame(() => {
+      if (slider2) {
+        const dims = slider2.getBoundingClientRect();
+        $$invalidate(37, sliderSize = vertical ? dims.height : dims.width);
+      }
+    });
+  }
+  let resizeObserver;
+  let rafId;
+  onMount2(() => {
+    if (slider) {
+      resizeObserver = new ResizeObserver((entries) => {
+        if (rafId) {
+          cancelAnimationFrame(rafId);
+        }
+        rafId = updateSliderSize(entries[0].target);
+      });
+      resizeObserver.observe(slider);
+      setTimeout(
+        () => {
+          $$invalidate(32, isMounted = true);
+        },
+        16
+      );
+    }
+    return () => {
+      if (rafId) cancelAnimationFrame(rafId);
+      resizeObserver?.disconnect?.();
+      $$invalidate(32, isMounted = false);
+    };
+  });
+  function targetIsHandle(el) {
+    if (!slider) return false;
+    const handles = slider.querySelectorAll(".handle");
+    const isHandle = Array.prototype.includes.call(handles, el);
+    const isChild = Array.prototype.some.call(handles, (e) => e.contains(el));
+    return isHandle || isChild;
+  }
+  function getClosestHandle(clientPos) {
+    if (!slider) return 0;
+    const { pointerVal: clickedVal } = calculatePointerValues(slider, clientPos, vertical, reversed, min2, max2);
+    let closest = 0;
+    if (range === true && values[0] === values[1]) {
+      if (clickedVal > values[1]) {
+        closest = 1;
+      } else {
+        closest = 0;
+      }
+    } else {
+      closest = values.indexOf([...values].sort((a, b) => Math.abs(clickedVal - a) - Math.abs(clickedVal - b))[0]);
+    }
+    return closest;
+  }
+  function handleInteract(clientPos) {
+    if (!slider || !handleActivated) return;
+    const { pointerVal: handleVal } = calculatePointerValues(slider, clientPos, vertical, reversed, min2, max2);
+    moveHandle(activeHandle, handleVal);
+  }
+  function getRangeDistancesOnInteractionStart(clientPos) {
+    if (!slider || !draggy || !rangeActivated || range === "min" || range === "max") return;
+    const { pointerVal } = calculatePointerValues(slider, clientPos, vertical, reversed, min2, max2);
+    rangeDistancesFromPointer = [values[0] - pointerVal, values[1] - pointerVal];
+  }
+  function rangeInteract(clientPos) {
+    if (!slider || !draggy || !rangeActivated || range === "min" || range === "max") return;
+    const { pointerVal } = calculatePointerValues(slider, clientPos, vertical, reversed, min2, max2);
+    $$invalidate(36, activeHandle = -1);
+    moveHandle(0, pointerVal + rangeDistancesFromPointer[0], false);
+    moveHandle(1, pointerVal + rangeDistancesFromPointer[1], true);
+  }
+  function moveHandle(index, value2, fireEvent = true) {
+    value2 = constrainAndAlignValue(value2, min2, max2, step, precision, limits);
+    if (index === null) {
+      index = activeHandle;
+    }
+    if (range === true) {
+      if (index === 0) {
+        if (value2 > values[1] - rangeGapMin) {
+          if (pushy && value2 <= (limits?.[1] ?? max2) - rangeGapMin) {
+            $$invalidate(4, values[1] = value2 + rangeGapMin, values);
+          } else {
+            value2 = values[1] - rangeGapMin;
+          }
+        } else if (value2 < values[1] - rangeGapMax) {
+          if (pushy) {
+            $$invalidate(4, values[1] = value2 + rangeGapMax, values);
+          } else {
+            value2 = values[1] - rangeGapMax;
+          }
+        }
+      } else if (index === 1) {
+        if (value2 < values[0] + rangeGapMin) {
+          if (pushy && value2 >= (limits?.[0] ?? min2) + rangeGapMin) {
+            $$invalidate(4, values[0] = value2 - rangeGapMin, values);
+          } else {
+            value2 = values[0] + rangeGapMin;
+          }
+        } else if (value2 > values[0] + rangeGapMax) {
+          if (pushy) {
+            $$invalidate(4, values[0] = value2 - rangeGapMax, values);
+          } else {
+            value2 = values[0] + rangeGapMax;
+          }
+        }
+      }
+    }
+    if (values[index] !== value2) {
+      $$invalidate(4, values[index] = constrainAndAlignValue(value2, min2, max2, step, precision, limits), values);
+    }
+    if (fireEvent) {
+      fireChangeEvent(values);
+    }
+    return value2;
+  }
+  function fireChangeEvent(values2) {
+    const hasChanged = previousValues.some((prev, index) => {
+      return prev !== values2[index];
+    });
+    if (hasChanged) {
+      eChange();
+      previousValues = [...values2];
+    }
+  }
+  function rangeStartPercent(values2) {
+    if (range === "min") {
+      return 0;
+    } else {
+      return values2[0];
+    }
+  }
+  function rangeEndPercent(values2) {
+    if (range === "max") {
+      return 100;
+    } else if (range === "min") {
+      return values2[0];
+    } else {
+      return values2[1];
+    }
+  }
+  function sliderBlurHandle(event) {
+    event.target;
+    if (keyboardActive) {
+      $$invalidate(33, focus = false);
+      handleActivated = false;
+      $$invalidate(34, handlePressed = false);
+      rangeActivated = false;
+      $$invalidate(35, rangePressed = false);
+    }
+  }
+  function sliderFocusHandle(event) {
+    const target = event.target;
+    if (!disabled) {
+      $$invalidate(36, activeHandle = elementIndex(target));
+      $$invalidate(33, focus = true);
+    }
+  }
+  function sliderKeydown(event) {
+    if (!disabled) {
+      let prevent = false;
+      const handle = elementIndex(event.target);
+      let jump = step;
+      if (event.ctrlKey || event.metaKey) {
+        const onePercent = (max2 - min2) / 100;
+        jump = Math.max(step, Math.round(onePercent / step) * step);
+      } else if (event.shiftKey || event.key === "PageUp" || event.key === "PageDown") {
+        const tenPercent = (max2 - min2) / 10;
+        jump = Math.max(step, Math.round(tenPercent / step) * step);
+      }
+      switch (event.key) {
+        case "PageUp":
+        case "ArrowRight":
+        case "ArrowUp":
+          moveHandle(handle, values[handle] + jump);
+          prevent = true;
+          break;
+        case "PageDown":
+        case "ArrowLeft":
+        case "ArrowDown":
+          moveHandle(handle, values[handle] - jump);
+          prevent = true;
+          break;
+        case "Home":
+          moveHandle(handle, min2);
+          prevent = true;
+          break;
+        case "End":
+          moveHandle(handle, max2);
+          prevent = true;
+          break;
+      }
+      if (prevent) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    }
+  }
+  function sliderInteractStart(event) {
+    if (!disabled) {
+      const target = event.target;
+      const clientPos = normalisedClient(event);
+      $$invalidate(33, focus = true);
+      if (target.matches(".rangeBar") && range === true && draggy) {
+        handleActivated = false;
+        $$invalidate(34, handlePressed = false);
+        $$invalidate(36, activeHandle = -1);
+        rangeActivated = true;
+        $$invalidate(35, rangePressed = true);
+        getRangeDistancesOnInteractionStart(clientPos);
+      } else {
+        handleActivated = true;
+        $$invalidate(34, handlePressed = true);
+        $$invalidate(36, activeHandle = getClosestHandle(clientPos));
+        if (event.type === "touchstart" && !target.matches(".rsPipVal")) {
+          handleInteract(clientPos);
+        }
+      }
+      startValues = values.map((v) => constrainAndAlignValue(v, min2, max2, step, precision, limits));
+      previousValues = [...startValues];
+      eStart();
+    }
+  }
+  function sliderInteractEnd(event) {
+    if (event.type === "touchend") {
+      eStop();
+    }
+    $$invalidate(34, handlePressed = false);
+    $$invalidate(35, rangePressed = false);
+  }
+  function bodyInteractStart(event) {
+    const target = event.target;
+    keyboardActive = false;
+    if (slider && focus && target !== slider && !slider.contains(target)) {
+      $$invalidate(33, focus = false);
+    }
+  }
+  function bodyInteract(event) {
+    if (!disabled) {
+      if (handleActivated) {
+        handleInteract(normalisedClient(event));
+      } else if (rangeActivated) {
+        rangeInteract(normalisedClient(event));
+      }
+    }
+  }
+  function bodyMouseUp(event) {
+    if (!disabled) {
+      const target = event.target;
+      if (handleActivated) {
+        if (slider && (target === slider || slider.contains(target))) {
+          $$invalidate(33, focus = true);
+          if (!targetIsHandle(target) && !target.matches(".rsPipVal")) {
+            handleInteract(normalisedClient(event));
+          }
+        }
+      }
+      if (handleActivated || rangeActivated) {
+        eStop();
+      }
+    }
+    handleActivated = false;
+    $$invalidate(34, handlePressed = false);
+    rangeActivated = false;
+    $$invalidate(35, rangePressed = false);
+  }
+  function bodyTouchEnd(event) {
+    handleActivated = false;
+    $$invalidate(34, handlePressed = false);
+    rangeActivated = false;
+    $$invalidate(35, rangePressed = false);
+  }
+  function bodyKeyDown(event) {
+    const target = event.target;
+    if (!disabled && slider) {
+      if (target === slider || slider.contains(target)) {
+        keyboardActive = true;
+      }
+    }
+  }
+  function eStart() {
+    if (disabled) return;
+    dispatch("start", {
+      activeHandle,
+      value: startValues[activeHandle],
+      values: startValues
+    });
+  }
+  function eStop() {
+    if (disabled) return;
+    const startValue = rangeActivated ? startValues : startValues[activeHandle];
+    dispatch("stop", {
+      activeHandle,
+      startValue,
+      value: values[activeHandle],
+      values: values.map((v) => constrainAndAlignValue(v, min2, max2, step, precision, limits))
+    });
+  }
+  function eChange() {
+    if (disabled) return;
+    const startValue = rangeActivated ? startValues : startValues[activeHandle];
+    const previousValue = typeof previousValues === "undefined" ? startValue : rangeActivated ? previousValues : previousValues[activeHandle];
+    dispatch("change", {
+      activeHandle,
+      startValue,
+      previousValue,
+      value: values[activeHandle],
+      values: values.map((v) => constrainAndAlignValue(v, min2, max2, step, precision, limits))
+    });
+  }
+  function ariaLabelFormatter(value2, index) {
+    const percent = valueAsPercent(value2, min2, max2, precision);
+    const formattedValue = handleFormatter(value2, index, percent);
+    const textLabel = pureText(String(formattedValue));
+    return `${prefix}${textLabel}${suffix}`;
+  }
+  function div_binding($$value) {
+    binding_callbacks[$$value ? "unshift" : "push"](() => {
+      slider = $$value;
+      $$invalidate(0, slider);
+    });
+  }
+  $$self.$$set = ($$props2) => {
+    if ("slider" in $$props2) $$invalidate(0, slider = $$props2.slider);
+    if ("precision" in $$props2) $$invalidate(10, precision = $$props2.precision);
+    if ("range" in $$props2) $$invalidate(11, range = $$props2.range);
+    if ("pushy" in $$props2) $$invalidate(59, pushy = $$props2.pushy);
+    if ("draggy" in $$props2) $$invalidate(12, draggy = $$props2.draggy);
+    if ("min" in $$props2) $$invalidate(1, min2 = $$props2.min);
+    if ("max" in $$props2) $$invalidate(2, max2 = $$props2.max);
+    if ("step" in $$props2) $$invalidate(3, step = $$props2.step);
+    if ("values" in $$props2) $$invalidate(4, values = $$props2.values);
+    if ("value" in $$props2) $$invalidate(9, value = $$props2.value);
+    if ("vertical" in $$props2) $$invalidate(13, vertical = $$props2.vertical);
+    if ("float" in $$props2) $$invalidate(14, float = $$props2.float);
+    if ("rangeFloat" in $$props2) $$invalidate(15, rangeFloat = $$props2.rangeFloat);
+    if ("reversed" in $$props2) $$invalidate(16, reversed = $$props2.reversed);
+    if ("hoverable" in $$props2) $$invalidate(17, hoverable = $$props2.hoverable);
+    if ("disabled" in $$props2) $$invalidate(18, disabled = $$props2.disabled);
+    if ("limits" in $$props2) $$invalidate(19, limits = $$props2.limits);
+    if ("rangeGapMin" in $$props2) $$invalidate(57, rangeGapMin = $$props2.rangeGapMin);
+    if ("rangeGapMax" in $$props2) $$invalidate(58, rangeGapMax = $$props2.rangeGapMax);
+    if ("pips" in $$props2) $$invalidate(20, pips = $$props2.pips);
+    if ("pipstep" in $$props2) $$invalidate(21, pipstep = $$props2.pipstep);
+    if ("all" in $$props2) $$invalidate(22, all = $$props2.all);
+    if ("first" in $$props2) $$invalidate(31, first = $$props2.first);
+    if ("last" in $$props2) $$invalidate(23, last = $$props2.last);
+    if ("rest" in $$props2) $$invalidate(24, rest = $$props2.rest);
+    if ("prefix" in $$props2) $$invalidate(25, prefix = $$props2.prefix);
+    if ("suffix" in $$props2) $$invalidate(26, suffix = $$props2.suffix);
+    if ("formatter" in $$props2) $$invalidate(5, formatter = $$props2.formatter);
+    if ("handleFormatter" in $$props2) $$invalidate(6, handleFormatter = $$props2.handleFormatter);
+    if ("rangeFormatter" in $$props2) $$invalidate(7, rangeFormatter = $$props2.rangeFormatter);
+    if ("ariaLabels" in $$props2) $$invalidate(8, ariaLabels = $$props2.ariaLabels);
+    if ("id" in $$props2) $$invalidate(27, id = $$props2.id);
+    if ("class" in $$props2) $$invalidate(28, classes = $$props2.class);
+    if ("style" in $$props2) $$invalidate(29, style = $$props2.style);
+    if ("darkmode" in $$props2) $$invalidate(30, darkmode = $$props2.darkmode);
+    if ("springValues" in $$props2) $$invalidate(60, springValues = $$props2.springValues);
+    if ("spring" in $$props2) $$invalidate(61, spring$1 = $$props2.spring);
+  };
+  $$self.$$.update = () => {
+    if ($$self.$$.dirty[0] & /*value*/
+    512) {
+      updateValues();
+    }
+    if ($$self.$$.dirty[0] & /*range, min, max, step, precision, limits, slider, values, value*/
+    527903 | $$self.$$.dirty[2] & /*valueLength*/
+    1) {
+      ((uValues, uValue) => {
+        const trimmedValues = trimRange(uValues, range);
+        const trimmedAlignedValues = trimmedValues.map((v) => constrainAndAlignValue(v, min2, max2, step, precision, limits));
+        if (!(uValues.length === trimmedAlignedValues.length) || !uValues.every((item, i) => coerceFloat(item, precision) === trimmedAlignedValues[i])) {
+          uValues = trimmedAlignedValues;
+        }
+        if (valueLength !== uValues.length) {
+          createSpring(uValues);
+        } else if (slider) {
+          updateSpring(uValues);
+        }
+        $$invalidate(4, values = uValues);
+        $$invalidate(62, valueLength = uValues.length);
+      })(values);
+    }
+    if ($$self.$$.dirty[0] & /*values*/
+    16) {
+      updateValue();
+    }
+    if ($$self.$$.dirty[0] & /*ariaLabels*/
+    256) {
+      checkAriaLabels();
+    }
+    if ($$self.$$.dirty[0] & /*min*/
+    2) {
+      checkMinMax();
+    }
+    if ($$self.$$.dirty[0] & /*max*/
+    4) {
+      checkMinMax();
+    }
+    if ($$self.$$.dirty[0] & /*step*/
+    8) {
+      checkStep();
+    }
+    if ($$self.$$.dirty[1] & /*rangeGapMin*/
+    67108864) {
+      checkValuesAgainstRangeGaps();
+    }
+    if ($$self.$$.dirty[1] & /*rangeGapMax*/
+    134217728) {
+      checkValuesAgainstRangeGaps();
+    }
+    if ($$self.$$.dirty[0] & /*formatter*/
+    32) {
+      checkFormatters();
+    }
+    if ($$self.$$.dirty[0] & /*handleFormatter*/
+    64) {
+      checkFormatters();
+    }
+    if ($$self.$$.dirty[0] & /*rangeFormatter*/
+    128) {
+      checkFormatters();
+    }
+    if ($$self.$$.dirty[1] & /*springValues*/
+    536870912) {
+      updateSpringValues();
+    }
+    if ($$self.$$.dirty[0] & /*range, values*/
+    2064) {
+      $$invalidate(41, hasRange = range === true && values.length === 2 || (range === "min" || range === "max") && values.length === 1);
+    }
+    if ($$self.$$.dirty[0] & /*vertical, reversed*/
+    73728) {
+      $$invalidate(40, orientationStart = vertical ? reversed ? "top" : "bottom" : reversed ? "right" : "left");
+    }
+    if ($$self.$$.dirty[0] & /*vertical, reversed*/
+    73728) {
+      $$invalidate(39, orientationEnd = vertical ? reversed ? "bottom" : "top" : reversed ? "left" : "right");
+    }
+  };
+  return [
+    slider,
+    min2,
+    max2,
+    step,
+    values,
+    formatter,
+    handleFormatter,
+    rangeFormatter,
+    ariaLabels,
+    value,
+    precision,
+    range,
+    draggy,
+    vertical,
+    float,
+    rangeFloat,
+    reversed,
+    hoverable,
+    disabled,
+    limits,
+    pips,
+    pipstep,
+    all,
+    last,
+    rest,
+    prefix,
+    suffix,
+    id,
+    classes,
+    style,
+    darkmode,
+    first,
+    isMounted,
+    focus,
+    handlePressed,
+    rangePressed,
+    activeHandle,
+    sliderSize,
+    springPositions,
+    orientationEnd,
+    orientationStart,
+    hasRange,
+    $springPositions,
+    moveHandle,
+    rangeStartPercent,
+    rangeEndPercent,
+    sliderBlurHandle,
+    sliderFocusHandle,
+    sliderKeydown,
+    sliderInteractStart,
+    sliderInteractEnd,
+    bodyInteractStart,
+    bodyInteract,
+    bodyMouseUp,
+    bodyTouchEnd,
+    bodyKeyDown,
+    ariaLabelFormatter,
+    rangeGapMin,
+    rangeGapMax,
+    pushy,
+    springValues,
+    spring$1,
+    valueLength,
+    div_binding
+  ];
+}
+class RangeSlider extends SvelteComponent {
+  constructor(options) {
+    super();
+    init(
+      this,
+      options,
+      instance,
+      create_fragment,
+      safe_not_equal,
+      {
+        slider: 0,
+        precision: 10,
+        range: 11,
+        pushy: 59,
+        draggy: 12,
+        min: 1,
+        max: 2,
+        step: 3,
+        values: 4,
+        value: 9,
+        vertical: 13,
+        float: 14,
+        rangeFloat: 15,
+        reversed: 16,
+        hoverable: 17,
+        disabled: 18,
+        limits: 19,
+        rangeGapMin: 57,
+        rangeGapMax: 58,
+        pips: 20,
+        pipstep: 21,
+        all: 22,
+        first: 31,
+        last: 23,
+        rest: 24,
+        prefix: 25,
+        suffix: 26,
+        formatter: 5,
+        handleFormatter: 6,
+        rangeFormatter: 7,
+        ariaLabels: 8,
+        id: 27,
+        class: 28,
+        style: 29,
+        darkmode: 30,
+        springValues: 60,
+        spring: 61
+      },
+      add_css,
+      [-1, -1, -1, -1]
+    );
+  }
+  get slider() {
+    return this.$$.ctx[0];
+  }
+  set slider(slider) {
+    this.$$set({ slider });
+    flush();
+  }
+  get precision() {
+    return this.$$.ctx[10];
+  }
+  set precision(precision) {
+    this.$$set({ precision });
+    flush();
+  }
+  get range() {
+    return this.$$.ctx[11];
+  }
+  set range(range) {
+    this.$$set({ range });
+    flush();
+  }
+  get pushy() {
+    return this.$$.ctx[59];
+  }
+  set pushy(pushy) {
+    this.$$set({ pushy });
+    flush();
+  }
+  get draggy() {
+    return this.$$.ctx[12];
+  }
+  set draggy(draggy) {
+    this.$$set({ draggy });
+    flush();
+  }
+  get min() {
+    return this.$$.ctx[1];
+  }
+  set min(min2) {
+    this.$$set({ min: min2 });
+    flush();
+  }
+  get max() {
+    return this.$$.ctx[2];
+  }
+  set max(max2) {
+    this.$$set({ max: max2 });
+    flush();
+  }
+  get step() {
+    return this.$$.ctx[3];
+  }
+  set step(step) {
+    this.$$set({ step });
+    flush();
+  }
+  get values() {
+    return this.$$.ctx[4];
+  }
+  set values(values) {
+    this.$$set({ values });
+    flush();
+  }
+  get value() {
+    return this.$$.ctx[9];
+  }
+  set value(value) {
+    this.$$set({ value });
+    flush();
+  }
+  get vertical() {
+    return this.$$.ctx[13];
+  }
+  set vertical(vertical) {
+    this.$$set({ vertical });
+    flush();
+  }
+  get float() {
+    return this.$$.ctx[14];
+  }
+  set float(float) {
+    this.$$set({ float });
+    flush();
+  }
+  get rangeFloat() {
+    return this.$$.ctx[15];
+  }
+  set rangeFloat(rangeFloat) {
+    this.$$set({ rangeFloat });
+    flush();
+  }
+  get reversed() {
+    return this.$$.ctx[16];
+  }
+  set reversed(reversed) {
+    this.$$set({ reversed });
+    flush();
+  }
+  get hoverable() {
+    return this.$$.ctx[17];
+  }
+  set hoverable(hoverable) {
+    this.$$set({ hoverable });
+    flush();
+  }
+  get disabled() {
+    return this.$$.ctx[18];
+  }
+  set disabled(disabled) {
+    this.$$set({ disabled });
+    flush();
+  }
+  get limits() {
+    return this.$$.ctx[19];
+  }
+  set limits(limits) {
+    this.$$set({ limits });
+    flush();
+  }
+  get rangeGapMin() {
+    return this.$$.ctx[57];
+  }
+  set rangeGapMin(rangeGapMin) {
+    this.$$set({ rangeGapMin });
+    flush();
+  }
+  get rangeGapMax() {
+    return this.$$.ctx[58];
+  }
+  set rangeGapMax(rangeGapMax) {
+    this.$$set({ rangeGapMax });
+    flush();
+  }
+  get pips() {
+    return this.$$.ctx[20];
+  }
+  set pips(pips) {
+    this.$$set({ pips });
+    flush();
+  }
+  get pipstep() {
+    return this.$$.ctx[21];
+  }
+  set pipstep(pipstep) {
+    this.$$set({ pipstep });
+    flush();
+  }
+  get all() {
+    return this.$$.ctx[22];
+  }
+  set all(all) {
+    this.$$set({ all });
+    flush();
+  }
+  get first() {
+    return this.$$.ctx[31];
+  }
+  set first(first) {
+    this.$$set({ first });
+    flush();
+  }
+  get last() {
+    return this.$$.ctx[23];
+  }
+  set last(last) {
+    this.$$set({ last });
+    flush();
+  }
+  get rest() {
+    return this.$$.ctx[24];
+  }
+  set rest(rest) {
+    this.$$set({ rest });
+    flush();
+  }
+  get prefix() {
+    return this.$$.ctx[25];
+  }
+  set prefix(prefix) {
+    this.$$set({ prefix });
+    flush();
+  }
+  get suffix() {
+    return this.$$.ctx[26];
+  }
+  set suffix(suffix) {
+    this.$$set({ suffix });
+    flush();
+  }
+  get formatter() {
+    return this.$$.ctx[5];
+  }
+  set formatter(formatter) {
+    this.$$set({ formatter });
+    flush();
+  }
+  get handleFormatter() {
+    return this.$$.ctx[6];
+  }
+  set handleFormatter(handleFormatter) {
+    this.$$set({ handleFormatter });
+    flush();
+  }
+  get rangeFormatter() {
+    return this.$$.ctx[7];
+  }
+  set rangeFormatter(rangeFormatter) {
+    this.$$set({ rangeFormatter });
+    flush();
+  }
+  get ariaLabels() {
+    return this.$$.ctx[8];
+  }
+  set ariaLabels(ariaLabels) {
+    this.$$set({ ariaLabels });
+    flush();
+  }
+  get id() {
+    return this.$$.ctx[27];
+  }
+  set id(id) {
+    this.$$set({ id });
+    flush();
+  }
+  get class() {
+    return this.$$.ctx[28];
+  }
+  set class(classes) {
+    this.$$set({ class: classes });
+    flush();
+  }
+  get style() {
+    return this.$$.ctx[29];
+  }
+  set style(style) {
+    this.$$set({ style });
+    flush();
+  }
+  get darkmode() {
+    return this.$$.ctx[30];
+  }
+  set darkmode(darkmode) {
+    this.$$set({ darkmode });
+    flush();
+  }
+  get springValues() {
+    return this.$$.ctx[60];
+  }
+  set springValues(springValues) {
+    this.$$set({ springValues });
+    flush();
+  }
+  get spring() {
+    return this.$$.ctx[61];
+  }
+  set spring(spring2) {
+    this.$$set({ spring: spring2 });
+    flush();
+  }
+}
+create_custom_element(RangeSlider, { "slider": {}, "precision": {}, "range": { "type": "Boolean" }, "pushy": { "type": "Boolean" }, "draggy": { "type": "Boolean" }, "min": {}, "max": {}, "step": {}, "values": {}, "value": {}, "vertical": { "type": "Boolean" }, "float": { "type": "Boolean" }, "rangeFloat": { "type": "Boolean" }, "reversed": { "type": "Boolean" }, "hoverable": { "type": "Boolean" }, "disabled": { "type": "Boolean" }, "limits": {}, "rangeGapMin": {}, "rangeGapMax": {}, "pips": { "type": "Boolean" }, "pipstep": {}, "all": { "type": "Boolean" }, "first": {}, "last": {}, "rest": {}, "prefix": {}, "suffix": {}, "formatter": {}, "handleFormatter": {}, "rangeFormatter": {}, "ariaLabels": {}, "id": {}, "class": {}, "style": {}, "darkmode": { "type": "Boolean" }, "springValues": {}, "spring": { "type": "Boolean" } }, [], [], true);
+const ICONS = {
+  1: { label: "basic", img: "/assets/img/usefulness/signal-one.svg" },
+  2: { label: "easy", img: "/assets/img/usefulness/signal-two.svg" },
+  3: { label: "medium", img: "/assets/img/usefulness/signal-three.svg" },
+  4: { label: "hard", img: "/assets/img/usefulness/signal-four.svg" },
+  5: { label: "master", img: "/assets/img/usefulness/signal-five.svg" }
+};
+const safe = (s) => String(s).replace(/"/g, "").trim();
+const iconPipFormatter = (v) => {
+  const it = ICONS[v];
+  return it ? `<div class="pipIcon">
+         <img src="${safe(it.img)}" alt="${it.label}">
+       </div>` : String(v);
+};
+const iconHandleFormatter = (v) => {
+  const it = ICONS[v];
+  return it ? `<img src="${safe(it.img)}" alt="${it.label}">` : String(v);
+};
+new RangeSlider({
+  target: document.querySelector("#range-slider-icons"),
+  props: {
+    min: 1,
+    max: 5,
+    step: 1,
+    values: [1, 5],
+    range: true,
+    pips: true,
+    pipstep: 1,
+    all: "label",
+    formatter: iconPipFormatter,
+    handleFormatter: iconHandleFormatter,
+    hoverable: true
+  }
+});
+const DIFF = {
+  1: "basic",
+  2: "easy",
+  3: "medium",
+  4: "hard",
+  5: "master"
+};
+const labelPipFormatter = (v) => {
+  const cls = DIFF[v];
+  return cls ? `<div class="${cls}">${cls}</div>` : String(v);
+};
+const labelHandleFormatter = (v) => String(v);
+new RangeSlider({
+  target: document.querySelector("#range-slider-labels"),
+  props: {
+    min: 1,
+    max: 5,
+    step: 1,
+    values: [1, 5],
+    range: true,
+    pips: true,
+    pipstep: 1,
+    all: "label",
+    formatter: labelPipFormatter,
+    // <-- здесь выводятся твои div'ы
+    handleFormatter: labelHandleFormatter,
+    hoverable: true
+  }
+});
