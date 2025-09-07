@@ -2849,7 +2849,9 @@ document.querySelector("[data-fls-tippy-content]") ? tippy("[data-fls-tippy-cont
 }) : null;
 document.querySelector("[data-fls-tippy]") ? tippy("[data-fls-tippy]", {
   allowHTML: true,
-  interactive: true,
+  // interactive: true,
+  interactive: false,
+  hideOnClick: true,
   appendTo: () => document.body,
   maxWidth: "none",
   content(reference2) {
@@ -2874,6 +2876,24 @@ document.querySelector("[data-fls-tippy]") ? tippy("[data-fls-tippy]", {
   onHide(instance2) {
     const v = instance2.popper.querySelector("video");
     if (v) v.pause();
+  }
+}) : null;
+document.querySelector("[data-fls-tippy-img]") ? tippy("[data-fls-tippy-img]", {
+  allowHTML: true,
+  // interactive: true,
+  interactive: false,
+  hideOnClick: true,
+  appendTo: () => document.body,
+  maxWidth: "none",
+  content(reference2) {
+    const src = reference2.getAttribute("data-image-src");
+    if (!src) return "<div>Картинка не задана</div>";
+    const alt = reference2.getAttribute("data-image-alt") || "";
+    return `
+        <div class="tippy-image">
+          <img src="${src}" alt="${alt}" loading="lazy" decoding="async">
+        </div>
+      `;
   }
 }) : null;
 function pageNavigation() {
@@ -8732,66 +8752,144 @@ class RangeSlider extends SvelteComponent {
   }
 }
 create_custom_element(RangeSlider, { "slider": {}, "precision": {}, "range": { "type": "Boolean" }, "pushy": { "type": "Boolean" }, "draggy": { "type": "Boolean" }, "min": {}, "max": {}, "step": {}, "values": {}, "value": {}, "vertical": { "type": "Boolean" }, "float": { "type": "Boolean" }, "rangeFloat": { "type": "Boolean" }, "reversed": { "type": "Boolean" }, "hoverable": { "type": "Boolean" }, "disabled": { "type": "Boolean" }, "limits": {}, "rangeGapMin": {}, "rangeGapMax": {}, "pips": { "type": "Boolean" }, "pipstep": {}, "all": { "type": "Boolean" }, "first": {}, "last": {}, "rest": {}, "prefix": {}, "suffix": {}, "formatter": {}, "handleFormatter": {}, "rangeFormatter": {}, "ariaLabels": {}, "id": {}, "class": {}, "style": {}, "darkmode": { "type": "Boolean" }, "springValues": {}, "spring": { "type": "Boolean" } }, [], [], true);
-const ICONS = {
-  1: { label: "basic", img: "/assets/img/usefulness/signal-one.svg" },
-  2: { label: "easy", img: "/assets/img/usefulness/signal-two.svg" },
-  3: { label: "medium", img: "/assets/img/usefulness/signal-three.svg" },
-  4: { label: "hard", img: "/assets/img/usefulness/signal-four.svg" },
-  5: { label: "master", img: "/assets/img/usefulness/signal-five.svg" }
-};
-const safe = (s) => String(s).replace(/"/g, "").trim();
-const iconPipFormatter = (v) => {
-  const it = ICONS[v];
-  return it ? `<div class="pipIcon">
-         <img src="${safe(it.img)}" alt="${it.label}">
-       </div>` : String(v);
-};
-const iconHandleFormatter = (v) => {
-  const it = ICONS[v];
-  return it ? `<img src="${safe(it.img)}" alt="${it.label}">` : String(v);
-};
-new RangeSlider({
-  target: document.querySelector("#range-slider-icons"),
-  props: {
-    min: 1,
-    max: 5,
-    step: 1,
-    values: [1, 5],
-    range: true,
-    pips: true,
-    pipstep: 1,
-    all: "label",
-    formatter: iconPipFormatter,
-    handleFormatter: iconHandleFormatter,
-    hoverable: true
+document.addEventListener("DOMContentLoaded", () => {
+  const ICONS = {
+    1: { label: "basic", img: "/assets/img/usefulness/signal-one.svg" },
+    2: { label: "easy", img: "/assets/img/usefulness/signal-two.svg" },
+    3: { label: "medium", img: "/assets/img/usefulness/signal-three.svg" },
+    4: { label: "hard", img: "/assets/img/usefulness/signal-four.svg" },
+    5: { label: "master", img: "/assets/img/usefulness/signal-five.svg" }
+  };
+  const safe = (s) => String(s).replace(/"/g, "").trim();
+  const iconPipFormatter = (v) => {
+    const it = ICONS[v];
+    return it ? `<div class="pipIcon"><img src="${safe(it.img)}" alt="${it.label}"></div>` : String(v);
+  };
+  const iconHandleFormatter = (v) => {
+    const it = ICONS[v];
+    return it ? `<img src="${safe(it.img)}" alt="${it.label}">` : String(v);
+  };
+  const targetIcons = document.querySelector("#range-slider-icons");
+  const targetLabels = document.querySelector("#range-slider-labels");
+  if (!targetIcons || !targetLabels) {
+    console.warn("[rangetest] targets not found");
+    return;
   }
-});
-const DIFF = {
-  1: "basic",
-  2: "easy",
-  3: "medium",
-  4: "hard",
-  5: "master"
-};
-const labelPipFormatter = (v) => {
-  const cls = DIFF[v];
-  return cls ? `<div class="${cls}">${cls}</div>` : String(v);
-};
-const labelHandleFormatter = (v) => String(v);
-new RangeSlider({
-  target: document.querySelector("#range-slider-labels"),
-  props: {
-    min: 1,
-    max: 5,
-    step: 1,
-    values: [1, 5],
-    range: true,
-    pips: true,
-    pipstep: 1,
-    all: "label",
-    formatter: labelPipFormatter,
-    // <-- здесь выводятся твои div'ы
-    handleFormatter: labelHandleFormatter,
-    hoverable: true
+  const sliderIcons = new RangeSlider({
+    target: targetIcons,
+    props: {
+      min: 1,
+      max: 5,
+      step: 1,
+      values: [1, 5],
+      range: true,
+      pips: true,
+      pipstep: 1,
+      all: "label",
+      formatter: iconPipFormatter,
+      handleFormatter: iconHandleFormatter,
+      hoverable: true
+    }
+  });
+  const DIFF = { 1: "basic", 2: "easy", 3: "medium", 4: "hard", 5: "master" };
+  const labelPipFormatter = (v) => {
+    const cls = DIFF[v];
+    return cls ? `<div class="${cls}">${cls}</div>` : String(v);
+  };
+  const labelHandleFormatter = (v) => String(v);
+  const sliderLabels = new RangeSlider({
+    target: targetLabels,
+    props: {
+      min: 1,
+      max: 5,
+      step: 1,
+      values: [1, 5],
+      range: true,
+      pips: true,
+      pipstep: 1,
+      all: "label",
+      formatter: labelPipFormatter,
+      handleFormatter: labelHandleFormatter,
+      hoverable: true
+    }
+  });
+  let uRange = [1, 5];
+  let dRange = [1, 5];
+  const WORD2NUM = { one: 1, two: 2, three: 3, four: 4, five: 5 };
+  const DIFF2NUM = { basic: 1, easy: 2, medium: 3, hard: 4, master: 5 };
+  const clampRange = (arr) => {
+    let [a, b] = Array.isArray(arr) ? arr : [arr, arr];
+    a = Number(a);
+    b = Number(b);
+    if (a > b) [a, b] = [b, a];
+    return [a, b];
+  };
+  const inRange = (v, [min2, max2]) => v >= min2 && v <= max2;
+  function parseUsefulness(item) {
+    const img = item.querySelector("[data-usefulness]");
+    if (!img) return null;
+    const raw = img.getAttribute("data-usefulness") || "";
+    const word = raw.split("-").pop();
+    return WORD2NUM[word] ?? null;
   }
+  function parseDifficulty(item) {
+    const el = item.querySelector("[data-difficulty]");
+    if (!el) return null;
+    const raw = (el.getAttribute("data-difficulty") || "").toLowerCase();
+    return DIFF2NUM[raw] ?? null;
+  }
+  function updateEmptyStatesPerItem() {
+    document.querySelectorAll(".spoller-block__item").forEach((block) => {
+      const visible = block.querySelectorAll(".spoller-block__link-item:not(.is-hidden)").length;
+      const isEmpty = visible === 0;
+      block.classList.toggle("is-empty", isEmpty);
+      const details = block.querySelector("details");
+      if (details && isEmpty) details.open = false;
+    });
+  }
+  function updateEmptyStatesPerGroup() {
+    document.querySelectorAll(".catalog__spoller-block").forEach((group) => {
+      const nonEmptyItems = group.querySelectorAll(".spoller-block__item:not(.is-empty)").length;
+      const isGroupEmpty = nonEmptyItems === 0;
+      group.classList.toggle("is-empty", isGroupEmpty);
+    });
+  }
+  function applyFilter() {
+    const items = document.querySelectorAll(".spoller-block__link-item");
+    items.forEach((item) => {
+      const u = parseUsefulness(item);
+      const d = parseDifficulty(item);
+      const passU = u != null ? inRange(u, uRange) : false;
+      const passD = d != null ? inRange(d, dRange) : false;
+      const show = passU && passD;
+      item.classList.toggle("is-hidden", !show);
+    });
+    updateEmptyStatesPerItem();
+    updateEmptyStatesPerGroup();
+  }
+  const getVals = (e) => {
+    const detail = e?.detail;
+    if (!detail) return [1, 5];
+    if (Array.isArray(detail.values)) return detail.values;
+    if (Array.isArray(detail)) return detail;
+    if (typeof detail.value === "number") return [detail.value, detail.value];
+    return [1, 5];
+  };
+  sliderIcons.$on("input", (e) => {
+    uRange = clampRange(getVals(e));
+    applyFilter();
+  });
+  sliderIcons.$on("change", (e) => {
+    uRange = clampRange(getVals(e));
+    applyFilter();
+  });
+  sliderLabels.$on("input", (e) => {
+    dRange = clampRange(getVals(e));
+    applyFilter();
+  });
+  sliderLabels.$on("change", (e) => {
+    dRange = clampRange(getVals(e));
+    applyFilter();
+  });
+  applyFilter();
 });
