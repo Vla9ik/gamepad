@@ -108,12 +108,12 @@ let slideToggle = (target, duration = 500) => {
 let bodyLockStatus = true;
 let bodyLockToggle = (delay = 500) => {
   if (document.documentElement.hasAttribute("data-fls-scrolllock")) {
-    bodyUnlock$1(delay);
+    bodyUnlock(delay);
   } else {
     bodyLock(delay);
   }
 };
-let bodyUnlock$1 = (delay = 500) => {
+let bodyUnlock = (delay = 500) => {
   if (bodyLockStatus) {
     const lockPaddingElements = document.querySelectorAll("[data-fls-lp]");
     setTimeout(() => {
@@ -183,7 +183,7 @@ const gotoBlock = (targetBlock, noHeader = false, speed = 500, offsetTop = 0) =>
       }
     }
     if (document.documentElement.hasAttribute("data-fls-menu-open")) {
-      bodyUnlock$1();
+      bodyUnlock();
       document.documentElement.removeAttribute("data-fls-menu-open");
     }
     let targetBlockElementPosition = targetBlockElement.getBoundingClientRect().top + scrollY;
@@ -2894,7 +2894,7 @@ function pageNavigation() {
           if (fullpageSectionId !== null) {
             window.fullpage.switchingSection(fullpageSectionId);
             if (document.documentElement.hasAttribute("data-fls-menu-open")) {
-              bodyUnlock$1();
+              bodyUnlock();
               document.documentElement.removeAttribute("data-fls-menu-open");
             }
           }
