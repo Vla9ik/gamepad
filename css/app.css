@@ -1052,6 +1052,10 @@ aside {
   background: #122021;
   border-radius: 0 0.5rem 0.5rem 0;
 }
+aside .aside-wrapper {
+  max-width: 18.75rem;
+  width: 100%;
+}
 aside .aside-close {
   position: fixed;
   right: -100%;
@@ -2242,7 +2246,6 @@ main::before {
     width: 100%;
     height: 100svh;
     left: -100%;
-    max-width: 18.75rem;
     top: 0;
     overflow: auto;
     padding: 3.125rem 0.9375rem 1.875rem 0.9375rem;
