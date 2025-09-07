@@ -203,8 +203,8 @@ function menuInit() {
       return;
     }
     if (document.documentElement.hasAttribute("data-fls-menu-open")) {
-      const aside = document.querySelector("aside");
-      const clickInsideAside = aside && e.target.closest("aside");
+      const aside = document.querySelector(".aside-wrapper");
+      const clickInsideAside = aside && e.target.closest(".aside-wrapper");
       const clickOnToggle = e.target.closest("[data-fls-menu]");
       if (!clickInsideAside && !clickOnToggle) {
         bodyUnlock();
