@@ -1061,7 +1061,7 @@ aside .aside-close {
   position: fixed;
   right: -100%;
   z-index: 200;
-  top: 6%;
+  top: 7%;
   opacity: 0;
   pointer-events: none;
   visibility: hidden;
