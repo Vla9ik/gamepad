@@ -1978,6 +1978,7 @@ main::before {
 }
 .post-section__container {
   flex-grow: 1;
+  max-width: 93.75rem;
 }
 .post-block__title {
   color: #fff;
