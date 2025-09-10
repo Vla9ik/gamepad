@@ -3296,9 +3296,7 @@ function spollers() {
   const mdQueriesArray = dataMediaQueries(spollersArray, "flsSpollers");
   if (mdQueriesArray && mdQueriesArray.length) {
     mdQueriesArray.forEach((mdItem) => {
-      mdItem.matchMedia.addEventListener("change", () => {
-        initSpollers(mdItem.itemsArray, mdItem.matchMedia);
-      });
+      mdItem.matchMedia.addEventListener("change", () => initSpollers(mdItem.itemsArray, mdItem.matchMedia));
       initSpollers(mdItem.itemsArray, mdItem.matchMedia);
     });
   }
@@ -3350,9 +3348,7 @@ function spollers() {
       const scrollSpoller = details.hasAttribute("data-fls-spollers-scroll");
       const spollerSpeed = spollersRoot.dataset.flsSpollersSpeed ? parseInt(spollersRoot.dataset.flsSpollersSpeed) : 500;
       if (!spollersRoot.querySelectorAll(".--slide").length) {
-        if (oneSpoller && !details.open) {
-          hideSpollersBody(spollersRoot);
-        }
+        if (oneSpoller && !details.open) hideSpollersBody(spollersRoot);
         !details.open ? details.open = true : setTimeout(() => {
           details.open = false;
         }, spollerSpeed);
@@ -3361,11 +3357,8 @@ function spollers() {
         if (scrollSpoller && spollerTitle.classList.contains("--spoller-active")) {
           const scrollSpollerValue = details.dataset.flsSpollersScroll;
           const scrollSpollerOffset = +scrollSpollerValue ? +scrollSpollerValue : 0;
-          const scrollSpollerNoHeader = details.hasAttribute("data-fls-spollers-scroll-noheader") ? document.querySelector(".header").offsetHeight : 0;
-          window.scrollTo({
-            top: details.offsetTop - (scrollSpollerOffset + scrollSpollerNoHeader),
-            behavior: "smooth"
-          });
+          const scrollSpollerNoHeader = details.hasAttribute("data-fls-spollers-scroll-noheader") ? document.querySelector(".header")?.offsetHeight || 0 : 0;
+          window.scrollTo({ top: details.offsetTop - (scrollSpollerOffset + scrollSpollerNoHeader), behavior: "smooth" });
         }
       }
     }
@@ -3399,7 +3392,7 @@ function spollers() {
   }
 }
 window.addEventListener("load", spollers);
-function initCatalogToggle() {
+function initCatalogToggle$1() {
   const btn = document.querySelector(".catalog__close-tabs");
   if (!btn) return;
   const scope = document.querySelector(".catalog__spollers") || document;
@@ -3441,7 +3434,10 @@ function initCatalogToggle() {
     setBtnState();
   });
 }
-window.addEventListener("load", initCatalogToggle);
+window.addEventListener("load", initCatalogToggle$1);
+document.addEventListener("fls:spollers-reinit", () => {
+  spollers();
+});
 function noop() {
 }
 function run(fn2) {
@@ -8743,12 +8739,46 @@ class RangeSlider extends SvelteComponent {
   }
 }
 create_custom_element(RangeSlider, { "slider": {}, "precision": {}, "range": { "type": "Boolean" }, "pushy": { "type": "Boolean" }, "draggy": { "type": "Boolean" }, "min": {}, "max": {}, "step": {}, "values": {}, "value": {}, "vertical": { "type": "Boolean" }, "float": { "type": "Boolean" }, "rangeFloat": { "type": "Boolean" }, "reversed": { "type": "Boolean" }, "hoverable": { "type": "Boolean" }, "disabled": { "type": "Boolean" }, "limits": {}, "rangeGapMin": {}, "rangeGapMax": {}, "pips": { "type": "Boolean" }, "pipstep": {}, "all": { "type": "Boolean" }, "first": {}, "last": {}, "rest": {}, "prefix": {}, "suffix": {}, "formatter": {}, "handleFormatter": {}, "rangeFormatter": {}, "ariaLabels": {}, "id": {}, "class": {}, "style": {}, "darkmode": { "type": "Boolean" }, "springValues": {}, "spring": { "type": "Boolean" } }, [], [], true);
+const DIFF2NUM = { basic: 1, easy: 2, medium: 3, hard: 4, master: 5 };
+const WORD2NUM = { one: 1, two: 2, three: 3, four: 4, five: 5 };
+const ICONS = {
+  1: { label: "basic", img: "./assets/img/usefulness/signal-one.svg" },
+  2: { label: "easy", img: "./assets/img/usefulness/signal-two.svg" },
+  3: { label: "medium", img: "./assets/img/usefulness/signal-three.svg" },
+  4: { label: "hard", img: "./assets/img/usefulness/signal-four.svg" },
+  5: { label: "master", img: "./assets/img/usefulness/signal-five.svg" }
+};
+const safe = (s) => String(s).replace(/"/g, "").trim();
+const inRange = (v, [min2, max2]) => typeof v === "number" && v >= min2 && v <= max2;
+function normalize15(v) {
+  if (v == null) return null;
+  if (typeof v === "number") return v >= 1 && v <= 5 ? v : null;
+  const s = String(v).trim().toLowerCase();
+  if (/^[1-5]$/.test(s)) return Number(s);
+  const last = s.split(/[^a-z0-9]+/).pop();
+  return WORD2NUM[last] ?? null;
+}
+function parseUsefulnessFromLink(linkEl) {
+  const el = linkEl.querySelector("[data-usefulness]");
+  if (!el) return null;
+  return normalize15(el.getAttribute("data-usefulness"));
+}
+function parseDifficultyFromLink(linkEl) {
+  const el = linkEl.querySelector("[data-difficulty]");
+  if (!el) return null;
+  const raw = (el.getAttribute("data-difficulty") || "").toLowerCase().trim();
+  return DIFF2NUM[raw] ?? normalize15(raw);
+}
 function getSummary(details) {
-  return details ? details.querySelector("summary") : null;
+  return details?.querySelector("summary") || null;
 }
 function getBody(details) {
   const s = getSummary(details);
   return s ? s.nextElementSibling : null;
+}
+function isSliding(details) {
+  const b = getBody(details);
+  return !!(b && b.classList.contains("--slide"));
 }
 function syncDetails(details, open) {
   const s = getSummary(details);
@@ -8758,15 +8788,69 @@ function syncDetails(details, open) {
   s.classList.toggle("--spoller-active", !!open);
   b.hidden = !open;
 }
-document.addEventListener("DOMContentLoaded", () => {
-  const ICONS = {
-    1: { label: "basic", img: "/assets/img/usefulness/signal-one.svg" },
-    2: { label: "easy", img: "/assets/img/usefulness/signal-two.svg" },
-    3: { label: "medium", img: "/assets/img/usefulness/signal-three.svg" },
-    4: { label: "hard", img: "/assets/img/usefulness/signal-four.svg" },
-    5: { label: "master", img: "/assets/img/usefulness/signal-five.svg" }
-  };
-  const safe = (s) => String(s).replace(/"/g, "").trim();
+function expandAllMode() {
+  const btn = document.querySelector(".catalog__close-tabs");
+  return !!(btn && btn.classList.contains("--active"));
+}
+function forceOpenAllSpollers() {
+  document.querySelectorAll(".catalog__spollers [data-fls-spollers].--spoller-init details").forEach((d) => syncDetails(d, true));
+  const btn = document.querySelector(".catalog__close-tabs");
+  if (btn) {
+    btn.classList.add("--active");
+    btn.textContent = "Collapse all";
+  }
+}
+function applyFilterStrict(uRange, dRange) {
+  const links = document.querySelectorAll(".spoller-block__link");
+  links.forEach((link) => {
+    const u = parseUsefulnessFromLink(link);
+    const d = parseDifficultyFromLink(link);
+    const passU = inRange(u, uRange);
+    const passD = inRange(d, dRange);
+    const show = passU && passD;
+    link.classList.toggle("is-hidden", !show);
+  });
+  document.querySelectorAll(".spoller-block__link-item").forEach((item) => {
+    const anyVisible = item.querySelector(".spoller-block__link:not(.is-hidden)");
+    const empty2 = !anyVisible;
+    item.classList.toggle("is-empty", empty2);
+    item.style.display = empty2 ? "none" : "";
+  });
+  const keepAllOpen = expandAllMode();
+  document.querySelectorAll(".spoller-block__item").forEach((block) => {
+    const details = block.querySelector("details");
+    if (!details) return;
+    const anyVisibleItem = block.querySelector(".spoller-block__link-item:not(.is-empty)");
+    const empty2 = !anyVisibleItem;
+    block.classList.toggle("is-empty", empty2);
+    if (isSliding(details)) return;
+    if (empty2) {
+      details.dataset.wasOpen = details.open ? "1" : "0";
+      details.dataset.closedByFilter = "1";
+      syncDetails(details, false);
+    } else {
+      if (details.dataset.closedByFilter === "1") {
+        const shouldOpen = keepAllOpen || details.dataset.wasOpen === "1";
+        syncDetails(details, shouldOpen);
+        delete details.dataset.closedByFilter;
+        delete details.dataset.wasOpen;
+      } else if (keepAllOpen) {
+        syncDetails(details, true);
+      }
+    }
+  });
+  document.querySelectorAll(".catalog__spoller-block").forEach((group) => {
+    const anyNonEmptyItem = group.querySelector(".spoller-block__item:not(.is-empty)");
+    group.classList.toggle("is-empty", !anyNonEmptyItem);
+  });
+}
+function initSliders(onChange) {
+  const targetIcons = document.querySelector("#range-slider-icons");
+  const targetLabels = document.querySelector("#range-slider-labels");
+  if (!targetIcons || !targetLabels) {
+    console.warn("[filters] range targets not found");
+    return { sliderIcons: null, sliderLabels: null };
+  }
   const iconPipFormatter = (v) => {
     const it = ICONS[v];
     return it ? `<div class="pipIcon"><img src="${safe(it.img)}" alt="${it.label}"></div>` : String(v);
@@ -8775,12 +8859,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const it = ICONS[v];
     return it ? `<img src="${safe(it.img)}" alt="${it.label}">` : String(v);
   };
-  const targetIcons = document.querySelector("#range-slider-icons");
-  const targetLabels = document.querySelector("#range-slider-labels");
-  if (!targetIcons || !targetLabels) {
-    console.warn("[rangetest] targets not found");
-    return;
-  }
   const sliderIcons = new RangeSlider({
     target: targetIcons,
     props: {
@@ -8802,7 +8880,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const cls = DIFF[v];
     return cls ? `<div class="${cls}">${cls}</div>` : String(v);
   };
-  const labelHandleFormatter = (v) => String(v);
   const sliderLabels = new RangeSlider({
     target: targetLabels,
     props: {
@@ -8815,87 +8892,10 @@ document.addEventListener("DOMContentLoaded", () => {
       pipstep: 1,
       all: "label",
       formatter: labelPipFormatter,
-      handleFormatter: labelHandleFormatter,
+      handleFormatter: (v) => String(v),
       hoverable: true
     }
   });
-  let uRange = [1, 5];
-  let dRange = [1, 5];
-  const WORD2NUM = { one: 1, two: 2, three: 3, four: 4, five: 5 };
-  const DIFF2NUM = { basic: 1, easy: 2, medium: 3, hard: 4, master: 5 };
-  const clampRange = (arr) => {
-    let [a, b] = Array.isArray(arr) ? arr : [arr, arr];
-    a = Number(a);
-    b = Number(b);
-    if (a > b) [a, b] = [b, a];
-    return [a, b];
-  };
-  const inRange = (v, [min2, max2]) => v >= min2 && v <= max2;
-  function parseUsefulness(item) {
-    const img = item.querySelector("[data-usefulness]");
-    if (!img) return null;
-    const raw = img.getAttribute("data-usefulness") || "";
-    const word = raw.split("-").pop();
-    return WORD2NUM[word] ?? null;
-  }
-  function parseDifficulty(item) {
-    const el = item.querySelector("[data-difficulty]");
-    if (!el) return null;
-    const raw = (el.getAttribute("data-difficulty") || "").toLowerCase();
-    return DIFF2NUM[raw] ?? null;
-  }
-  function isSliding(details) {
-    const b = getBody(details);
-    return !!(b && b.classList.contains("--slide"));
-  }
-  function expandAllMode() {
-    const btn = document.querySelector(".catalog__close-tabs");
-    return !!(btn && btn.classList.contains("--active"));
-  }
-  function updateEmptyStatesPerItem() {
-    const keepAllOpen = expandAllMode();
-    document.querySelectorAll(".spoller-block__item").forEach((block) => {
-      const details = block.querySelector("details");
-      const visible = block.querySelectorAll(".spoller-block__link-item:not(.is-hidden)").length;
-      const isEmpty = visible === 0;
-      block.classList.toggle("is-empty", isEmpty);
-      if (!details || isSliding(details)) return;
-      if (isEmpty) {
-        details.dataset.wasOpen = details.open ? "1" : "0";
-        details.dataset.closedByFilter = "1";
-        syncDetails(details, false);
-      } else {
-        if (details.dataset.closedByFilter === "1") {
-          const shouldOpen = keepAllOpen || details.dataset.wasOpen === "1";
-          syncDetails(details, shouldOpen);
-          delete details.dataset.closedByFilter;
-          delete details.dataset.wasOpen;
-        } else if (keepAllOpen) {
-          syncDetails(details, true);
-        }
-      }
-    });
-  }
-  function updateEmptyStatesPerGroup() {
-    document.querySelectorAll(".catalog__spoller-block").forEach((group) => {
-      const nonEmptyItems = group.querySelectorAll(".spoller-block__item:not(.is-empty)").length;
-      const isGroupEmpty = nonEmptyItems === 0;
-      group.classList.toggle("is-empty", isGroupEmpty);
-    });
-  }
-  function applyFilter() {
-    const items = document.querySelectorAll(".spoller-block__link-item");
-    items.forEach((item) => {
-      const u = parseUsefulness(item);
-      const d = parseDifficulty(item);
-      const passU = u != null ? inRange(u, uRange) : true;
-      const passD = d != null ? inRange(d, dRange) : true;
-      const show = passU && passD;
-      item.classList.toggle("is-hidden", !show);
-    });
-    updateEmptyStatesPerItem();
-    updateEmptyStatesPerGroup();
-  }
   const getVals = (e) => {
     const detail = e?.detail;
     if (!detail) return [1, 5];
@@ -8904,40 +8904,96 @@ document.addEventListener("DOMContentLoaded", () => {
     if (typeof detail.value === "number") return [detail.value, detail.value];
     return [1, 5];
   };
-  sliderIcons.$on("input", (e) => {
-    uRange = clampRange(getVals(e));
-    applyFilter();
-  });
-  sliderIcons.$on("change", (e) => {
-    uRange = clampRange(getVals(e));
-    applyFilter();
-  });
-  sliderLabels.$on("input", (e) => {
-    dRange = clampRange(getVals(e));
-    applyFilter();
-  });
-  sliderLabels.$on("change", (e) => {
-    dRange = clampRange(getVals(e));
-    applyFilter();
-  });
-  applyFilter();
-});
-function forceOpenAllSpollers() {
-  const nodes = document.querySelectorAll(".catalog__spollers [data-fls-spollers].--spoller-init details");
-  nodes.forEach((d) => syncDetails(d, true));
-  const btn = document.querySelector(".catalog__close-tabs");
-  if (btn) {
-    btn.classList.add("--active");
-    btn.textContent = "Collapse all";
-  }
+  sliderIcons.$on("input", (e) => onChange("u", getVals(e)));
+  sliderIcons.$on("change", (e) => onChange("u", getVals(e)));
+  sliderLabels.$on("input", (e) => onChange("d", getVals(e)));
+  sliderLabels.$on("change", (e) => onChange("d", getVals(e)));
+  return { sliderIcons, sliderLabels };
 }
-document.addEventListener("fls:spollers-inited", () => {
-  requestAnimationFrame(() => forceOpenAllSpollers());
-});
-window.addEventListener("load", () => {
-  const anyClosed = document.querySelector(".catalog__spollers [data-fls-spollers].--spoller-init details:not([open])");
-  if (anyClosed) requestAnimationFrame(() => forceOpenAllSpollers());
-});
+function initCatalogToggle() {
+  const btn = document.querySelector(".catalog__close-tabs");
+  if (!btn) return;
+  const scope = document.querySelector(".catalog__spollers") || document;
+  const computeNext = () => !!scope.querySelector("[data-fls-spollers].--spoller-init details:not([open])");
+  let nextIsExpand = computeNext();
+  const setBtnState = () => {
+    btn.textContent = nextIsExpand ? "Expand all" : "Collapse all";
+    btn.classList.toggle("--active", !nextIsExpand);
+  };
+  const toggleAll = () => {
+    const blocks = scope.querySelectorAll("[data-fls-spollers].--spoller-init");
+    blocks.forEach((spollersBlock) => {
+      const speed = spollersBlock.dataset.flsSpollersSpeed ? parseInt(spollersBlock.dataset.flsSpollersSpeed) : 500;
+      spollersBlock.querySelectorAll("details").forEach((detailsEl) => {
+        const summary = detailsEl.querySelector("summary");
+        const body = summary?.nextElementSibling;
+        if (!summary || !body) return;
+        if (body.classList.contains("--slide")) return;
+        if (nextIsExpand) {
+          detailsEl.open = true;
+          summary.classList.add("--spoller-active");
+          if (body.hidden) body.hidden = false;
+        } else {
+          summary.classList.remove("--spoller-active");
+          body.hidden = true;
+          setTimeout(() => {
+            detailsEl.open = false;
+          }, speed);
+        }
+      });
+    });
+  };
+  setBtnState();
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    toggleAll();
+    nextIsExpand = !nextIsExpand;
+    setBtnState();
+  });
+}
+(function bootstrap() {
+  let uRange = [1, 5];
+  let dRange = [1, 5];
+  document.addEventListener("DOMContentLoaded", () => {
+    initSliders((which, vals) => {
+      const [a, b] = vals.slice(0, 2).sort((x, y) => x - y);
+      if (which === "u") uRange = [a, b];
+      else dRange = [a, b];
+      applyFilterStrict(uRange, dRange);
+    });
+    applyFilterStrict(uRange, dRange);
+    initCatalogToggle();
+  });
+  document.addEventListener("fls:spollers-inited", () => {
+    requestAnimationFrame(() => forceOpenAllSpollers());
+    requestAnimationFrame(() => applyFilterStrict(uRange, dRange));
+  });
+  window.addEventListener("load", () => {
+    const anyClosed = document.querySelector(".catalog__spollers [data-fls-spollers].--spoller-init details:not([open])");
+    if (anyClosed) requestAnimationFrame(() => forceOpenAllSpollers());
+    requestAnimationFrame(() => applyFilterStrict(uRange, dRange));
+  });
+  const root = document.querySelector(".catalog__spollers");
+  if (root) {
+    let rafId = null;
+    const reapply = () => {
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        applyFilterStrict(uRange, dRange);
+        if (expandAllMode()) forceOpenAllSpollers();
+      });
+    };
+    const mo = new MutationObserver((muts) => {
+      for (const m of muts) {
+        if (m.addedNodes?.length || m.removedNodes?.length || m.type === "attributes") {
+          reapply();
+          break;
+        }
+      }
+    });
+    mo.observe(root, { childList: true, subtree: true, attributes: true, attributeFilter: ["data-usefulness", "data-difficulty", "open", "class"] });
+  }
+})();
 function _assertThisInitialized(self) {
   if (self === void 0) {
     throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
@@ -9502,9 +9558,9 @@ var _config = {
   }
   return s + value.substr(prev, value.length - prev);
 }, mapRange = function mapRange2(inMin, inMax, outMin, outMax, value) {
-  var inRange = inMax - inMin, outRange = outMax - outMin;
+  var inRange2 = inMax - inMin, outRange = outMax - outMin;
   return _conditionalReturn(value, function(value2) {
-    return outMin + ((value2 - inMin) / inRange * outRange || 0);
+    return outMin + ((value2 - inMin) / inRange2 * outRange || 0);
   });
 }, interpolate = function interpolate2(start2, end2, progress, mutate) {
   var func = isNaN(start2 + end2) ? 0 : function(p2) {
