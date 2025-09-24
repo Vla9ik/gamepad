@@ -71,7 +71,7 @@ h6 {
 @font-face { 
 	font-family: "iconfont"; 
 	font-display: swap;
-	src: url("../assets/fonts/iconfont.woff2?ef34959e0faff9d0550253b32939c799") format("woff2"); 
+	src: url("C://Users/vladk/Desktop/gamepad/src/assets/svgicons/preview/iconfont.woff2?ef34959e0faff9d0550253b32939c799") format("woff2"); 
 } 
 [class*="--icon-"]::before{
 	font-family: iconfont; 
