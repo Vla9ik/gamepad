@@ -27,6 +27,15 @@
     fetch(link.href, fetchOpts);
   }
 })();
+function getHash() {
+  if (location.hash) {
+    return location.hash.replace("#", "");
+  }
+}
+function setHash(hash2) {
+  hash2 = hash2 ? `#${hash2}` : window.location.href.split("#")[0];
+  history.pushState("", "", hash2);
+}
 let slideUp = (target, duration = 500, showmore = 0) => {
   if (!target.classList.contains("--slide")) {
     target.classList.add("--slide");
@@ -2885,6 +2894,27 @@ document.querySelector("[data-fls-tippy-img]") ? tippy("[data-fls-tippy-img]", {
     return `
         <div class="tippy-image">
           <img src="${src}" alt="${alt}" loading="lazy" decoding="async">
+        </div>
+      `;
+  }
+}) : null;
+document.querySelector("[data-addon-title][data-addon-text]") ? tippy("[data-addon-title][data-addon-text]", {
+  allowHTML: true,
+  interactive: true,
+  appendTo: () => document.body,
+  maxWidth: 400,
+  placement: "right",
+  offset: [0, 12],
+  trigger: "mouseenter focus click",
+  touch: ["hold", 250],
+  theme: "addon",
+  content(reference2) {
+    const title = reference2.getAttribute("data-addon-title") || "";
+    const text2 = reference2.getAttribute("data-addon-text") || "";
+    return `
+        <div class="addon-tip">
+          <div class="addon-tip__title">${title}</div>
+          <div class="addon-tip__text">${text2}</div>
         </div>
       `;
   }
@@ -13405,6 +13435,161 @@ function initSliders() {
   }
 }
 document.querySelector("[data-fls-slider]") ? window.addEventListener("load", initSliders) : null;
+function tabs() {
+  const tabs2 = document.querySelectorAll("[data-fls-tabs]");
+  let tabsActiveHash = [];
+  if (tabs2.length > 0) {
+    const hash2 = getHash();
+    if (hash2 && hash2.startsWith("tab-")) {
+      tabsActiveHash = hash2.replace("tab-", "").split("-");
+    }
+    tabs2.forEach((tabsBlock, index) => {
+      tabsBlock.classList.add("--tab-init");
+      tabsBlock.setAttribute("data-fls-tabs-index", index);
+      tabsBlock.addEventListener("click", setTabsAction);
+      initTabs(tabsBlock);
+    });
+    let mdQueriesArray = dataMediaQueries(tabs2, "flsTabs");
+    if (mdQueriesArray && mdQueriesArray.length) {
+      mdQueriesArray.forEach((mdQueriesItem) => {
+        mdQueriesItem.matchMedia.addEventListener("change", function() {
+          setTitlePosition(mdQueriesItem.itemsArray, mdQueriesItem.matchMedia);
+        });
+        setTitlePosition(mdQueriesItem.itemsArray, mdQueriesItem.matchMedia);
+      });
+    }
+  }
+  function setTitlePosition(tabsMediaArray, matchMedia2) {
+    tabsMediaArray.forEach((tabsMediaItem) => {
+      tabsMediaItem = tabsMediaItem.item;
+      let tabsTitles = tabsMediaItem.querySelector("[data-fls-tabs-titles]");
+      let tabsTitleItems = tabsMediaItem.querySelectorAll("[data-fls-tabs-title]");
+      let tabsContent = tabsMediaItem.querySelector("[data-fls-tabs-body]");
+      let tabsContentItems = tabsMediaItem.querySelectorAll("[data-fls-tabs-item]");
+      tabsTitleItems = Array.from(tabsTitleItems).filter((item) => item.closest("[data-fls-tabs]") === tabsMediaItem);
+      tabsContentItems = Array.from(tabsContentItems).filter((item) => item.closest("[data-fls-tabs]") === tabsMediaItem);
+      tabsContentItems.forEach((tabsContentItem, index) => {
+        if (matchMedia2.matches) {
+          tabsContent.append(tabsTitleItems[index]);
+          tabsContent.append(tabsContentItem);
+          tabsMediaItem.classList.add("--tab-spoller");
+        } else {
+          tabsTitles.append(tabsTitleItems[index]);
+          tabsMediaItem.classList.remove("--tab-spoller");
+        }
+      });
+    });
+  }
+  function initTabs(tabsBlock) {
+    let tabsTitles = tabsBlock.querySelectorAll("[data-fls-tabs-titles]>*");
+    let tabsContent = tabsBlock.querySelectorAll("[data-fls-tabs-body]>*");
+    const tabsBlockIndex = tabsBlock.dataset.flsTabsIndex;
+    const tabsActiveHashBlock = tabsActiveHash[0] == tabsBlockIndex;
+    if (tabsActiveHashBlock) {
+      const tabsActiveTitle = tabsBlock.querySelector("[data-fls-tabs-titles]>.--tab-active");
+      tabsActiveTitle ? tabsActiveTitle.classList.remove("--tab-active") : null;
+    }
+    if (tabsContent.length) {
+      tabsContent.forEach((tabsContentItem, index) => {
+        tabsTitles[index].setAttribute("data-fls-tabs-title", "");
+        tabsContentItem.setAttribute("data-fls-tabs-item", "");
+        if (tabsActiveHashBlock && index == tabsActiveHash[1]) {
+          tabsTitles[index].classList.add("--tab-active");
+        }
+        tabsContentItem.hidden = !tabsTitles[index].classList.contains("--tab-active");
+      });
+    }
+  }
+  function setTabsStatus(tabsBlock) {
+    let tabsTitles = tabsBlock.querySelectorAll("[data-fls-tabs-title]");
+    let tabsContent = tabsBlock.querySelectorAll("[data-fls-tabs-item]");
+    const tabsBlockIndex = tabsBlock.dataset.flsTabsIndex;
+    function isTabsAnamate(tabsBlock2) {
+      if (tabsBlock2.hasAttribute("data-fls-tabs-animate")) {
+        return tabsBlock2.dataset.flsTabsAnimate > 0 ? Number(tabsBlock2.dataset.flsTabsAnimate) : 500;
+      }
+    }
+    const tabsBlockAnimate = isTabsAnamate(tabsBlock);
+    if (tabsContent.length > 0) {
+      const isHash = tabsBlock.hasAttribute("data-fls-tabs-hash");
+      tabsContent = Array.from(tabsContent).filter((item) => item.closest("[data-fls-tabs]") === tabsBlock);
+      tabsTitles = Array.from(tabsTitles).filter((item) => item.closest("[data-fls-tabs]") === tabsBlock);
+      tabsContent.forEach((tabsContentItem, index) => {
+        if (tabsTitles[index].classList.contains("--tab-active")) {
+          if (tabsBlockAnimate) {
+            slideDown(tabsContentItem, tabsBlockAnimate);
+          } else {
+            tabsContentItem.hidden = false;
+          }
+          if (isHash && !tabsContentItem.closest(".popup")) {
+            setHash(`tab-${tabsBlockIndex}-${index}`);
+          }
+        } else {
+          if (tabsBlockAnimate) {
+            slideUp(tabsContentItem, tabsBlockAnimate);
+          } else {
+            tabsContentItem.hidden = true;
+          }
+        }
+      });
+    }
+  }
+  function setTabsAction(e) {
+    const el = e.target;
+    if (el.closest("[data-fls-tabs-title]")) {
+      const tabTitle = el.closest("[data-fls-tabs-title]");
+      const tabsBlock = tabTitle.closest("[data-fls-tabs]");
+      if (!tabTitle.classList.contains("--tab-active") && !tabsBlock.querySelector(".--slide")) {
+        let tabActiveTitle = tabsBlock.querySelectorAll("[data-fls-tabs-title].--tab-active");
+        tabActiveTitle.length ? tabActiveTitle = Array.from(tabActiveTitle).filter((item) => item.closest("[data-fls-tabs]") === tabsBlock) : null;
+        tabActiveTitle.length ? tabActiveTitle[0].classList.remove("--tab-active") : null;
+        tabTitle.classList.add("--tab-active");
+        setTabsStatus(tabsBlock);
+      }
+      e.preventDefault();
+    }
+  }
+}
+window.addEventListener("load", tabs);
+const modeButtons = document.querySelectorAll(".actions-addons__mode button");
+modeButtons.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    modeButtons.forEach((b) => b.classList.remove("active"));
+    btn.classList.add("active");
+  });
+});
+window.addEventListener("load", () => {
+  document.querySelectorAll(".addons__items").forEach((container) => {
+    const tabBlocks = Array.from(container.querySelectorAll("[data-fls-tabs]"));
+    tabBlocks.forEach((currentBlock) => {
+      currentBlock.addEventListener("click", (e) => {
+        const titleEl = e.target.closest("[data-fls-tabs-title]");
+        if (!titleEl || !currentBlock.contains(titleEl)) return;
+        const currentTitles = Array.from(currentBlock.querySelectorAll("[data-fls-tabs-title]")).filter((el) => el.closest("[data-fls-tabs]") === currentBlock);
+        const clickedIndex = currentTitles.indexOf(titleEl);
+        if (clickedIndex < 0) return;
+        tabBlocks.forEach((otherBlock) => {
+          if (otherBlock === currentBlock) return;
+          const otherTitles = Array.from(otherBlock.querySelectorAll("[data-fls-tabs-title]")).filter((el) => el.closest("[data-fls-tabs]") === otherBlock);
+          const otherItems = Array.from(otherBlock.querySelectorAll("[data-fls-tabs-item]")).filter((el) => el.closest("[data-fls-tabs]") === otherBlock);
+          if (!otherTitles.length || otherTitles.length !== currentTitles.length) return;
+          otherTitles.forEach((t) => t.classList.remove("--tab-active"));
+          if (otherTitles[clickedIndex]) {
+            otherTitles[clickedIndex].classList.add("--tab-active");
+          }
+          otherItems.forEach((item, idx) => {
+            item.classList.remove("--slide");
+            item.hidden = idx !== clickedIndex;
+            item.style.removeProperty("height");
+            item.style.removeProperty("overflow");
+            item.style.removeProperty("transition-duration");
+            item.style.removeProperty("transition-property");
+          });
+        });
+      });
+    });
+  });
+});
 function _assertThisInitialized(self) {
   if (self === void 0) {
     throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
