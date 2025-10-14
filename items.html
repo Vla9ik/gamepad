@@ -5,8 +5,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="shortcut icon" href="./assets/img/favicon.ico">
 		<title>Home Page</title>
-		<script type="module" crossorigin="" src="./js/app.min.js?v=1759359239480"></script>
-		<link rel="stylesheet" crossorigin="" href="./css/app.min.css?v=1759359239480">
+		<script type="module" crossorigin="" src="./js/app.min.js?v=1760476426679"></script>
+		<link rel="stylesheet" crossorigin="" href="./css/app.min.css?v=1760476426679">
 	</head>
 	<body data-fls-preloader="true">
 		<div class="wrapper">
@@ -214,14 +214,14 @@
 								<div class="actions-addons__switch">
 									<h4>Show Combos</h4>
 									<label class="switch">
-										<input class="switch__checkbox" type="checkbox" checked name="switch">
+										<input id="tabs" class="switch__checkbox" type="checkbox" checked name="switch">
 										<div class="switch__slider"></div>
 									</label>
 								</div>
 								<div class="actions-addons__switch">
 									<h4>Toggle Colorblind Mode</h4>
 									<label class="switch">
-										<input class="switch__checkbox" type="checkbox" name="switch">
+										<input id="bg" class="switch__checkbox" type="checkbox" name="switch">
 										<div class="switch__slider"></div>
 									</label>
 								</div>
@@ -229,7 +229,7 @@
 							<div class="actions-addons__modes">
 								<h2>Toggle between</h2>
 								<div class="actions-addons__mode">
-									<button>
+									<button id="comments">
 										<svg xmlns="http://www.w3.org/2000/svg" width="21" height="24" viewbox="0 0 21 24" fill="none">
 											<path d="M18.5254 0H2.52539V2H18.5254V0ZM2.52539 24H18.5254V22H2.52539V24ZM18.5254 4H2.52539C1.42539 4 0.525391 4.9 0.525391 6V18C0.525391 19.1 1.42539 20 2.52539 20H18.5254C19.6254 20 20.5254 19.1 20.5254 18V6C20.5254 4.9 19.6254 4 18.5254 4ZM10.5254 6.75C11.7654 6.75 12.7754 7.76 12.7754 9C12.7754 10.24 11.7654 11.25 10.5254 11.25C9.28539 11.25 8.27539 10.24 8.27539 9C8.27539 7.76 9.28539 6.75 10.5254 6.75ZM15.5254 17H5.52539V15.5C5.52539 13.83 8.85539 13 10.5254 13C12.1954 13 15.5254 13.83 15.5254 15.5V17Z" fill="#77A8AC"></path>
 										</svg>
@@ -237,7 +237,7 @@
 									<p>Otz's Comments</p>
 								</div>
 								<div class="actions-addons__mode">
-									<button>
+									<button id="description">
 										<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewbox="0 0 20 20" fill="none">
 											<path d="M2 4V18H16V20H2C0.9 20 0 19.1 0 18V4H2ZM18 0C19.1 0 20 0.9 20 2V14C20 15.1 19.1 16 18 16H6C4.9 16 4 15.1 4 14V2C4 0.9 4.9 0 6 0H18ZM13 2V10L15.5 8.5L18 10V2H13Z" fill="#77A8AC"></path>
 										</svg>
@@ -245,7 +245,7 @@
 									<p>Addon Descriptions</p>
 								</div>
 								<div class="actions-addons__mode">
-									<button>
+									<button id="both">
 										<svg xmlns="http://www.w3.org/2000/svg" width="23" height="18" viewbox="0 0 23 18" fill="none">
 											<path d="M12.7266 8.5H19.7266V10H12.7266V8.5ZM12.7266 6H19.7266V7.5H12.7266V6ZM12.7266 11H19.7266V12.5H12.7266V11ZM20.7266 0.5H2.72656C1.62656 0.5 0.726562 1.4 0.726562 2.5V15.5C0.726562 16.6 1.62656 17.5 2.72656 17.5H20.7266C21.8266 17.5 22.7266 16.6 22.7266 15.5V2.5C22.7266 1.4 21.8266 0.5 20.7266 0.5ZM20.7266 15.5H11.7266V2.5H20.7266V15.5Z" fill="#77A8AC"></path>
 										</svg>
@@ -260,42 +260,42 @@
 									<img src="./assets/img/addons/items/character.png" alt="Image">
 								</div>
 								<div class="items-addons__best">
-									<button class="items-addons__item">
+									<button data-fls-tippy-info="" data-title="Honing Stone:" data-text="Removes all luck involved from escaping a trap, making Survivors completely unable to free themselves without help." class="items-addons__item">
 										<img src="./assets/img/addons/items/01.jpg" alt="Image">
 									</button>
-									<button class="items-addons__item">
+									<button data-fls-tippy-info="" data-title="Honing Stone:" data-text="Removes all luck involved from escaping a trap, making Survivors completely unable to free themselves without help." class="items-addons__item">
 										<img src="./assets/img/addons/items/02.jpg" alt="Image">
 									</button>
 								</div>
 								<div class="items-addons__good">
-									<button class="items-addons__item">
+									<button data-fls-tippy-info="" data-title="Honing Stone:" data-text="Removes all luck involved from escaping a trap, making Survivors completely unable to free themselves without help." class="items-addons__item">
 										<img src="./assets/img/addons/items/01.jpg" alt="Image">
 									</button>
-									<button class="items-addons__item">
+									<button data-fls-tippy-info="" data-title="Honing Stone:" data-text="Removes all luck involved from escaping a trap, making Survivors completely unable to free themselves without help." class="items-addons__item">
 										<img src="./assets/img/addons/items/02.jpg" alt="Image">
 									</button>
 								</div>
 								<div class="items-addons__decent">
-									<button class="items-addons__item">
+									<button data-fls-tippy-info="" data-title="Honing Stone:" data-text="Removes all luck involved from escaping a trap, making Survivors completely unable to free themselves without help." class="items-addons__item">
 										<img src="./assets/img/addons/items/01.jpg" alt="Image">
 									</button>
-									<button class="items-addons__item">
+									<button data-fls-tippy-info="" data-title="Honing Stone:" data-text="Removes all luck involved from escaping a trap, making Survivors completely unable to free themselves without help." class="items-addons__item">
 										<img src="./assets/img/addons/items/02.jpg" alt="Image">
 									</button>
 								</div>
 								<div class="items-addons__mediocre">
-									<button class="items-addons__item">
+									<button data-fls-tippy-info="" data-title="Honing Stone:" data-text="Removes all luck involved from escaping a trap, making Survivors completely unable to free themselves without help." class="items-addons__item">
 										<img src="./assets/img/addons/items/01.jpg" alt="Image">
 									</button>
-									<button class="items-addons__item">
+									<button data-fls-tippy-info="" data-title="Honing Stone:" data-text="Removes all luck involved from escaping a trap, making Survivors completely unable to free themselves without help." class="items-addons__item">
 										<img src="./assets/img/addons/items/02.jpg" alt="Image">
 									</button>
 								</div>
 								<div class="items-addons__detrimental">
-									<button class="items-addons__item">
+									<button data-fls-tippy-info="" data-title="Honing Stone:" data-text="Removes all luck involved from escaping a trap, making Survivors completely unable to free themselves without help." class="items-addons__item">
 										<img src="./assets/img/addons/items/01.jpg" alt="Image">
 									</button>
-									<button class="items-addons__item">
+									<button data-fls-tippy-info="" data-title="Honing Stone:" data-text="Removes all luck involved from escaping a trap, making Survivors completely unable to free themselves without help." class="items-addons__item">
 										<img src="./assets/img/addons/items/02.jpg" alt="Image">
 									</button>
 								</div>

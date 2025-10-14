@@ -2898,23 +2898,20 @@ document.querySelector("[data-fls-tippy-img]") ? tippy("[data-fls-tippy-img]", {
       `;
   }
 }) : null;
-document.querySelector("[data-addon-title][data-addon-text]") ? tippy("[data-addon-title][data-addon-text]", {
+document.querySelector("[data-fls-tippy-info]") ? tippy("[data-fls-tippy-info]", {
   allowHTML: true,
-  interactive: true,
+  interactive: false,
+  hideOnClick: true,
   appendTo: () => document.body,
   maxWidth: 400,
-  placement: "right",
-  offset: [0, 12],
-  trigger: "mouseenter focus click",
-  touch: ["hold", 250],
-  theme: "addon",
+  theme: "addon-info",
   content(reference2) {
-    const title = reference2.getAttribute("data-addon-title") || "";
-    const text2 = reference2.getAttribute("data-addon-text") || "";
+    const title = reference2.getAttribute("data-title") || "";
+    const text2 = reference2.getAttribute("data-text") || "";
     return `
-        <div class="addon-tip">
-          <div class="addon-tip__title">${title}</div>
-          <div class="addon-tip__text">${text2}</div>
+        <div class="tippy-addon">
+          <div class="tippy-addon__title">${title}</div>
+          <div class="tippy-addon__text">${text2}</div>
         </div>
       `;
   }
@@ -13590,6 +13587,28 @@ window.addEventListener("load", () => {
     });
   });
 });
+const tabsSwitch = document.getElementById("tabs");
+const bgSwitch = document.getElementById("bg");
+const getTabBlocks = () => document.querySelectorAll(".items-addons__tabs");
+const getRows = () => document.querySelectorAll(".items-addons__row");
+function applyTabsState() {
+  const hideTabs = !tabsSwitch?.checked;
+  getTabBlocks().forEach((el) => {
+    el.classList.toggle("active", hideTabs);
+    el.classList.toggle("is-hidden", hideTabs);
+    el.setAttribute("aria-hidden", hideTabs ? "true" : "false");
+  });
+}
+function applyBgState() {
+  const on = !!bgSwitch?.checked;
+  getRows().forEach((row) => {
+    row.classList.toggle("background", on);
+  });
+}
+tabsSwitch && tabsSwitch.addEventListener("change", applyTabsState);
+bgSwitch && bgSwitch.addEventListener("change", applyBgState);
+applyTabsState();
+applyBgState();
 function _assertThisInitialized(self) {
   if (self === void 0) {
     throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
